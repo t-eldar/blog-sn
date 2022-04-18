@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useFetching } from "../hooks/useFetching";
 import PostList from "../components/PostList";
 import PostService from "../api/PostService";
+import { Spinner } from "react-bootstrap";
+import Loader from "../components/Loader";
 
 
 const AllPostsPage = () => {
@@ -19,7 +21,15 @@ const AllPostsPage = () => {
     }, []);
 
     return (
-        <PostList posts={posts}/>
+        <>
+            {
+            isPostsLoading 
+            ? <div className="d-flex justify-content-center m-3">
+                <Loader/>
+            </div>
+            : <PostList posts={posts}/>
+            }
+        </>
     );
 }
 

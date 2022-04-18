@@ -6,7 +6,7 @@ export default class PostService {
         const response = await axios.get(PostService.URL);
         return response;
     }
-    static async getById(id) {
+    static async getPostById(id) {
         const response = await axios.get(PostService.URL + `/${id}`);
         return response;
     }

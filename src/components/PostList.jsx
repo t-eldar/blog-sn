@@ -12,13 +12,11 @@ const PostList = ({posts}) => {
     }
 
     return (
-        <div className="d-flex-column">
-            {posts.map(post => 
-                <div className="d-flex justify-content-center">     
-                    <PostItem key={post.id} post={post}/>
-                </div>
+        <>
+            {posts.map(post =>     
+                <PostItem key={post.id} post={post}/>
             )}
-        </div>
+        </>
     );
 }
 

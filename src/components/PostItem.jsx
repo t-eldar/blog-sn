@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Card, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { formatDate } from "../utils";
 
 const PostItem = ({ post }) => {
 
     const subtitleFontSize = '12px';
     
+    const navigate = useNavigate();
     const [publishedDate, setPublishedDate] = useState('');
     
     if (!post.user)
@@ -16,52 +19,14 @@ const PostItem = ({ post }) => {
     if (!post.dateCreated)
         post.dateCreated = new Date('April 17, 2022 17:47:00');
     useEffect(() => {
-        const currentDate = new Date();
-        const date = post.dateCreated;
-
-        let day = date.getDate();
-        let month = date.getMonth();
-        let year = date.getFullYear();
-        let hour = date.getHours();
-        let minute = date.getMinutes();
-        
-        if (day < 10)
-            day = `0${day}`;
-        if (month < 10)
-            month = `0${month}`;
-        if (minute < 10)
-            minute = `0${minute}`;
-
-        console.log(currentDate);
-        console.log(date);
-
-        if (currentDate.getFullYear() !== year)
-            setPublishedDate(
-                `${day}.${month}.${year} 
-                ${hour}:${minute}`);
-        else if (currentDate.getMonth() != month)
-            setPublishedDate(
-                `${day}.${month}
-                ${hour}:${minute}`);
-        else if (currentDate.getDate() != day)
-            setPublishedDate(
-                `${day}.${month}
-                ${hour}:${minute}`);
-        else if (currentDate.getHours() - hour >= 1)
-            setPublishedDate(currentDate.getHours() - hour + ' час')
-        else if (currentDate.getMinutes() - minute >= 1)
-            setPublishedDate(currentDate.getMinutes() - minute + ' мин');
-        else if (currentDate.getSeconds() - date.getSeconds() < 60)
-            setPublishedDate('только что');
-        else 
-            setPublishedDate(
-                `${day}.${month}.${year} 
-                ${hour}:${minute}`);
-        console.log(currentDate.getMonth() !== month)
+        const formattedDate = formatDate(post.dateCreated);
+        setPublishedDate(formattedDate);
     }, []);
 
     return (
-        <Card className="w-50 mb-0 mt-3">
+        <Card className="w-50 mb-0 mt-3" style={{cursor:"pointer"}} onClick={() => {
+            navigate(`/${post.id}`)
+        }}>
             <Card.Header>
                 <Card.Title>{post.title}</Card.Title>
                 <Card.Subtitle
