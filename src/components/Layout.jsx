@@ -8,10 +8,10 @@ const Layout = (props) => {
         <>
             <NavBar />
             <div style={{marginTop: 75}}/>
-            <Container>
-                <Row>
-                    <Col><Outlet/></Col>
-                </Row>
+            <Container className="w-50" style={{minWidth: 400}}>
+                <Col className="justify-content-md-center">
+                    <Outlet/>
+                </Col>
             </Container>
         </>
     );

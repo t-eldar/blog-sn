@@ -38,17 +38,16 @@ const PostPage = () => {
             {
                 isPostLoading
                     ? <Loader />
-                    : <Card style={{ width: "65%" }}>
+                    : <Card>
                         <Card.Header>
-                            <Card.Title>{post.title}</Card.Title>
                             <Card.Subtitle
-                                className="mb-2 text-muted text-sm-left s"
+                                className="m-2 text-muted text-sm-left s"
                                 style={{ fontSize: subtitleFontSize }}
                             >
                                 Автор: {post.user.name}
                             </Card.Subtitle>
                             <Card.Subtitle
-                                className="mb-2 text-muted"
+                                className="m-2 text-muted"
                                 style={{ fontSize: subtitleFontSize }}
                             >
                                 Опубликовано:
@@ -56,6 +55,7 @@ const PostPage = () => {
                             </Card.Subtitle>
                         </Card.Header>
                         <Card.Body>
+                            <h4>{post.title}</h4>
                             {post.body}
                         </Card.Body>
                     </Card>
