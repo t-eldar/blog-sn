@@ -24,7 +24,7 @@ const PostItem = ({ post }) => {
     }, []);
 
     return (
-        <Card style={{cursor:"pointer"}} onClick={() => {
+        <Card className="m-3" style={{cursor:"pointer"}} onClick={() => {
             navigate(`/${post.id}`)
         }}>
             <Card.Header>

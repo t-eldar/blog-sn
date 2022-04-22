@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 const NavBar = () => {
 
     const [showModal, setShowModal] = useState(false);
-
+    const [expanded, setExpanded] = useState(false);
     const handleClose = () => setShowModal(false);
     const handleOpen = () => setShowModal(true);
 
@@ -22,7 +22,14 @@ const NavBar = () => {
                 </Modal.Body>
             </Modal>
 
-            <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top">
+            <Navbar
+                style={{position: 'sticky', top: 0, zIndex: 1}}
+                collapseOnSelect
+                expand="md"
+                expanded={expanded}
+                bg="dark"
+                variant="dark"
+            >
                 <Container>
                     <Navbar.Brand as={Link} to="/">
                         <img
@@ -34,13 +41,25 @@ const NavBar = () => {
                         />
                         BlogSN
                     </Navbar.Brand>
-                    <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                    <Navbar.Toggle
+                        aria-controls="responsive-navbar-nav"
+                        onClick={() => setExpanded(expanded ? false : "expanded")}
+                    />
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="me-auto">
-                            <Nav.Link as={Link} to="/">Главная</Nav.Link>
+                            <Nav.Link
+                                as={Link}
+                                to="/"
+                                onClick={() => setExpanded(false)}
+                            >
+                                Главная
+                            </Nav.Link>
                         </Nav>
                         <Nav>
-                            <Button variant="dark" onClick={handleOpen}>
+                            <Button variant="dark" onClick={() => {
+                                handleOpen();
+                                setExpanded(false)
+                            }}>
                                 Войти
                             </Button>
                         </Nav>
