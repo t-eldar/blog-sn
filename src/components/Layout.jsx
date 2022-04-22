@@ -5,21 +5,21 @@ import NavBar from "./NavBar";
 import SideBar from "./SideBar";
 
 const Layout = (props) => {
-    return (
-        <>
-            <NavBar/>
-            <Container style={{ minWidth: 400 }}>
-                <Row>
-                    <Col lg="2" >
-                        <SideBar />
-                    </Col>
-                    <Col lg="8">
-                        <Outlet />
-                    </Col>
-                </Row>
-            </Container>
-        </>
-    );
+	return (
+		<>
+			<NavBar />
+			<Container style={{ minWidth: 400 }}>
+				<Row>
+					<Col lg="2" >
+						<SideBar />
+					</Col>
+					<Col lg="8">
+						<Outlet />
+					</Col>
+				</Row>
+			</Container>
+		</>
+	);
 }
 
 export default Layout;

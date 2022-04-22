@@ -7,30 +7,30 @@ import Loader from "../components/Loader";
 
 
 const AllPostsPage = () => {
-    const [posts, setPosts] = useState([]);
+	const [posts, setPosts] = useState([]);
 
-    const [fetchPosts, isPostsLoading, postsError] = useFetching(async () => {
-        const response = await PostService.getAll();
-        setPosts(response.data)
-    });
-    useEffect(() => {
-        const fetchAPI = async () => {
-            await fetchPosts();
-        }
-        fetchAPI();
-    }, []);
+	const [fetchPosts, isPostsLoading, postsError] = useFetching(async () => {
+		const response = await PostService.getAll();
+		setPosts(response.data)
+	});
+	useEffect(() => {
+		const fetchAPI = async () => {
+			await fetchPosts();
+		}
+		fetchAPI();
+	}, []);
 
-    return (
-        <>
-            {
-            isPostsLoading 
-            ? <div className="d-flex justify-content-center m-3">
-                <Loader/>
-            </div>
-            : <PostList posts={posts}/>
-            }
-        </>
-    );
+	return (
+		<>
+			{
+			isPostsLoading 
+			? <div className="d-flex justify-content-center m-3">
+				<Loader/>
+			</div>
+			: <PostList posts={posts}/>
+			}
+		</>
+	);
 }
 
 export default AllPostsPage;
