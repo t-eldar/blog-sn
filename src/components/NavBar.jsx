@@ -3,22 +3,49 @@ import { Nav, Navbar, Container, Button, Modal } from "react-bootstrap";
 import Logo from "../test-logo.svg";
 import LoginForm from "./LoginForm";
 import { Link } from "react-router-dom";
+import { CreatePostForm } from "./CreatePostForm";
 
 const NavBar = () => {
 
-	const [showModal, setShowModal] = useState(false);
+	const [showLoginModal, setShowLoginModal] = useState(false);
+	const [showCreatePostModal, setShowCreatePostModal] = useState(false);
 	const [expanded, setExpanded] = useState(false);
-	const handleClose = () => setShowModal(false);
-	const handleOpen = () => setShowModal(true);
+
+	const handleLoginModalClose = () => setShowLoginModal(false);
+	const handleLoginModalOpen = () => {
+		setShowLoginModal(true);
+		setExpanded(false);
+	}
+
+
+	const handleCreatePostModalClose = () => setShowCreatePostModal(false);
+	const handleCreatePostModalOpen = () => {
+		setShowCreatePostModal(true);
+		setExpanded(false);
+	}
 
 	return (
 		<>
-			<Modal show={showModal} onHide={handleClose}>
+			<Modal show={showLoginModal} onHide={handleLoginModalClose}>
 				<Modal.Header closeButton>
 					<Modal.Title>Вход в учетную запись</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
 					<LoginForm />
+				</Modal.Body>
+			</Modal>
+			<Modal size='lg' show={showCreatePostModal} onHide={handleCreatePostModalClose}>
+				<Modal.Header closeButton>
+					<Modal.Title>Создание новой записи</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					<CreatePostForm
+						maxHeight={400}
+						categories={[
+							{ id: 1, name: 'Железо' },
+							{ id: 2, name: "Авто" },
+							{ id: 3, name: "gbcmrb" }
+						]} />
 				</Modal.Body>
 			</Modal>
 
@@ -55,11 +82,17 @@ const NavBar = () => {
 								Главная
 							</Nav.Link>
 						</Nav>
-						<Nav>
-							<Button variant="dark" onClick={() => {
-								handleOpen();
-								setExpanded(false)
-							}}>
+						<Nav className="mx-3">
+							<Button variant="dark" onClick={() =>
+								handleCreatePostModalOpen()
+							}>
+								Создать пост
+							</Button>
+						</Nav>
+						<Nav className="mx-3">
+							<Button variant="dark" onClick={() =>
+								handleLoginModalOpen()
+							}>
 								Войти
 							</Button>
 						</Nav>

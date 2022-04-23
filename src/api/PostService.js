@@ -10,6 +10,9 @@ export default class PostService {
 		const response = await axios.get(PostService.URL + `/${id}`);
 		return response;
 	}
+	static async createPost(post) {
+		await axios.post(PostService.URL, post);
+	}
 ///// поменять в зависимости от api
 	static async getAllCategories() {
 		const response = await axios.get(PostService.URL); 
