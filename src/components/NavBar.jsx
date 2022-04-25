@@ -1,12 +1,15 @@
 import React, { useState } from "react";
-import { Nav, Navbar, Container, Button, Modal } from "react-bootstrap";
+import { Nav, Navbar, Container, Button, Modal, ButtonGroup } from "react-bootstrap";
 import Logo from "../test-logo.svg";
-import LoginForm from "./LoginForm";
+import RegisterForm from "./RegisterForm";
 import { Link } from "react-router-dom";
 import { CreatePostForm } from "./CreatePostForm";
+import LoginForm from "./LoginForm";
+import AuthService from "../api/AuthService";
 
 const NavBar = () => {
 
+	const [showRegisterModal, setShowRegisterModal] = useState(false);
 	const [showLoginModal, setShowLoginModal] = useState(false);
 	const [showCreatePostModal, setShowCreatePostModal] = useState(false);
 	const [expanded, setExpanded] = useState(false);
@@ -17,9 +20,15 @@ const NavBar = () => {
 		setExpanded(false);
 	}
 
+	const handleRegisterModalClose = () => setShowRegisterModal(false);
+	const handleRegisterModalOpen = () => {
+		setShowRegisterModal(true);
+		setExpanded(false);
+	}
 
 	const handleCreatePostModalClose = () => setShowCreatePostModal(false);
 	const handleCreatePostModalOpen = () => {
+		console.log(AuthService.getCurrentUser())
 		setShowCreatePostModal(true);
 		setExpanded(false);
 	}
@@ -44,11 +53,20 @@ const NavBar = () => {
 						categories={[
 							{ id: 1, name: 'Железо' },
 							{ id: 2, name: "Авто" },
-							{ id: 3, name: "gbcmrb" }
+							{ id: 3, name: "gbc" },
 						]} />
 				</Modal.Body>
 			</Modal>
 
+			<Modal size='lg' show={showRegisterModal} onHide={handleRegisterModalClose}>
+				<Modal.Header closeButton>
+					<Modal.Title>Регистрация</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					<RegisterForm />
+				</Modal.Body>
+			</Modal>
+			
 			<Navbar
 				style={{ position: 'sticky', top: 0, zIndex: 1 }}
 				collapseOnSelect
@@ -90,11 +108,20 @@ const NavBar = () => {
 							</Button>
 						</Nav>
 						<Nav className="mx-3">
-							<Button variant="dark" onClick={() =>
-								handleLoginModalOpen()
-							}>
-								Войти
-							</Button>
+							<ButtonGroup>
+								<Button
+									variant="dark"
+									onClick={handleLoginModalOpen}
+								>
+									Войти
+								</Button>
+								<Button 
+									variant="dark"
+									onClick={handleRegisterModalOpen}
+								>
+									Зарегистрироваться
+								</Button>
+							</ButtonGroup>
 						</Nav>
 					</Navbar.Collapse>
 				</Container>

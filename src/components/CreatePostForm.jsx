@@ -10,15 +10,21 @@ export const CreatePostForm = ({ categories, maxHeight }) => {
 		body: '',
 		category: '',
 	});
-	const [category, setCategory] = useState('');
 	const [createPost, isCreationLoading, creationError] = useFetching(async (post) => {
 		const response = await PostService.createPost(post);
-		console.log('CreatePostForm post form response:' + response);
+		console.log('CreatePostForm post form response:');
+		console.log(response);
 	})
 	const handleCreatePost = (e) => {
 		console.log(post)
 		e.preventDefault();
-		createPost(post);
+		const formData = new FormData();
+
+		formData.append("Title", post.title);
+		formData.append("Content", post.body);
+		formData.append("Category", post.category);
+
+		createPost(formData);
 	}
 	const handleTextAreaKeyDown = (e) => {
 		e.target.style.height = 'inherit';

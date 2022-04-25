@@ -22,7 +22,8 @@ const PostPage = () => {
 		post.dateCreated = new Date('April 17, 2022 17:47:00');
 	const [fetchPost, isPostLoading, postError] = useFetching(async (id) => {
 		const response = await PostService.getPostById(id);
-		console.log("PostPage fetchPost response: " + response);
+		console.log("PostPage fetchPost response: ");
+		console.log(response);
 		setPost(response.data);
 	})
 

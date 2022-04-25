@@ -11,7 +11,8 @@ export default class PostService {
 		return response;
 	}
 	static async createPost(post) {
-		await axios.post(PostService.URL, post);
+		const response = await axios.post(PostService.URL, post);
+		return response;
 	}
 ///// поменять в зависимости от api
 	static async getAllCategories() {
