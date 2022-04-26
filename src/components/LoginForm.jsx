@@ -6,7 +6,7 @@ import { useFetching } from "../hooks/useFetching";
 
 const LoginForm = () => {
 
-	const {isAuth, setIsAuth} = useContext(AuthContext);
+	const { isAuth, setIsAuth } = useContext(AuthContext);
 
 	// TODO: добавить валидацию
 	const [loggingInResponse, setLoggingInRespose] = useState();
@@ -30,13 +30,13 @@ const LoginForm = () => {
 		console.log(response);
 	});
 
-	
+
 	const handleLoggingIn = async (e) => {
 		e.preventDefault();
 		await loginUser(userInfo.username, userInfo.password);
 		if (loggingInResponse.status == 200 && AuthService.getCurrentUser()) {///
 			setIsAuth(true);
-		} 
+		}
 	}
 
 	return (

@@ -1,13 +1,28 @@
-import React, { useState } from "react";
-import { Nav, Navbar, Container, Button, Modal, ButtonGroup } from "react-bootstrap";
+import React, { 
+	useContext, 
+	useEffect, 
+	useState 
+} from "react";
+import { 
+	Nav, 
+	Navbar, 
+	Container, 
+	Button, 
+	Modal, 
+	ButtonGroup 
+} from "react-bootstrap";
 import Logo from "../test-logo.svg";
 import RegisterForm from "./RegisterForm";
 import { Link } from "react-router-dom";
 import { CreatePostForm } from "./CreatePostForm";
 import LoginForm from "./LoginForm";
 import AuthService from "../api/AuthService";
+import { AuthContext } from "../context";
 
-const NavBar = () => {
+const NavBar = ({ categories }) => {
+
+	const { isAuth, setIsAuth } = useContext(AuthContext);
+	const [user, setUser] = useState({});
 
 	const [showRegisterModal, setShowRegisterModal] = useState(false);
 	const [showLoginModal, setShowLoginModal] = useState(false);
@@ -33,6 +48,58 @@ const NavBar = () => {
 		setExpanded(false);
 	}
 
+	const handleLogout = () => {
+		AuthService.logout();
+		setIsAuth(false);
+	}
+
+	useEffect(() => {
+		if (isAuth)
+			setUser(AuthService.getCurrentUser());
+	}, [isAuth]);
+
+	const AuthorizedNav = () =>
+		<Nav className='mx-3'>
+			<Nav.Link
+				as={Link}
+				to={`users/${user.id}`}
+			>
+				Мой профиль
+			</Nav.Link>
+			<ButtonGroup>
+				<Button
+					variant="dark"
+					onClick={handleCreatePostModalOpen}
+				>
+					Создать пост
+				</Button>
+				<Button
+					variant="dark"
+					onClick={handleLogout}
+				>
+					Выйти
+				</Button>
+			</ButtonGroup>
+		</Nav>
+
+	const UnauthorizedNav = () =>
+		<Nav className='mx-3'>
+			<ButtonGroup>
+				<Button
+					variant="dark"
+					onClick={handleLoginModalOpen}
+				>
+					Войти
+				</Button>
+				<Button
+					variant="dark"
+					onClick={handleRegisterModalOpen}
+				>
+					Зарегистрироваться
+				</Button>
+			</ButtonGroup>
+		</Nav>
+
 	return (
 		<>
 			<Modal show={showLoginModal} onHide={handleLoginModalClose}>
@@ -50,11 +117,7 @@ const NavBar = () => {
 				<Modal.Body>
 					<CreatePostForm
 						maxHeight={400}
-						categories={[
-							{ id: 1, name: 'Железо' },
-							{ id: 2, name: "Авто" },
-							{ id: 3, name: "gbc" },
-						]} />
+						categories={categories} />
 				</Modal.Body>
 			</Modal>
 
@@ -66,7 +129,7 @@ const NavBar = () => {
 					<RegisterForm />
 				</Modal.Body>
 			</Modal>
-			
+
 			<Navbar
 				style={{ position: 'sticky', top: 0, zIndex: 1 }}
 				collapseOnSelect
@@ -100,29 +163,7 @@ const NavBar = () => {
 								Главная
 							</Nav.Link>
 						</Nav>
-						<Nav className="mx-3">
-							<Button variant="dark" onClick={() =>
-								handleCreatePostModalOpen()
-							}>
-								Создать пост
-							</Button>
-						</Nav>
-						<Nav className="mx-3">
-							<ButtonGroup>
-								<Button
-									variant="dark"
-									onClick={handleLoginModalOpen}
-								>
-									Войти
-								</Button>
-								<Button 
-									variant="dark"
-									onClick={handleRegisterModalOpen}
-								>
-									Зарегистрироваться
-								</Button>
-							</ButtonGroup>
-						</Nav>
+						{isAuth ? <AuthorizedNav /> : <UnauthorizedNav />}
 					</Navbar.Collapse>
 				</Container>
 			</Navbar>

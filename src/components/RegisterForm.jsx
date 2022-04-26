@@ -98,7 +98,6 @@ const RegisterForm = () => {
 		}
 	}, [password, confirmingPassword])
 	
-	
 	return (
 		<>
 			<Card className="m-3 p-3" style={{ width: '18rem' }}>
