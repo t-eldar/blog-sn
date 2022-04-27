@@ -2,9 +2,9 @@ import axios from "axios";
 
 export default class AuthService {
 	
-	static URL = "";
+	static URL = "https://localhost:8080/api/Authenticate/";
 	static async login(username, password) {
-		const response = await axios.post(AuthService.URL, {
+		const response = await axios.post(AuthService.URL + '/login', {
 			username,
 			password,
 		});
@@ -17,7 +17,7 @@ export default class AuthService {
 		localStorage.removeItem("user");
 	}
 	static async register(username, email, password) {
-		const response = await axios.post(AuthService.URL, {
+		const response = await axios.post(AuthService.URL + '/register', {
 			username, 
 			email, 
 			password,

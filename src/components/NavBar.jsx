@@ -163,7 +163,7 @@ const NavBar = ({ categories }) => {
 								Главная
 							</Nav.Link>
 						</Nav>
-						{isAuth ? <AuthorizedNav /> : <UnauthorizedNav />}
+						{isAuth ? <UnauthorizedNav /> : <AuthorizedNav /> /* поменять местами*/}
 					</Navbar.Collapse>
 				</Container>
 			</Navbar>

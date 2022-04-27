@@ -22,7 +22,8 @@ export const CreatePostForm = ({ categories, maxHeight }) => {
 
 		formData.append("Title", post.title);
 		formData.append("Content", post.body);
-		formData.append("Category", post.category);
+		formData.append("Category", post.category.id
+		);
 
 		createPost(formData);
 	}

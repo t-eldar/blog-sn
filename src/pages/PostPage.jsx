@@ -1,14 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import PostService from "../api/PostService";
 import { useFetching } from "../hooks/useFetching";
 import Loader from "../components/Loader";
 import { Card } from "react-bootstrap";
 import { formatDate } from "../utils";
 import { useParams } from "react-router-dom";
+import { AuthContext } from "../context";
+import AuthService from "../api/AuthService";
+import { Button } from "bootstrap";
 
 const PostPage = () => {
 
 	const params = useParams();
+
+	const [user, setUser] = useState();
+	const { isAuth } = useContext(AuthContext);
+
 	const [post, setPost] = useState({});
 	const subtitleFontSize = '12px';
 
@@ -26,13 +33,46 @@ const PostPage = () => {
 		console.log(response);
 		setPost(response.data);
 	})
-
+	const [editPost, isEditLoading, editError] = useFetching(async (id, post) => {
+		const response = await PostService.editPost(id, post);
+		console.log('PostPage edit post response:');
+		console.log(response);
+	})
+	const [deletePost, isDeleteLoading, deleteError] = useFetching(async (id) => {
+		const response = await PostService.deletePost(id);
+		console.log('PostPage delete post response:');
+		console.log(response);
+	})
 	useEffect(() => {
 		const fetchAPI = async () => {
 			await fetchPost(params.id);
 		};
 		fetchAPI();
 	}, []);
+	useEffect(() => {
+		const authUser = AuthService.getCurrentUser();
+		if (isAuth && authUser) {
+			setUser(authUser);
+		}
+	}, [isAuth]);
+
+	const handleEdit = async () => {
+		if ((user.role === 'moderator'
+			|| user.role === 'admin'
+			|| user.id === post.user.id)
+			&& post.content && post.content !== '' && post.title && post.title !== '') {
+			await editPost(post.id, post);
+		}
+	}
+
+	const handleDelete = async () => {
+		if ((user.role === 'moderator'
+			|| user.role === 'admin'
+			|| user.id === post.user.id)
+			&& post) {
+			await deletePost(post.id);
+		}
+	}
 
 	return (
 		<>
@@ -54,10 +94,16 @@ const PostPage = () => {
 								Опубликовано:
 								{' ' + formatDate(post.dateCreated)}
 							</Card.Subtitle>
+							<Button onClick={handleEdit}>
+								Изменить
+							</Button>
+							<Button onClicl={handleDelete}>
+								Удалить
+							</Button>
 						</Card.Header>
 						<Card.Body>
 							<h4>{post.title}</h4>
-							{post.body}
+							{post.body} {/*// content */}
 						</Card.Body>
 					</Card>
 			}

@@ -1,7 +1,8 @@
 import axios from "axios";
 
 export default class PostService {
-	static URL = 'https://jsonplaceholder.typicode.com/posts';
+
+	static URL = 'https://localhost:8080/api/Posts'//'https://jsonplaceholder.typicode.com/posts';
 	static async getAll() {
 		const response = await axios.get(PostService.URL);
 		return response;
@@ -14,6 +15,16 @@ export default class PostService {
 		const response = await axios.post(PostService.URL, post);
 		return response;
 	}
+
+	static async editPost(id, post) {
+		const response = await axios.put(PostService.URL + `/${id}`, post);
+		return response;
+	}
+	static async deletePost(id) {
+		const response = await axios.delete(PostService.URL + `${id}`);
+		return response;
+	}
+
 ///// поменять в зависимости от api
 	static async getAllCategories() {
 		const response = await axios.get(PostService.URL); 
