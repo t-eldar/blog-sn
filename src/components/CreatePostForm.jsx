@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import PostService from '../api/PostService';
 import { useFetching } from '../hooks/useFetching';
 import { Card, Form, Button } from 'react-bootstrap';
+import PostForm from './PostForm';
 
 export const CreatePostForm = ({ categories, maxHeight }) => {
 
@@ -22,60 +23,24 @@ export const CreatePostForm = ({ categories, maxHeight }) => {
 
 		formData.append("Title", post.title);
 		formData.append("Content", post.body);
-		formData.append("Category", post.category.id
-		);
+		formData.append("Category", post.category);
 
 		createPost(formData);
 	}
-	const handleTextAreaKeyDown = (e) => {
-		e.target.style.height = 'inherit';
-		e.target.style.height = `${e.target.scrollHeight}px`;
-	}
+
 
 	return (
 		<>
 			<Card className="m-3 p-3">
-				<Form>
-					<Form.Group className="mb-3">
-						<Form.Control
-							className='p-3'
-							type="text"
-							placeholder='Заголовок'
-							required
-							onChange={e =>
-								setPost({ ...post, title: e.target.value })
-							} 
-						/>
-					</Form.Group>
-					<Form.Select 
-						className='p-3'
-						onChange={e => 
-							setPost({...post, category: e.target.value})
-						}
-					>
-						<option hidden value>Категория</option>
-						{categories.map(cat =>
-							<option key={cat.id} value={cat.name}>{cat.name}</option>)}
-					</Form.Select>
-					<Form.Group className="mt-3 mb-3">
-						<Form.Control
-							style={{ maxHeight: maxHeight }}
-							className='p-3'
-							as="textarea"
-							placeholder="Введите текст..."
-							onKeyDown={handleTextAreaKeyDown}
-							onChange={e => 
-								setPost({...post, body: e.target.value})}
-							required 
-						/>
-					</Form.Group>
-					<Button
-						variant="outline-primary"
-						onClick={handleCreatePost}
-					>
-						Создать
-					</Button>
-				</Form>
+				<PostForm 
+					categories={categories}
+					maxHeight={maxHeight}
+					submitText='Создать'
+					onSubmit={handleCreatePost}
+					onCategoryChange={e => setPost({...post, category: e.target.value})}
+					onTitleChange={e => setPost({...post, title: e.target.value})}
+					onContentChange={e => setPost({...post, content: e.target.value})}
+				/>
 			</Card>
 		</>
 	)

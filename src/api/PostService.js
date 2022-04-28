@@ -2,7 +2,7 @@ import axios from "axios";
 
 export default class PostService {
 
-	static URL = 'https://localhost:8080/api/Posts'//'https://jsonplaceholder.typicode.com/posts';
+	static URL = 'https://jsonplaceholder.typicode.com/posts'; //'https://localhost:8080/api/Posts'
 	static async getAll() {
 		const response = await axios.get(PostService.URL);
 		return response;

@@ -2,12 +2,11 @@ import React, { useContext, useEffect, useState } from "react";
 import PostService from "../api/PostService";
 import { useFetching } from "../hooks/useFetching";
 import Loader from "../components/Loader";
-import { Card } from "react-bootstrap";
+import { Card, Button } from "react-bootstrap";
 import { formatDate } from "../utils";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../context";
 import AuthService from "../api/AuthService";
-import { Button } from "bootstrap";
 
 const PostPage = () => {
 
@@ -79,7 +78,7 @@ const PostPage = () => {
 			{
 				isPostLoading
 					? <Loader />
-					: <Card>
+					: <Card border='dark' className='m-3'>
 						<Card.Header>
 							<Card.Subtitle
 								className="m-2 text-muted text-sm-left s"
@@ -97,7 +96,7 @@ const PostPage = () => {
 							<Button onClick={handleEdit}>
 								Изменить
 							</Button>
-							<Button onClicl={handleDelete}>
+							<Button onClick={handleDelete}>
 								Удалить
 							</Button>
 						</Card.Header>
