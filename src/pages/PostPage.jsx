@@ -16,7 +16,7 @@ const PostPage = () => {
 	const { isAuth } = useContext(AuthContext);
 
 	const [post, setPost] = useState({});
-	const subtitleFontSize = '12px';
+	const subtitleFontSize = '14px';
 
 	if (!post.user)
 		post.user = {
@@ -79,26 +79,38 @@ const PostPage = () => {
 				isPostLoading
 					? <Loader />
 					: <Card border='dark' className='m-3'>
-						<Card.Header>
-							<Card.Subtitle
-								className="m-2 text-muted text-sm-left s"
-								style={{ fontSize: subtitleFontSize }}
-							>
-								Автор: {post.user.name}
-							</Card.Subtitle>
-							<Card.Subtitle
-								className="m-2 text-muted"
-								style={{ fontSize: subtitleFontSize }}
-							>
-								Опубликовано:
-								{' ' + formatDate(post.dateCreated)}
-							</Card.Subtitle>
-							<Button onClick={handleEdit}>
-								Изменить
-							</Button>
-							<Button onClick={handleDelete}>
-								Удалить
-							</Button>
+						<Card.Header className="d-flex justify-content-between">
+							<div>
+								<Card.Subtitle
+									className="m-2 text-muted"
+									style={{ fontSize: subtitleFontSize }}
+								>
+									Автор: {post.user.name}
+								</Card.Subtitle>
+								<Card.Subtitle
+									className="m-2 text-muted"
+									style={{ fontSize: subtitleFontSize }}
+								>
+									Опубликовано:
+									{' ' + formatDate(post.dateCreated)}
+								</Card.Subtitle>
+							</div>
+							<div className="mt-2">
+								<Button
+									className='m-1'
+									variant="outline-warning"
+									onClick={handleEdit}
+								>
+									Изменить
+								</Button>
+								<Button
+									className='m-1'
+									variant="outline-danger"
+									onClick={handleDelete}
+								>
+									Удалить
+								</Button>
+							</div>
 						</Card.Header>
 						<Card.Body>
 							<h4>{post.title}</h4>

@@ -10,6 +10,9 @@ import { Routes, Route, Link } from 'react-router-dom';
 import { AuthContext } from './context';
 import { useState, useEffect } from 'react';
 import AuthService from './api/AuthService';
+import UserPage from './pages/UserPage';
+import { RequireAuth } from './hoc/RequireAuth';
+import LoginPage from './pages/LoginPage';
 
 function App() {
 	const [isAuth, setIsAuth] = useState(false);
@@ -30,7 +33,14 @@ function App() {
 				<Routes>
 					<Route path='/' element={<Layout />}>
 						<Route index element={<AllPostsPage />} />
-						<Route path=':id' element={<PostPage />} />
+						<Route path='/posts/:id' element={<PostPage />} />
+						<Route path='/login' element={<LoginPage />} />
+						<Route path='/users/:id' element={
+							<RequireAuth>
+								<UserPage />
+							</RequireAuth>
+						} />
+
 					</Route>
 				</Routes>
 			</AuthContext.Provider>

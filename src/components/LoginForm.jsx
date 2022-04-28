@@ -1,12 +1,12 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { Form, Card, Button } from "react-bootstrap";
 import AuthService from "../api/AuthService";
-import { AuthContext } from "../context";
 import { useFetching } from "../hooks/useFetching";
+import { useAuth } from "../hooks/useAuth";
 
 const LoginForm = () => {
 
-	const { isAuth, setIsAuth } = useContext(AuthContext);
+	const { isAuth, setIsAuth } = useAuth();
 
 	// TODO: добавить валидацию
 	const [loggingInResponse, setLoggingInRespose] = useState();

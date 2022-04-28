@@ -13,7 +13,7 @@ const SideBar = ({ categories, ...props }) => {
 				<Nav className="flex-column">
 					{categories.map(category =>
 						<Nav.Item key={category.id}>
-							<Nav.Link as={Link} to={`posts/${category.name}`}>
+							<Nav.Link as={Link} to={`/${category.name}`}>
 								{category.name}
 							</Nav.Link>
 						</Nav.Item>

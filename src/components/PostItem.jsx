@@ -29,7 +29,7 @@ const PostItem = ({ post }) => {
 			className="m-3"
 			style={{ cursor: "pointer" }}
 			onClick={() => {
-				navigate(`/${post.id}`)
+				navigate(`posts/${post.id}`)
 			}}>
 			<Card.Header>
 				<Card.Title>{post.title}</Card.Title>
