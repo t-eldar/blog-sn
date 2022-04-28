@@ -23,11 +23,11 @@ const AllPostsPage = () => {
 	return (
 		<>
 			{
-			isPostsLoading 
-			? <div className="d-flex justify-content-center m-3">
-				<Loader/>
-			</div>
-			: <PostList posts={posts}/>
+				isPostsLoading
+					? <div className="d-flex justify-content-center m-3">
+						<Loader />
+					</div>
+					: <PostList posts={posts} />
 			}
 		</>
 	);

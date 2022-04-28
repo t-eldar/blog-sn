@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import PostList from '../components/PostList'
 import { useFetching } from '../hooks/useFetching';
 

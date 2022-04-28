@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Nav, Navbar } from "react-bootstrap";
-import { useFetching } from "../hooks/useFetching";
-import PostService from '../api/PostService';
 import { Link } from 'react-router-dom';
 
 const SideBar = ({ categories, ...props }) => {
-
 	return (
 		<>
 			<Navbar {...props} style={{ position: 'fixed' }}>
@@ -13,7 +10,7 @@ const SideBar = ({ categories, ...props }) => {
 				<Nav className="flex-column">
 					{categories.map(category =>
 						<Nav.Item key={category.id}>
-							<Nav.Link as={Link} to={`/${category.name}`}>
+							<Nav.Link as={Link} to={`category/${category.id}`}>
 								{category.name}
 							</Nav.Link>
 						</Nav.Item>

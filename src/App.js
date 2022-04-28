@@ -13,6 +13,7 @@ import AuthService from './api/AuthService';
 import UserPage from './pages/UserPage';
 import { RequireAuth } from './hoc/RequireAuth';
 import LoginPage from './pages/LoginPage';
+import CategoryPostsPage from './pages/CategoryPostsPage';
 
 function App() {
 	const [isAuth, setIsAuth] = useState(false);
@@ -35,6 +36,7 @@ function App() {
 						<Route index element={<AllPostsPage />} />
 						<Route path='/posts/:id' element={<PostPage />} />
 						<Route path='/login' element={<LoginPage />} />
+						<Route path='/category/:id' element={<CategoryPostsPage />} />
 						<Route path='/users/:id' element={
 							<RequireAuth>
 								<UserPage />
