@@ -17,12 +17,11 @@ import { Link } from "react-router-dom";
 import { CreatePostForm } from "./CreatePostForm";
 import LoginForm from "./LoginForm";
 import AuthService from "../api/AuthService";
-import { AuthContext } from "../context";
+import { useAuth } from "../hooks/useAuth";
 
 const NavBar = ({ categories }) => {
 
-	const { isAuth, setIsAuth } = useContext(AuthContext);
-	const [user, setUser] = useState({});
+	const { user, setUser } = useAuth();
 
 	const [showRegisterModal, setShowRegisterModal] = useState(false);
 	const [showLoginModal, setShowLoginModal] = useState(false);
@@ -50,13 +49,8 @@ const NavBar = ({ categories }) => {
 
 	const handleLogout = () => {
 		AuthService.logout();
-		setIsAuth(false);
+		setUser(null);
 	}
-
-	useEffect(() => {
-		if (isAuth)
-			setUser(AuthService.getCurrentUser());
-	}, [isAuth]);
 
 	const AuthorizedNav = () =>
 		<Nav className='mx-3'>
@@ -163,7 +157,7 @@ const NavBar = ({ categories }) => {
 								Главная
 							</Nav.Link>
 						</Nav>
-						{isAuth ? <UnauthorizedNav /> : <AuthorizedNav /> /* поменять местами*/}
+						{!!user ? <AuthorizedNav /> : <UnauthorizedNav /> /* поменять местами*/}
 					</Navbar.Collapse>
 				</Container>
 			</Navbar>

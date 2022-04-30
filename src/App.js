@@ -16,11 +16,21 @@ import LoginPage from './pages/LoginPage';
 import CategoryPostsPage from './pages/CategoryPostsPage';
 
 function App() {
-	const [isAuth, setIsAuth] = useState(false);
+
+	const [user, setUser] = useState({
+		id: 1,
+		role: {
+			id: 1,
+			name: 'admin'
+		},
+		name: 'helo'
+	});
 
 	useEffect(() => {
-		if (AuthService.getCurrentUser() !== null) {
-			setIsAuth(true);
+		const authUser = AuthService.getCurrentUser();
+		console.log(authUser)
+		if (authUser) {
+			setUser(authUser);
 		}
 	}, [])
 
@@ -28,8 +38,8 @@ function App() {
 		<>
 			<AuthContext.Provider
 				value={{
-					isAuth: isAuth,
-					setIsAuth: setIsAuth
+					user,
+					setUser
 				}}>
 				<Routes>
 					<Route path='/' element={<Layout />}>

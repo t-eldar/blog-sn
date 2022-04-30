@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import PostService from '../api/PostService';
+import { useAuth } from '../hooks/useAuth';
 import { useFetching } from '../hooks/useFetching';
 import PostForm from './PostForm'
 
-const EditPostForm = ({ initPost, maxHeight }) => {
+const EditPostForm = ({ categories, initPost, maxHeight }) => {
 
+	const {user} = useAuth();
 	const [post, setPost] = useState(initPost);
 
 	const [editPost, isEditLoading, editError] = useFetching(async (edittedPost) => {
@@ -12,10 +14,16 @@ const EditPostForm = ({ initPost, maxHeight }) => {
 		console.log('EditPostForm edit post response: ');
 		console.log(response);
 	})
-	const handleEditPost = () => {
-		editPost(post)
-	}
+	
 
+	const handleEdit = async () => {
+		if ((user.role === 'moderator'
+			|| user.role === 'admin'
+			|| user.id === post.user.id)
+			&& post.content && post.content !== '' && post.title && post.title !== '') {
+			await editPost(post.id, post);
+		}
+	}
 	return (
 		<>
 			<PostForm
@@ -23,7 +31,7 @@ const EditPostForm = ({ initPost, maxHeight }) => {
 				categories={categories}
 				maxHeight={maxHeight}
 				submitText='Редактировать'
-				onSubmit={handleEditPost}
+				onSubmit={handleEdit}
 				onCategoryChange={e => setPost({ ...post, category: e.target.value })}
 				onContentChange={e => setPost({ ...post, content: e.target.value })}
 				onTitleChange={e => setPost({ ...post, title: e.target.value })}

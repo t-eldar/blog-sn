@@ -6,7 +6,7 @@ import { useAuth } from "../hooks/useAuth";
 
 const LoginForm = () => {
 
-	const { isAuth, setIsAuth } = useAuth();
+	const { user, setUser } = useAuth();
 
 	// TODO: добавить валидацию
 	const [loggingInResponse, setLoggingInRespose] = useState();
@@ -35,7 +35,7 @@ const LoginForm = () => {
 		e.preventDefault();
 		await loginUser(userInfo.username, userInfo.password);
 		if (loggingInResponse.status == 200 && AuthService.getCurrentUser()) {///
-			setIsAuth(true);
+			setUser(loggingInResponse.data.user)
 		}
 	}
 

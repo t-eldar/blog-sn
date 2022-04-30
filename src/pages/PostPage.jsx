@@ -2,11 +2,12 @@ import React, { useContext, useEffect, useState } from "react";
 import PostService from "../api/PostService";
 import { useFetching } from "../hooks/useFetching";
 import Loader from "../components/Loader";
-import { Card, Button } from "react-bootstrap";
+import { Card, Button, Modal } from "react-bootstrap";
 import { formatDate } from "../utils";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../context";
 import AuthService from "../api/AuthService";
+import EditPostForm from "../components/EditPostForm";
 
 const PostPage = () => {
 
@@ -18,6 +19,10 @@ const PostPage = () => {
 	const [post, setPost] = useState({});
 	const subtitleFontSize = '14px';
 
+	const [showEditPostModal, setShowEditPostModal] = useState(false);
+	const handleEditPostModalClose = () => setShowEditPostModal(false);
+	const handleEditPostModalOpen = () => setShowEditPostModal(true);
+	
 	if (!post.user)
 		post.user = {
 			name: "name in postItem",
@@ -32,11 +37,7 @@ const PostPage = () => {
 		console.log(response);
 		setPost(response.data);
 	})
-	const [editPost, isEditLoading, editError] = useFetching(async (id, post) => {
-		const response = await PostService.editPost(id, post);
-		console.log('PostPage edit post response:');
-		console.log(response);
-	})
+
 	const [deletePost, isDeleteLoading, deleteError] = useFetching(async (id) => {
 		const response = await PostService.deletePost(id);
 		console.log('PostPage delete post response:');
@@ -55,15 +56,6 @@ const PostPage = () => {
 		}
 	}, [isAuth]);
 
-	const handleEdit = async () => {
-		if ((user.role === 'moderator'
-			|| user.role === 'admin'
-			|| user.id === post.user.id)
-			&& post.content && post.content !== '' && post.title && post.title !== '') {
-			await editPost(post.id, post);
-		}
-	}
-
 	const handleDelete = async () => {
 		if ((user.role === 'moderator'
 			|| user.role === 'admin'
@@ -75,6 +67,17 @@ const PostPage = () => {
 
 	return (
 		<>
+			<Modal size='lg' show={showEditPostModal} onHide={handleEditPostModalClose}>
+				<Modal.Header closeButton>
+					<Modal.Title>Создание новой записи</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					<EditPostForm 
+						initPost={post}
+						maxHeight={400}
+					/>
+				</Modal.Body>
+			</Modal>
 			{
 				isPostLoading
 					? <Loader />
@@ -99,7 +102,7 @@ const PostPage = () => {
 								<Button
 									className='m-1'
 									variant="outline-warning"
-									onClick={handleEdit}
+									onClick={handleEditPostModalOpen}
 								>
 									Изменить
 								</Button>
