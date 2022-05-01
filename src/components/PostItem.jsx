@@ -9,12 +9,16 @@ const PostItem = ({ post }) => {
 
 	const navigate = useNavigate();
 	const [publishedDate, setPublishedDate] = useState('');
+	
+	post.dateCreated = new Date(post.dateCreated);
+
 	if (!post.user)
 		post.user = {
 			name: "name in postItem",
 		};
+		
 	if (!post.description)
-		post.description = post.body;
+		post.description = post.content;
 	if (!post.dateCreated)
 		post.dateCreated = new Date('April 17, 2022 17:47:00');
 	if (!post.category)

@@ -2,14 +2,14 @@ import axios from "axios";
 
 export default class AuthService {
 	
-	static URL = "https://localhost:8080/api/Authenticate/";
+	static URL = "https://localhost:8080/api/Authenticate";
 	static async login(username, password) {
 		const response = await axios.post(AuthService.URL + '/login', {
 			username,
 			password,
 		});
-		if (response.data.accessToken) {
-			localStorage.setItem("user", JSON.stringify(response.data.token));
+		if (response.data.token) {
+			localStorage.setItem("user", JSON.stringify(response.data));
 		}
 		return response;
 	}

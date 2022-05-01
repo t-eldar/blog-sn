@@ -17,14 +17,7 @@ import CategoryPostsPage from './pages/CategoryPostsPage';
 
 function App() {
 
-	const [user, setUser] = useState({
-		id: 1,
-		role: {
-			id: 1,
-			name: 'admin'
-		},
-		name: 'helo'
-	});
+	const [user, setUser] = useState(null);
 
 	useEffect(() => {
 		const authUser = AuthService.getCurrentUser();
@@ -51,8 +44,8 @@ function App() {
 							<RequireAuth>
 								<UserPage />
 							</RequireAuth>
-						} />
-
+						} 
+						/>
 					</Route>
 				</Routes>
 			</AuthContext.Provider>

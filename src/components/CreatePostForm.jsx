@@ -16,16 +16,16 @@ export const CreatePostForm = ({ categories, maxHeight }) => {
 		console.log('CreatePostForm post form response:');
 		console.log(response);
 	})
-	const handleCreatePost = (e) => {
+	const handleCreatePost = async (e) => {
 		console.log(post)
 		e.preventDefault();
 		const formData = new FormData();
 
 		formData.append("Title", post.title);
-		formData.append("Content", post.body);
+		formData.append("Content", post.content);
 		formData.append("Category", post.category);
 
-		createPost(formData);
+		await createPost(formData);
 	}
 
 
