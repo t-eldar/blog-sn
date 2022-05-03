@@ -32,7 +32,7 @@ function App() {
 
 	return (
 		<>
-			<AuthContext.Provider
+			{/* <AuthContext.Provider
 				value={{
 					user,
 					setUser
@@ -51,9 +51,9 @@ function App() {
 						/>
 					</Route>
 				</Routes>
-			</AuthContext.Provider>
+			</AuthContext.Provider> */}
 			{/* <RegisterForm /> */}
-			{/* <UserPage /> */}
+			<UserPage />
 		</>
 	);
 }

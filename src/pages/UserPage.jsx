@@ -45,16 +45,22 @@ const UserPage = ({ categories }) => {
 	return (
 		<>
 
-			{/* <Modal size='lg' show={showCreatePostModal} onHide={handleCreatePostModalClose}>
+			<Modal size='lg' show={showCreatePostModal} onHide={handleCreatePostModalClose}>
 				<Modal.Header closeButton>
 					<Modal.Title>Создание новой записи</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					<CreatePostForm
+					{/* <CreatePostForm
 						maxHeight={400}
-						categories={categories} />
+						categories={categories} /> */}
+					<h4>Centered Modal</h4>
+					<p>
+						Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
+						dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
+						consectetur ac, vestibulum at eros.
+					</p>
 				</Modal.Body>
-			</Modal> */}
+			</Modal>
 
 			<Container className='d-flex'>
 				<Card style={{ width: '18rem', height: '32rem', margin: '5rem' }} className='justify-content-center'>
@@ -97,7 +103,7 @@ const UserPage = ({ categories }) => {
 				<Card style={{ width: '35rem', top: '5rem' }}>
 					<Card.Header className='d-flex'>
 						<h2>User Posts</h2>
-						{/* <AuthorizedNav /> */}
+						<AuthorizedNav />
 					</Card.Header>
 					<Card.Body>
 						<AllPostsPage />
