@@ -14,6 +14,9 @@ import UserPage from './pages/UserPage';
 import { RequireAuth } from './hoc/RequireAuth';
 import LoginPage from './pages/LoginPage';
 import CategoryPostsPage from './pages/CategoryPostsPage';
+import RegisterForm from './Test/RegisterForm';
+import { CreatePostForm } from './components/CreatePostForm';
+import PostForm from './components/PostForm';
 
 function App() {
 
@@ -29,7 +32,7 @@ function App() {
 
 	return (
 		<>
-			{/* <AuthContext.Provider
+			<AuthContext.Provider
 				value={{
 					user,
 					setUser
@@ -48,8 +51,9 @@ function App() {
 						/>
 					</Route>
 				</Routes>
-			</AuthContext.Provider> */}
-			<UserPage />
+			</AuthContext.Provider>
+			{/* <RegisterForm /> */}
+			{/* <UserPage /> */}
 		</>
 	);
 }
