@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react'
 import { Card, Form, Button, InputGroup } from 'react-bootstrap'
 import AuthService from '../api/AuthService'
 import { useFetching } from '../hooks/useFetching'
+import { useValidation } from '../hooks/useValidation'
 
 const RegisterForm = () => {
 
 	//TODO: добавить полную валидацию
 
-	const [registerResponse, setRegisterResponse] = useState(undefined);
+	const [registerResponse, setRegisterResponse] = useState(null);
 
 	const [userInfo, setUserInfo] = useState({
 		username: '',
@@ -17,20 +18,6 @@ const RegisterForm = () => {
 
 	const [password, setPassword] = useState('');
 	const [confirmingPassword, setConfirmingPassword] = useState('');
-
-	const [isInvalidData, setIsInvalidData] = useState({
-		username: false,
-		email: false,
-		password: false,
-		confirmingPassword: false,
-	})
-	const [invalidDataMessages, setInvalidDataMessages] = useState({
-		username: '',
-		email: '',
-		password: '',
-		confirmingPassword: '',
-	});
-
 
 	const [registerUser, isRegistrationLoading, registraionError]
 		= useFetching(async (username, email, password) => {
@@ -42,62 +29,64 @@ const RegisterForm = () => {
 		})
 
 	/// validation
-	
-	const isEmail = (email) => {
-		const emailRegEx =
-			/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-		return String(email)
-			.toLowerCase()
-			.match(emailRegEx)
-	}
-	
-	//// not done
-	const isFormValid = () => {
-		validateEmail(userInfo.email);
-		validatePassword(userInfo.password);
-		validateUsername(userInfo.username);
-	}
-	////
+
+	const [isEmailInvalid, emailErrorMessage] = useValidation(userInfo.email, [
+		(email) => {
+			const emailRegEx =
+				/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+			return {
+				message: 'Неверная почта',
+				invalid: !emailRegEx.test(email)
+			}
+		}
+	]);
+	const [isUsernameInvalid, usernameErrorMessage] = useValidation(userInfo.username, [
+		(username) => {
+			const usernameRegEx = /[A-Za-z0-9]/;
+			return {
+				message: 'Имя пользователя должно содержать латинские буквы или цифры',
+				invalid: !usernameRegEx.test(username)
+			}
+		},
+		(username) => {
+			return {
+				message: 'Пользователь с таким именем существует',
+				invalid: registerResponse?.data?.message.includes('exists')
+			}
+		}
+	]);
+	const [isPasswordInvalid, passwordErrorMessage] = useValidation(password, [
+		(pass) => {
+			const passwordRegEx = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/;
+			return {
+				message: `Пароль должен быть длиной не менее 6 символов и содержать: 
+					хотя бы одну цифру, 
+					хотя бы один заглавный и 
+					хотя бы один строчный латинский символ`,
+				invalid: !passwordRegEx.test(pass)
+			}
+		}
+	]);
+	// const [isConfirmingPasswordInvalid, confirmingPasswordErrorMessage]
+	// 	= useValidation({ password, confirmingPassword }, [
+	// 		({ pas, confPas }) => {
+	// 			return {
+	// 				message: 'Пароли не совпадают',
+	// 				invalid: !pas && !confPas && pas != confPas
+	// 			}
+	// 		}
+	// 	]);
+
 	const handleRegistration = (e) => {
 		e.preventDefault();
 		if (userInfo && userInfo.username && userInfo.email && userInfo.password
 			&& userInfo.username !== "" && userInfo.email !== "" && userInfo.password !== "") {
-				
+
 			registerUser(userInfo.username, userInfo.email, userInfo.password);
 			console.log(userInfo);
 		}
 	}
 
-	const validateEmail = () => {
-		if (!isEmail(userInfo.email)) {
-			setInvalidDataMessages({ ...invalidDataMessages, email: 'Некорректная почта' });
-			setIsInvalidData({ ...isInvalidData, email: false })
-		}
-	}
-	// изменить!
-	const validateUsername = () => {
-		if (registerResponse && registerResponse.status == 500) {
-			setInvalidDataMessages({
-				...invalidDataMessages,
-				username: 'Пользователь с таким именем уже существует'
-			})
-			setIsInvalidData({ ...isInvalidData, username: true })
-		}
-	}
-	const validatePassword = () => {
-		
-	}
-	useEffect(() => { // проверка совпадения паролей
-		if (password !== confirmingPassword) {
-			setInvalidDataMessages({ ...invalidDataMessages, confirmingPassword: 'Пароли не совпадают' });
-			setIsInvalidData({ ...isInvalidData, confirmingPassword: true })
-		}
-		else {
-			setIsInvalidData({ ...isInvalidData, confirmingPassword: false });
-			setUserInfo({ ...userInfo, password: password })
-		}
-	}, [password, confirmingPassword])
-	
 	return (
 		<>
 			<Card className="m-3 p-3" style={{ width: '18rem' }}>
@@ -107,13 +96,13 @@ const RegisterForm = () => {
 						<Form.Control
 							placeholder="Имя пользователя"
 							required
-							isInvalid={isInvalidData.username}
+							isInvalid={isUsernameInvalid}
 							onChange={e =>
 								setUserInfo({ ...userInfo, username: e.target.value })
 							}
 						/>
 						<Form.Control.Feedback type="invalid">
-							{invalidDataMessages.username}
+							{usernameErrorMessage}
 						</Form.Control.Feedback>
 					</InputGroup>
 					<Form.Group className="mb-3">
@@ -122,13 +111,13 @@ const RegisterForm = () => {
 							type="email"
 							placeholder="Email"
 							required
-							isInvalid={isInvalidData.email}
+							isInvalid={isEmailInvalid}
 							onChange={e =>
 								setUserInfo({ ...userInfo, email: e.target.value })
 							}
 						/>
 						<Form.Control.Feedback type="invalid">
-							{invalidDataMessages.email}
+							{emailErrorMessage}
 						</Form.Control.Feedback>
 					</Form.Group>
 					<Form.Group className="mb-3">
@@ -137,28 +126,28 @@ const RegisterForm = () => {
 							type="password"
 							placeholder="Пароль"
 							required
-							isInvalid={isInvalidData.password}
+							isInvalid={isPasswordInvalid}
 							onChange={e => setPassword(e.target.value)}
 						/>
 						<Form.Control.Feedback type="invalid">
-							{invalidDataMessages.password}
+							{passwordErrorMessage}
 						</Form.Control.Feedback>
 					</Form.Group>
-					<Form.Group className="mb-3">
+					{/* <Form.Group className="mb-3">
 						<Form.Label>Подтвердите пароль</Form.Label>
 						<Form.Control
 							type="password"
 							placeholder="Пароль еще раз"
 							required
-							isInvalid={isInvalidData.confirmingPassword}
+							isInvalid={isConfirmingPasswordInvalid}
 							onChange={e => {
 								setConfirmingPassword(e.target.value);
 							}}
 						/>
 						<Form.Control.Feedback type="invalid">
-							{invalidDataMessages.confirmingPassword}
+							{confirmingPasswordErrorMessage}
 						</Form.Control.Feedback>
-					</Form.Group>
+					</Form.Group> */}
 					<Button
 						variant="outline-primary"
 						onClick={handleRegistration}
