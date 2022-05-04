@@ -32,7 +32,7 @@ function App() {
 
 	return (
 		<>
-			{/* <AuthContext.Provider
+			<AuthContext.Provider
 				value={{
 					user,
 					setUser
@@ -47,13 +47,13 @@ function App() {
 							<RequireAuth>
 								<UserPage />
 							</RequireAuth>
-						} 
+						}
 						/>
 					</Route>
 				</Routes>
-			</AuthContext.Provider> */}
-			{/* <RegisterForm /> */}
-			<UserPage />
+			</AuthContext.Provider>
+			{/* <RegisterForm />
+			{/* <UserPage /> */}
 		</>
 	);
 }

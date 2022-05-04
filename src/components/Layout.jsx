@@ -1,6 +1,6 @@
-import React, { 
-	useState, 
-	useEffect 
+import React, {
+	useState,
+	useEffect
 } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { Outlet } from "react-router-dom";
@@ -14,39 +14,24 @@ const Layout = () => {
 
 	const [fetchCategories, isLoading, categoriesError] = useFetching(async () => {
 		const response = await PostService.getAllCategories();
-		console.log('Layout get all categories response:');
-		console.log(response);
+		console.log(response.data)
 		setCategories(response.data);
 	})
 
 	useEffect(() => {
-		// включить при подключении бэка
-		// const fetchAPI = async () => {
-		// 	await fetchCategories();
-		// }
-		// fetchAPI();
-		setCategories([
-			{
-				name: 'Авто',
-				id: 1,
-			},
-			{
-				id: 2,
-				name: 'Железо',
-			},
-			{
-				name: 'Аниме',
-				id: 3
-			}
-		]);
+		const fetchAPI = async () => {
+			await fetchCategories();
+		}
+		fetchAPI();
+		console.log(categories);
 	}, []);
 	return (
 		<>
-			<NavBar categories={categories}/>
+			<NavBar categories={categories} />
 			<Container style={{ minWidth: 400 }}>
 				<Row>
 					<Col lg="2" >
-						<SideBar categories={categories}/>
+						<SideBar categories={categories} />
 					</Col>
 					<Col lg="8">
 						<Outlet />

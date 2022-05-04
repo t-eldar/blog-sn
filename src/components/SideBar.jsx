@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Nav, Navbar } from "react-bootstrap";
+import { Card, Nav, Navbar } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 
 const SideBar = ({ categories, ...props }) => {
@@ -10,9 +10,13 @@ const SideBar = ({ categories, ...props }) => {
 				<Nav className="flex-column">
 					{categories.map(category =>
 						<Nav.Item key={category.id}>
-							<Nav.Link as={Link} to={`category/${category.id}`}>
-								{category.name}
-							</Nav.Link>
+							<Card style={{ margin: '0.5rem', width: '10rem' }} className='App'>
+								<Nav.Link as={Link} to={`category/${category.id}`}>
+									<h6 style={{color: 'black'}}>
+										{category.title}
+									</h6>
+								</Nav.Link>
+							</Card>
 						</Nav.Item>
 					)}
 				</Nav>

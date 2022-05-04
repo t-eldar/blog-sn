@@ -3,13 +3,16 @@ import { Card } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import PostList from '../components/PostList'
 import { useFetching } from '../hooks/useFetching';
+import PostService from "../api/PostService";
 
 const CategoryPostsPage = () => {
 	const params = useParams();
 	const [category, setCategory] = useState({});
 
 	const [fetchCategory, isCategoryLoading, categoryError] = useFetching(async (id) => {
-		//api call
+		const responce = await PostService.getPostById(id)
+		setCategory(responce.data);
+		console.log(category);
 	})
 
 	useEffect(() => {
@@ -22,9 +25,9 @@ const CategoryPostsPage = () => {
 	return (
 		<>
 			<Card>
-				<h1>{category.name}</h1>
+				<h1>{category.title}</h1>
 			</Card>
-			<PostList posts={category.posts} />
+			<PostList posts={category} />
 		</>
 	)
 }
