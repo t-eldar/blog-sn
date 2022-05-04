@@ -4,9 +4,9 @@ import { useAuth } from '../hooks/useAuth';
 
 export const RequireAuth = ({ children }) => {
 
-	const { isAuth } = useAuth();
+	const { user } = useAuth();
 
-	if (!isAuth) {
+	if (!user) {
 		return <Navigate to="/login" replace={true}/>
 	}
 

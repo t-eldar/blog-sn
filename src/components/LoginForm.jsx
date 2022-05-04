@@ -34,7 +34,7 @@ const LoginForm = () => {
 	const handleLoggingIn = async (e) => {
 		e.preventDefault();
 		await loginUser(userInfo.username, userInfo.password);
-		if (loggingInResponse.status == 200 && AuthService.getCurrentUser()) {///
+		if (loggingInResponse.data.status == 200 && AuthService.getCurrentUser()) {///
 			setUser(loggingInResponse.data.user)
 		}
 	}

@@ -13,7 +13,7 @@ const SideBar = ({ categories, ...props }) => {
 							<Card style={{ margin: '0.5rem', width: '10rem' }} className='App'>
 								<Nav.Link as={Link} to={`category/${category.id}`}>
 									<h6 style={{color: 'black'}}>
-										{category.title}
+										{category.name}
 									</h6>
 								</Nav.Link>
 							</Card>

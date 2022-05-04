@@ -4,6 +4,7 @@ export default class PostService {
 
 	//static URL = 'https://jsonplaceholder.typicode.com/posts'; //'https://localhost:8080/api/Posts'
 	static URL = 'https://localhost:44386/api/Posts'; 
+	static CategoryURL = 'https://localhost:44386/api/Categories'
 
 	static async getAll() {
 		const response = await axios.get(PostService.URL);
@@ -29,11 +30,15 @@ export default class PostService {
 
 ///// поменять в зависимости от api
 	static async getAllCategories() {
-		const response = await axios.get(PostService.URL); 
+		const response = await axios.get(PostService.CategoryURL); 
 		return response;
 	}
 	static async getPostsByCategoryId(id) {
-		const response = await axios.get(PostService.URL);
+		const response = await axios.get(PostService.CategoryURL + `/${id}/posts`);
+		return response;
+	}
+	static async getCategory(id){
+		const response = await axios.get(PostService.CategoryURL + `/${id}`)
 		return response;
 	}
 
