@@ -1,33 +1,37 @@
 import React, { useState, useEffect } from 'react'
-import { Card, Form, Button, InputGroup } from 'react-bootstrap'
+import { Card, Form, Button, InputGroup,Badge } from 'react-bootstrap'
 import AuthService from '../api/AuthService'
 import { useFetching } from '../hooks/useFetching'
 import { useValidation } from '../hooks/useValidation'
 
-const RegisterForm = () => {
+const RegisterForm = ({onSuccess}) => {
 
-	//TODO: добавить полную валидацию
-
-	const [registerResponse, setRegisterResponse] = useState(null);
-
+	const [isFormInvalid, setIsFormInvalid] = useState(false);
 	const [userInfo, setUserInfo] = useState({
 		username: '',
 		email: '',
-		password: '',
 	});
 
 	const [password, setPassword] = useState('');
 	const [confirmingPassword, setConfirmingPassword] = useState('');
 
-	const [registerUser, isRegistrationLoading, registraionError]
+	const [registerUser, isRegistrationLoading, registrationError]
 		= useFetching(async (username, email, password) => {
+
 			const response = await AuthService.register(username, email, password);
 			console.log('RegisterForm register response: ');
 			console.log(response);
-
-			setRegisterResponse(response);
+			
+			if (response && response?.status == 200) {
+				onSuccess();
+			}
 		})
 
+	const [regError, setRegError] = useState();
+	useEffect(() => {
+		console.log('fdlngdlkfjnlzgfnkl;')
+		setRegError(registrationError);
+	}, [registrationError])
 	/// validation
 
 	const [isEmailInvalid, emailErrorMessage] = useValidation(userInfo.email, [
@@ -42,19 +46,20 @@ const RegisterForm = () => {
 	]);
 	const [isUsernameInvalid, usernameErrorMessage] = useValidation(userInfo.username, [
 		(username) => {
-			const usernameRegEx = /[A-Za-z0-9]/;
+			const usernameRegEx = /^[A-Za-z0-9]+$/;
 			return {
-				message: 'Имя пользователя должно содержать латинские буквы или цифры',
+				message: 'Имя пользователя должно содержать только латинские буквы или цифры',
 				invalid: !usernameRegEx.test(username)
 			}
 		},
 		(username) => {
 			return {
 				message: 'Пользователь с таким именем существует',
-				invalid: registerResponse?.data?.message.includes('exists')
+				invalid: regError?.response?.data?.message.includes('exists')
 			}
 		}
-	]);
+	], [regError]);
+
 	const [isPasswordInvalid, passwordErrorMessage] = useValidation(password, [
 		(pass) => {
 			const passwordRegEx = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/;
@@ -67,30 +72,38 @@ const RegisterForm = () => {
 			}
 		}
 	]);
-	// const [isConfirmingPasswordInvalid, confirmingPasswordErrorMessage]
-	// 	= useValidation({ password, confirmingPassword }, [
-	// 		({ pas, confPas }) => {
-	// 			return {
-	// 				message: 'Пароли не совпадают',
-	// 				invalid: !pas && !confPas && pas != confPas
-	// 			}
-	// 		}
-	// 	]);
+	const [isConfirmingPasswordInvalid, confirmingPasswordErrorMessage]
+		= useValidation([password, confirmingPassword], [
+			([pas, confPas]) => {
+				return {
+					message: 'Пароли не совпадают',
+					invalid: pas != confPas
+				}
+			}
+		]);
 
-	const handleRegistration = (e) => {
+	const handleRegistration = async (e) => {
 		e.preventDefault();
-		if (userInfo && userInfo.username && userInfo.email && userInfo.password
-			&& userInfo.username !== "" && userInfo.email !== "" && userInfo.password !== "") {
-
-			registerUser(userInfo.username, userInfo.email, userInfo.password);
-			console.log(userInfo);
-		}
+		await registerUser(userInfo.username.trim(), userInfo.email.trim(), password.trim());
 	}
+
+	useEffect(() => {
+		setIsFormInvalid(isEmailInvalid
+			|| isUsernameInvalid
+			|| isPasswordInvalid
+			|| isConfirmingPasswordInvalid);
+	}, [isEmailInvalid, isUsernameInvalid, isPasswordInvalid, isConfirmingPasswordInvalid]);
 
 	return (
 		<>
 			<Card className="m-3 p-3" style={{ width: '18rem' }}>
-				<Form>
+				<Form
+					onChange={() => {
+						if (regError) {
+							setRegError({})
+						}
+					}}
+				>
 					<InputGroup className="mb-3">
 						<InputGroup.Text>@</InputGroup.Text>
 						<Form.Control
@@ -133,7 +146,7 @@ const RegisterForm = () => {
 							{passwordErrorMessage}
 						</Form.Control.Feedback>
 					</Form.Group>
-					{/* <Form.Group className="mb-3">
+					<Form.Group className="mb-3">
 						<Form.Label>Подтвердите пароль</Form.Label>
 						<Form.Control
 							type="password"
@@ -147,13 +160,18 @@ const RegisterForm = () => {
 						<Form.Control.Feedback type="invalid">
 							{confirmingPasswordErrorMessage}
 						</Form.Control.Feedback>
-					</Form.Group> */}
+					</Form.Group>
 					<Button
 						variant="outline-primary"
 						onClick={handleRegistration}
+						disabled={isFormInvalid}
 					>
 						Зарегистрироваться
 					</Button>
+					{
+						regError && regError?.response?.data?.status === 'Error' && regError?.data?.message?.includes('exists') 
+						&& <Badge bg='danger'>Произошла ошибка на сервере, попробуйте позже</Badge>
+					}
 				</Form>
 			</Card>
 		</>
