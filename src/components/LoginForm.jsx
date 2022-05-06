@@ -4,11 +4,11 @@ import AuthService from "../api/AuthService";
 import { useFetching } from "../hooks/useFetching";
 import { useAuth } from "../hooks/useAuth";
 
-const LoginForm = ({ onSuccess }) => {
+const LoginForm = ({ onSuccess = () => null }) => {
 
 	const { user, setUser } = useAuth();
 
-	const [logError, setLogError] = useState();
+	const [logError, setLogError] = useState(false);
 
 	const [userInfo, setUserInfo] = useState({
 		username: '',
@@ -17,9 +17,9 @@ const LoginForm = ({ onSuccess }) => {
 
 	const [loginUser, isLoginLoading, loginError] = useFetching(async (username, password) => {
 		const response = await AuthService.login(username, password);
-		if (response.status == 200 && AuthService.getCurrentUser()) {///
+		if (response.status == 200 && AuthService.getCurrentUser()) {
 			setUser(response.data)
-			setLogError(null);
+			setLogError(false);
 			onSuccess();
 		}
 		console.log('LoginForm login response: ');
@@ -30,7 +30,11 @@ const LoginForm = ({ onSuccess }) => {
 		await loginUser(userInfo.username, userInfo.password);
 	}
 	useEffect(() => {
+		console.log('useeffect')
+		console.log(loginError)
 		setLogError(loginError);
+		if (loginError)
+			AuthService.logout();
 	}, [loginError])
 
 	return (
