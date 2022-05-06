@@ -9,7 +9,15 @@ export default class AuthService {
 			password,
 		});
 		if (response.data.token) {
-			localStorage.setItem("user", JSON.stringify(response.data));
+			const encryptedJWT = response.data.token.split('.')[1];
+			const decryptedJWT = JSON.parse(atob(encryptedJWT));
+			console.log(decryptedJWT)
+			const user = {
+				name: decryptedJWT['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'],
+				id: decryptedJWT['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'],
+				role: decryptedJWT['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'],
+			}
+			localStorage.setItem("user", JSON.stringify(user));
 		}
 		return response;
 	}
