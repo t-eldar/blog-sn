@@ -1,6 +1,6 @@
-export const formatDate = (date) => {
+export const formatDate = (stringDate) => {
     const currentDate = new Date();
-
+    const date = new Date(stringDate);
     let day = date.getDate();
     let month = date.getMonth();
     let year = date.getFullYear();

@@ -9,27 +9,18 @@ const PostItem = ({ post }) => {
 
 	const navigate = useNavigate();
 	const [publishedDate, setPublishedDate] = useState('');
-	
-	post.dateCreated = new Date(post.dateCreated);
 
-	if (!post.user)
-		post.user = {
-			name: "name in postItem",
-		};
-		
-	if (!post.description)
-		post.description = post.content;
-	if (!post.dateCreated)
-		post.dateCreated = new Date('April 17, 2022 17:47:00');
-	if (!post.category)
-		post.category = {
-			id: 1,
-			name: 'Автомобили'
-		}
 	useEffect(() => {
 		const formattedDate = formatDate(post.dateCreated);
 		setPublishedDate(formattedDate);
 	}, []);
+
+	if (!post.applicationUser) {
+		post.applicationUser = {
+			id: 1,
+			name: 'No name (postitem)'
+		}
+	}
 
 	return (
 		<Card
@@ -43,9 +34,9 @@ const PostItem = ({ post }) => {
 						<Card.Subtitle
 							className="mb-2 text-muted text-sm-left s"
 							style={{ cursor: "pointer", fontSize: subtitleFontSize }}
-							onClick={() => navigate(`/users/${post.user.id}`)}
+							onClick={() => navigate(`/users/${post.applicationUser.id}`)}
 						>
-							Автор: {post.user.name}
+							Автор: {post.applicationUser.name}
 						</Card.Subtitle>
 						<Card.Subtitle
 							className="mb-2 text-muted"
