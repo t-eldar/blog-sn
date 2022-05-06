@@ -3,6 +3,7 @@ import axios from "axios";
 export default class AuthService {
 	
 	static URL = "https://localhost:44386/api/Authenticate";
+	static URLid = 'https://localhost:44386';
 	static async login(username, password) {
 		const response = await axios.post(AuthService.URL + '/login', {
 			username,
@@ -27,11 +28,4 @@ export default class AuthService {
 	static getCurrentUser() {
 		return JSON.parse(localStorage.getItem("user"));
 	}
-	// static getAuthHeader() {
-	// 	const user = JSON.parse(localStorage.getItem("user"));
-	// 	if (user && usre.accessToken) {
-	// 		return { Authorization: 'Bearer' + user.accessToken };
-	// 	}
-	// 	return {};
-	// }
 }

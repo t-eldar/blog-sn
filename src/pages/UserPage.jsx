@@ -5,19 +5,33 @@ import PostList from '../components/PostList';
 import { useFetching } from '../hooks/useFetching';
 import AllPostsPage from './AllPostsPage';
 import { CreatePostForm } from '../components/CreatePostForm';
+import PostService from '../api/PostService';
+import AuthService from '../api/AuthService';
 
-const UserPage = ({ categories }) => {
+const UserPage = () => {
 
 	const params = useParams();
 	const [posts, setPosts] = useState();
-	const [user, setUser] = useState();
+	const [user, setUser] = useState(null);
 
 	const [showCreatePostModal, setShowCreatePostModal] = useState(false);
 	const [expanded, setExpanded] = useState(false);
 	//
-	const [fetchPosts, isPostsLoading, postsError] = useFetching(async () => {
-		// api call
+	const [categories, setCategories] = useState([]);
+
+	const [fetchCategories, isLoading, categoriesError] = useFetching(async () => {
+		const response = await PostService.getAllCategories();
+		console.log(response.data)
+		setCategories(response.data);
 	})
+
+	//
+	useEffect(() => {
+		const fetchAPI = async () => {
+			await fetchCategories();
+		}
+		fetchAPI();
+	}, []);
 
 	const handleCreatePostModalClose = () => setShowCreatePostModal(false);
 	const handleCreatePostModalOpen = () => {
@@ -30,16 +44,10 @@ const UserPage = ({ categories }) => {
 		<Button
 			variant="dark"
 			onClick={handleCreatePostModalOpen}
+			style={{marginLeft: '10rem'}}
 		>
 			Создать пост
 		</Button>
-
-	useEffect(() => {
-		const fetchAPI = () => {
-			fetchPosts();
-		};
-		fetchAPI();
-	}, [])
 
 
 	return (
@@ -58,8 +66,8 @@ const UserPage = ({ categories }) => {
 			</Modal>
 
 			<Container className='d-flex'>
-				<Card style={{ width: '18rem', height: '32rem', margin: '5rem' }} className='justify-content-center'>
-					<Card.Img style={{ height: '15rem', width: '17.9rem' }}
+				<Card style={{ width: '36.8rem', height: '32rem', top: '1rem'}} className='justify-content-center'>
+					<Card.Img style={{ height: '15rem', width: '16.87rem' }}
 						variant="top"
 						src="https://4kwallpapers.com/images/wallpapers/mount-cook-new-zealand-aoraki-national-park-mountain-peak-5120x3200-3913.jpg" />
 					<Card.Body>
@@ -74,7 +82,7 @@ const UserPage = ({ categories }) => {
 						<br />
 						<br />
 						<br />
-						<div className='d-flex justify-content-center'>
+						<div className='d-flex justify-content-center' >
 							<Card className='App justify-content-center'
 								style={{ margin: '0,9rem', height: '5rem', width: '5rem' }}>
 								<h6>Posts</h6>
@@ -95,7 +103,7 @@ const UserPage = ({ categories }) => {
 						</div>
 					</Card.Body>
 				</Card>
-				<Card style={{ width: '35rem', top: '5rem' }}>
+				<Card style={{ width: '50rem', top: '1rem', marginLeft: '3rem'}}>
 					<Card.Header className='d-flex'>
 						<h2>User Posts</h2>
 						<AuthorizedNav />
