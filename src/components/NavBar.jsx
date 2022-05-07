@@ -101,9 +101,10 @@ const NavBar = ({ categories }) => {
 					<Modal.Title>Вход в учетную запись</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					<LoginForm />
+					<LoginForm onSuccess={handleLoginModalClose}/>
 				</Modal.Body>
 			</Modal>
+
 			<Modal size='lg' show={showCreatePostModal} onHide={handleCreatePostModalClose}>
 				<Modal.Header closeButton>
 					<Modal.Title>Создание новой записи</Modal.Title>
@@ -120,7 +121,7 @@ const NavBar = ({ categories }) => {
 					<Modal.Title>Регистрация</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					<RegisterForm />
+					<RegisterForm onSuccess={handleRegisterModalClose}/>
 				</Modal.Body>
 			</Modal>
 
@@ -157,7 +158,7 @@ const NavBar = ({ categories }) => {
 								Главная
 							</Nav.Link>
 						</Nav>
-						{!!user ? <AuthorizedNav /> : <UnauthorizedNav /> /* поменять местами*/}
+						{!!user ? <AuthorizedNav /> : <UnauthorizedNav />}
 					</Navbar.Collapse>
 				</Container>
 			</Navbar>

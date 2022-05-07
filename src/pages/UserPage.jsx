@@ -27,7 +27,7 @@ const UserPage = () => {
 			<Card>
 				Информация пользоавтеля
 			</Card>
-			<PostList posts={posts} />
+			{/*<PostList posts={posts} /> */}
 		</>
 	)
 }

@@ -3,14 +3,11 @@ import PostService from '../api/PostService';
 import { useFetching } from '../hooks/useFetching';
 import { Card, Form, Button } from 'react-bootstrap';
 import PostForm from './PostForm';
+import { cutText } from '../utils';
 
 export const CreatePostForm = ({ categories, maxHeight }) => {
 
-	const [post, setPost] = useState({
-		title: '',
-		body: '',
-		category: '',
-	});
+	const [post, setPost] = useState({});
 	const [createPost, isCreationLoading, creationError] = useFetching(async (post) => {
 		const response = await PostService.createPost(post);
 		console.log('CreatePostForm post form response:');
@@ -23,7 +20,9 @@ export const CreatePostForm = ({ categories, maxHeight }) => {
 
 		formData.append("Title", post.title);
 		formData.append("Content", post.content);
-		formData.append("Category", post.category);
+		formData.append("Description", cutText(post.content));
+		formData.append("CategoryId", post.categoryId);
+		formData.append("ApplicationUserId")
 
 		await createPost(formData);
 	}

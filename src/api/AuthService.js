@@ -12,10 +12,15 @@ export default class AuthService {
 			const encryptedJWT = response.data.token.split('.')[1];
 			const decryptedJWT = JSON.parse(atob(encryptedJWT));
 			console.log(decryptedJWT)
-			const user = {
-				name: decryptedJWT['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'],
-				id: decryptedJWT['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'],
-				role: decryptedJWT['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'],
+			// const user = {
+			// 	name: decryptedJWT['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'],
+			// 	id: decryptedJWT['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'],
+			// 	role: decryptedJWT['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'],
+			// }
+			const user = {};
+
+			for (let value in decryptedJWT) {
+				user[value.toLowerCase()] = decryptedJWT[value];
 			}
 			localStorage.setItem("user", JSON.stringify(user));
 		}
