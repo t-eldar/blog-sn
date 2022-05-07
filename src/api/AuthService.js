@@ -1,8 +1,8 @@
 import axios from "axios";
 
 export default class AuthService {
-	
-	static URL = "https://localhost:8080/api/Authenticate";
+
+	static URL = "https://localhost:44386/api/Authenticate";
 	static async login(username, password) {
 		const response = await axios.post(AuthService.URL + '/login', {
 			username,
@@ -31,8 +31,8 @@ export default class AuthService {
 	}
 	static async register(username, email, password) {
 		const response = await axios.post(AuthService.URL + '/register', {
-			username, 
-			email, 
+			username,
+			email,
 			password,
 		});
 		return response;
@@ -40,11 +40,4 @@ export default class AuthService {
 	static getCurrentUser() {
 		return JSON.parse(localStorage.getItem("user"));
 	}
-	// static getAuthHeader() {
-	// 	const user = JSON.parse(localStorage.getItem("user"));
-	// 	if (user && usre.accessToken) {
-	// 		return { Authorization: 'Bearer' + user.accessToken };
-	// 	}
-	// 	return {};
-	// }
 }
