@@ -7,12 +7,16 @@ import AllPostsPage from './AllPostsPage';
 import { CreatePostForm } from '../components/CreatePostForm';
 import PostService from '../api/PostService';
 import AuthService from '../api/AuthService';
+import { useAuth } from '../hooks/useAuth';
+import UserService from '../api/UserService';
+
 
 const UserPage = () => {
 
-	const params = useParams();
-	const [posts, setPosts] = useState();
-	const [user, setUser] = useState(null);
+    const params = useParams();
+
+    const [pageUser, setPageUser] = useState({userName: ''});
+	const [posts, setPosts] = useState([]);
 
 	const [showCreatePostModal, setShowCreatePostModal] = useState(false);
 	const [expanded, setExpanded] = useState(false);
@@ -25,13 +29,25 @@ const UserPage = () => {
 		setCategories(response.data);
 	})
 
+	const [fetchUserId] = useFetching(async (id) => {
+		const responce =  await UserService.getUserById(id);
+		setPageUser(responce.data);
+	})
+
+	const [fetchUserPosts] = useFetching(async (id) => {
+		const responce = await UserService.getUserPostsById(id);
+		setPosts(responce.data);
+	})
 	//
 	useEffect(() => {
 		const fetchAPI = async () => {
 			await fetchCategories();
+			await fetchUserId(params.id);
+			await fetchUserPosts(params.id);
 		}
 		fetchAPI();
-	}, []);
+		console.log(pageUser);
+	}, [params.id]);
 
 	const handleCreatePostModalClose = () => setShowCreatePostModal(false);
 	const handleCreatePostModalOpen = () => {
@@ -72,7 +88,7 @@ const UserPage = () => {
 						src="https://4kwallpapers.com/images/wallpapers/mount-cook-new-zealand-aoraki-national-park-mountain-peak-5120x3200-3913.jpg" />
 					<Card.Body>
 						<div className='d-flex justify-content-center'>
-							<h2 style={{ top: '30rem' }}>Danila</h2>
+							<h2 style={{ top: '30rem' }}>{pageUser.userName}</h2>
 						</div>
 						<div className='d-flex justify-content-center'>
 							<h6 style={{ top: '30rem' }}>Developer stream bla bla</h6>
@@ -86,7 +102,7 @@ const UserPage = () => {
 							<Card className='App justify-content-center'
 								style={{ margin: '0,9rem', height: '5rem', width: '5rem' }}>
 								<h6>Posts</h6>
-								<h8>Count</h8>
+								<h8>{posts.length}</h8>
 							</Card>
 							<hr />
 							<Card className='App justify-content-center'
@@ -109,7 +125,7 @@ const UserPage = () => {
 						<AuthorizedNav />
 					</Card.Header>
 					<Card.Body>
-						<AllPostsPage />
+						<PostList posts={posts}/>
 					</Card.Body>
 				</Card>
 

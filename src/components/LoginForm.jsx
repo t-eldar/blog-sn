@@ -25,6 +25,9 @@ const LoginForm = () => {
 	})
 	const [loginUser, isLoginLoading, loginError] = useFetching(async (username, password) => {
 		const response = await AuthService.login(username, password);
+		if(response.status == 200 & AuthService.getCurrentUser()){
+			setUser(response.data);
+		}
 		setLoggingInRespose(response);
 		console.log('LoginForm login response: ');
 		console.log(response);
@@ -34,9 +37,6 @@ const LoginForm = () => {
 	const handleLoggingIn = async (e) => {
 		e.preventDefault();
 		await loginUser(userInfo.username, userInfo.password);
-		if (loggingInResponse.data.status == 200 && AuthService.getCurrentUser()) {///
-			setUser(loggingInResponse.data.user)
-		}
 	}
 
 	return (
