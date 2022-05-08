@@ -6,7 +6,7 @@ import PostForm from './PostForm'
 
 const EditPostForm = ({ categories, initPost, maxHeight }) => {
 
-	const {user} = useAuth();
+	const { user } = useAuth();
 	const [post, setPost] = useState(initPost);
 
 	const [editPost, isEditLoading, editError] = useFetching(async (edittedPost) => {
@@ -14,12 +14,12 @@ const EditPostForm = ({ categories, initPost, maxHeight }) => {
 		console.log('EditPostForm edit post response: ');
 		console.log(response);
 	})
-	
+
 
 	const handleEdit = async () => {
 		if ((user.role === 'moderator'
 			|| user.role === 'admin'
-			|| user.id === post.user.id)
+			|| user.id === post.applicationUserId)
 			&& post.content && post.content !== '' && post.title && post.title !== '') {
 			await editPost(post.id, post);
 		}
