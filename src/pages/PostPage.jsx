@@ -14,6 +14,7 @@ const PostPage = () => {
 	const { user } = useContext(AuthContext);
 	const params = useParams();
 
+	const [categories, setCategories] = useState([])
 	const [post, setPost] = useState({});
 	const subtitleFontSize = '14px';
 
@@ -27,6 +28,10 @@ const PostPage = () => {
 		console.log(response);
 		setPost(response.data);
 	})
+	const [fetchCategories, isCategoriesLoading, categoriesError] = useFetching(async () => {
+		const response = await PostService.getAllCategories();
+		setCategories(response.data);
+	})
 
 	const [deletePost, isDeleteLoading, deleteError] = useFetching(async (id) => {
 		const response = await PostService.deletePost(id);
@@ -35,6 +40,7 @@ const PostPage = () => {
 	})
 	useEffect(() => {
 		const fetchAPI = async () => {
+			await fetchCategories();
 			await fetchPost(params.id);
 		};
 		fetchAPI();
@@ -58,7 +64,9 @@ const PostPage = () => {
 		} else { 
 			setIsEditAllowed(false);
 		}
-	}, [user]);
+		console.log(user)
+		console.log(post.applicationUser)
+	}, []);
 
 	return (
 		<>
@@ -68,6 +76,7 @@ const PostPage = () => {
 				</Modal.Header>
 				<Modal.Body>
 					<EditPostForm
+						categories={categories}
 						initPost={post}
 						maxHeight={400}
 					/>

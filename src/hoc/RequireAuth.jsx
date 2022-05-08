@@ -1,14 +1,12 @@
 import React from 'react'
 import { Navigate } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
+import AuthService from '../api/AuthService';
 
 export const RequireAuth = ({ children }) => {
 
-	const { user } = useAuth();
+	
 
-	if (!user) {
-		console.log('noooo')
-		console.log(user)
+	if (!AuthService.getCurrentUser()) {
 		return <Navigate to="/login" replace={true}/>
 	}
 
