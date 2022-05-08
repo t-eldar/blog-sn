@@ -18,7 +18,7 @@ const LoginForm = ({ onSuccess = () => null }) => {
 	const [loginUser, isLoginLoading, loginError] = useFetching(async (username, password) => {
 		const response = await AuthService.login(username, password);
 		if (response.status == 200 && AuthService.getCurrentUser()) {
-			setUser(response.data)
+			setUser(AuthService.getCurrentUser())
 			setLogError(false);
 			onSuccess();
 		}

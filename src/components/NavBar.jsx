@@ -45,6 +45,7 @@ const NavBar = ({ categories }) => {
 		console.log(AuthService.getCurrentUser())
 		setShowCreatePostModal(true);
 		setExpanded(false);
+		console.log(user)
 	}
 
 	const handleLogout = () => {

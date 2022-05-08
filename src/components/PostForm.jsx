@@ -34,7 +34,7 @@ const PostForm = ({
 			>
 				<option hidden value>Категория</option>
 				{categories.map(cat =>
-					<option key={cat.id} value={cat.name}>{cat.name}</option>)}
+					<option key={cat.id} value={cat.id}>{cat.name}</option>)}
 			</Form.Select>
 			<Form.Group className="mt-3 mb-3">
 				<Form.Control
