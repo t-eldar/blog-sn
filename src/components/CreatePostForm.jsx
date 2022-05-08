@@ -23,15 +23,7 @@ export const CreatePostForm = ({ categories, maxHeight }) => {
 		post.applicationUserId = user.id;
 		post.description = cutText(post.content);
 
-		console.log(post)
-		// const formData = new FormData();
-
-		// formData.append("Title", post.title);
-		// formData.append("Content", post.content);
-		// formData.append("Description", cutText(post.content));
-		// formData.append("CategoryId", post.categoryId);
-		// formData.append("ApplicationUserId", user.id)
-
+		console.log(post);
 		await createPost(post);
 	}
 

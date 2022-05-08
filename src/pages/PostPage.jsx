@@ -57,16 +57,15 @@ const PostPage = () => {
 
 	const [isEditAllowed, setIsEditAllowed] = useState(false);
 	useEffect(() => {
-		if (user?.role === 'moderator'
+		if (user !== null 
+			&& (user?.role === 'moderator'
 			|| user?.role === 'admin'
-			|| user?.id === post.applicationUserId) {
+			|| user?.id === post.applicationUserId)) {
 			setIsEditAllowed(true);
 		} else { 
 			setIsEditAllowed(false);
 		}
-		console.log(user)
-		console.log(post.applicationUser)
-	}, []);
+	}, [post]);
 
 	return (
 		<>

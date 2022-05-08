@@ -24,7 +24,6 @@ function App() {
 
 	useEffect(() => {
 		const authUser = AuthService.getCurrentUser();
-		console.log(authUser)
 		if (authUser) {
 			setUser(authUser);
 		}
