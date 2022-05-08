@@ -19,12 +19,12 @@ export default class PostService {
 		return response;
 	}
 
-	static async editPost(id, post) {
-		const response = await axios.put(PostService.URL + `/${id}`, post);
+	static async editPost(post) {
+		const response = await axios.put(PostService.URL + `/${post.id}`, post);
 		return response;
 	}
 	static async deletePost(id) {
-		const response = await axios.delete(PostService.URL + `${id}`);
+		const response = await axios.delete(PostService.URL + `/${id}`);
 		return response;
 	}
 

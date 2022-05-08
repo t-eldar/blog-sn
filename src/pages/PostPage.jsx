@@ -77,7 +77,14 @@ const PostPage = () => {
 				<Modal.Body>
 					<EditPostForm
 						categories={categories}
-						initPost={post}
+						initPost={{
+							id: post.id,
+							applicationUserId: post.applicationUserId,
+							categoryId: post.categoryId,
+							title: post.title,
+							content: post.content,
+							dateCreated: post.dateCreated
+						}}
 						maxHeight={400}
 					/>
 				</Modal.Body>
