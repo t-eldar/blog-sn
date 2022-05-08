@@ -21,12 +21,6 @@ const PostPage = () => {
 	const handleEditPostModalClose = () => setShowEditPostModal(false);
 	const handleEditPostModalOpen = () => setShowEditPostModal(true);
 
-	if (!post.applicationUser)
-		post.applicationUser = {
-			name: "name in postItem",
-		};
-	if (!post.applicationUserId) 
-		post.applicationUserId = 1;
 	const [fetchPost, isPostLoading, postError] = useFetching(async (id) => {
 		const response = await PostService.getPostById(id);
 		console.log("PostPage fetchPost response: ");
@@ -49,7 +43,7 @@ const PostPage = () => {
 	const handleDelete = async () => {
 		if ((user.role === 'moderator'
 			|| user.role === 'admin'
-			|| user.id === post.user.id)
+			|| user.id === post.applicationUserId)
 			&& post) {
 			await deletePost(post.id);
 		}
@@ -89,7 +83,7 @@ const PostPage = () => {
 									className="m-2 text-muted"
 									style={{ fontSize: subtitleFontSize }}
 								>
-									Автор: {post.applicationUser.name}
+									Автор: {post.applicationUser ? post.applicationUser.userName : 'Нет автора'}
 								</Card.Subtitle>
 								<Card.Subtitle
 									className="m-2 text-muted"

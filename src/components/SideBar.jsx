@@ -10,11 +10,11 @@ const SideBar = ({ categories, ...props }) => {
 				<Nav className="flex-column">
 					{categories.map(category =>
 						<Nav.Item key={category.id}>
-							<Card style={{ margin: '0.5rem', width: '10rem' }} className='App'>
+							<Card className="m-2 p-2">
 								<Nav.Link as={Link} to={`category/${category.id}`}>
-									<h6 style={{color: 'black'}}>
+									<span style={{fontWeight: 'bolder'}}>
 										{category.name}
-									</h6>
+									</span>
 								</Nav.Link>
 							</Card>
 						</Nav.Item>

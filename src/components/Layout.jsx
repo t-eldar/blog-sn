@@ -23,14 +23,13 @@ const Layout = () => {
 			await fetchCategories();
 		}
 		fetchAPI();
-		console.log(categories);
 	}, []);
 	return (
 		<>
 			<NavBar categories={categories} />
 			<Container style={{ minWidth: 400 }}>
-				<Row>
-					<Col lg="2" >
+				<Row className="justify-content-start">
+					<Col lg="2">
 						<SideBar categories={categories} />
 					</Col>
 					<Col lg="8">

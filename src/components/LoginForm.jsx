@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Form, Card, Button, Badge } from "react-bootstrap";
+import { Form, Card, Button, Badge, FloatingLabel } from "react-bootstrap";
 import AuthService from "../api/AuthService";
 import { useFetching } from "../hooks/useFetching";
 import { useAuth } from "../hooks/useAuth";
@@ -41,26 +41,28 @@ const LoginForm = ({ onSuccess = () => null }) => {
 		<Card className="m-3 p-3" style={{ width: '18rem' }}>
 			<Form>
 				<Form.Group className="mb-3">
-					<Form.Label>Имя пользователя</Form.Label>
-					<Form.Control
-						type="text"
-						placeholder="Имя пользователя"
-						required
-						onChange={e =>
-							setUserInfo({ ...userInfo, username: e.target.value })
-						}
-					/>
+					<FloatingLabel label="Имя пользователя">
+						<Form.Control
+							type="text"
+							placeholder="Имя пользователя"
+							required
+							onChange={e =>
+								setUserInfo({ ...userInfo, username: e.target.value })
+							}
+						/>
+					</FloatingLabel>
 				</Form.Group>
 				<Form.Group className="mb-3">
-					<Form.Label>Пароль</Form.Label>
-					<Form.Control
-						type="password"
-						placeholder="Пароль"
-						required
-						onChange={e =>
-							setUserInfo({ ...userInfo, password: e.target.value })
-						}
-					/>
+					<FloatingLabel label="Пароль">
+						<Form.Control
+							type="password"
+							placeholder="Пароль"
+							required
+							onChange={e =>
+								setUserInfo({ ...userInfo, password: e.target.value })
+							}
+						/>
+					</FloatingLabel>
 				</Form.Group>
 				{
 					logError

@@ -13,9 +13,9 @@ import UserService from '../api/UserService';
 
 const UserPage = () => {
 
-    const params = useParams();
+	const params = useParams();
 
-    const [pageUser, setPageUser] = useState({userName: ''});
+	const [pageUser, setPageUser] = useState({ userName: '' });
 	const [posts, setPosts] = useState([]);
 
 	const [showCreatePostModal, setShowCreatePostModal] = useState(false);
@@ -30,7 +30,7 @@ const UserPage = () => {
 	})
 
 	const [fetchUserId] = useFetching(async (id) => {
-		const responce =  await UserService.getUserById(id);
+		const responce = await UserService.getUserById(id);
 		setPageUser(responce.data);
 	})
 
@@ -56,15 +56,6 @@ const UserPage = () => {
 		setExpanded(false);
 	}
 
-	const AuthorizedNav = () =>
-		<Button
-			variant="dark"
-			onClick={handleCreatePostModalOpen}
-			style={{marginLeft: '10rem'}}
-		>
-			Создать пост
-		</Button>
-
 
 	return (
 		<>
@@ -82,7 +73,7 @@ const UserPage = () => {
 			</Modal>
 
 			<Container className='d-flex'>
-				<Card style={{ width: '36.8rem', height: '32rem', top: '1rem'}} className='justify-content-center'>
+				<Card style={{ width: '36.8rem', height: '32rem', top: '1rem' }} className='justify-content-center'>
 					<Card.Img style={{ height: '15rem', width: '16.87rem' }}
 						variant="top"
 						src="https://4kwallpapers.com/images/wallpapers/mount-cook-new-zealand-aoraki-national-park-mountain-peak-5120x3200-3913.jpg" />
@@ -119,13 +110,19 @@ const UserPage = () => {
 						</div>
 					</Card.Body>
 				</Card>
-				<Card style={{ width: '50rem', top: '1rem', marginLeft: '3rem'}}>
+				<Card style={{ width: '50rem', top: '1rem', marginLeft: '3rem' }}>
 					<Card.Header className='d-flex'>
 						<h2>User Posts</h2>
-						<AuthorizedNav />
+						<Button
+							variant="dark"
+							onClick={handleCreatePostModalOpen}
+							style={{ marginLeft: '10rem' }}
+						>
+							Создать пост
+						</Button>
 					</Card.Header>
 					<Card.Body>
-						<PostList posts={posts}/>
+						<PostList posts={posts} />
 					</Card.Body>
 				</Card>
 
@@ -133,6 +130,6 @@ const UserPage = () => {
 			{/* <PostList posts={posts} /> */}
 		</>
 	)
-}
+	}
 
-export default UserPage
+	export default UserPage

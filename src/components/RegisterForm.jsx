@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { Card, Form, Button, InputGroup,Badge } from 'react-bootstrap'
+import { Card, Form, Button, InputGroup, Badge, FloatingLabel } from 'react-bootstrap'
 import AuthService from '../api/AuthService'
 import { useFetching } from '../hooks/useFetching'
 import { useValidation } from '../hooks/useValidation'
 
-const RegisterForm = ({onSuccess}) => {
+const RegisterForm = ({ onSuccess }) => {
 
 	const [isFormInvalid, setIsFormInvalid] = useState(false);
 	const [userInfo, setUserInfo] = useState({
@@ -21,7 +21,7 @@ const RegisterForm = ({onSuccess}) => {
 			const response = await AuthService.register(username, email, password);
 			console.log('RegisterForm register response: ');
 			console.log(response);
-			
+
 			if (response && response?.status == 200) {
 				onSuccess();
 			}
@@ -97,15 +97,14 @@ const RegisterForm = ({onSuccess}) => {
 	return (
 		<>
 			<Card className="m-3 p-3" style={{ width: '18rem' }}>
-				<Form
+				<Form.Floating
 					onChange={() => {
 						if (regError) {
 							setRegError({})
 						}
 					}}
 				>
-					<InputGroup className="mb-3">
-						<InputGroup.Text>@</InputGroup.Text>
+					<FloatingLabel label='Имя пользователя'>
 						<Form.Control
 							placeholder="Имя пользователя"
 							required
@@ -117,49 +116,52 @@ const RegisterForm = ({onSuccess}) => {
 						<Form.Control.Feedback type="invalid">
 							{usernameErrorMessage}
 						</Form.Control.Feedback>
-					</InputGroup>
+					</FloatingLabel>
 					<Form.Group className="mb-3">
-						<Form.Label>Email адрес</Form.Label>
-						<Form.Control
-							type="email"
-							placeholder="Email"
-							required
-							isInvalid={isEmailInvalid}
-							onChange={e =>
-								setUserInfo({ ...userInfo, email: e.target.value })
-							}
-						/>
-						<Form.Control.Feedback type="invalid">
-							{emailErrorMessage}
-						</Form.Control.Feedback>
+						<FloatingLabel label='Email адрес'>
+							<Form.Control
+								type="email"
+								placeholder="Email"
+								required
+								isInvalid={isEmailInvalid}
+								onChange={e =>
+									setUserInfo({ ...userInfo, email: e.target.value })
+								}
+							/>
+							<Form.Control.Feedback type="invalid">
+								{emailErrorMessage}
+							</Form.Control.Feedback>
+						</FloatingLabel>
 					</Form.Group>
 					<Form.Group className="mb-3">
-						<Form.Label>Пароль</Form.Label>
-						<Form.Control
-							type="password"
-							placeholder="Пароль"
-							required
-							isInvalid={isPasswordInvalid}
-							onChange={e => setPassword(e.target.value)}
-						/>
-						<Form.Control.Feedback type="invalid">
-							{passwordErrorMessage}
-						</Form.Control.Feedback>
+						<FloatingLabel label='Пароль'>
+							<Form.Control
+								type="password"
+								placeholder="Пароль"
+								required
+								isInvalid={isPasswordInvalid}
+								onChange={e => setPassword(e.target.value)}
+							/>
+							<Form.Control.Feedback type="invalid">
+								{passwordErrorMessage}
+							</Form.Control.Feedback>
+						</FloatingLabel>
 					</Form.Group>
 					<Form.Group className="mb-3">
-						<Form.Label>Подтвердите пароль</Form.Label>
-						<Form.Control
-							type="password"
-							placeholder="Пароль еще раз"
-							required
-							isInvalid={isConfirmingPasswordInvalid}
-							onChange={e => {
-								setConfirmingPassword(e.target.value);
-							}}
-						/>
-						<Form.Control.Feedback type="invalid">
-							{confirmingPasswordErrorMessage}
-						</Form.Control.Feedback>
+						<FloatingLabel label='Подтвердите пароль'>
+							<Form.Control
+								type="password"
+								placeholder="Пароль еще раз"
+								required
+								isInvalid={isConfirmingPasswordInvalid}
+								onChange={e => {
+									setConfirmingPassword(e.target.value);
+								}}
+							/>
+							<Form.Control.Feedback type="invalid">
+								{confirmingPasswordErrorMessage}
+							</Form.Control.Feedback>
+						</FloatingLabel>
 					</Form.Group>
 					<Button
 						variant="outline-primary"
@@ -169,10 +171,10 @@ const RegisterForm = ({onSuccess}) => {
 						Зарегистрироваться
 					</Button>
 					{
-						regError && regError?.response?.data?.status === 'Error' && regError?.data?.message?.includes('exists') 
+						regError && regError?.response?.data?.status === 'Error' && regError?.data?.message?.includes('exists')
 						&& <Badge bg='danger'>Произошла ошибка на сервере, попробуйте позже</Badge>
 					}
-				</Form>
+				</Form.Floating>
 			</Card>
 		</>
 	)

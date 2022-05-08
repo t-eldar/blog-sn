@@ -20,9 +20,10 @@ export const CreatePostForm = ({ categories, maxHeight }) => {
 		console.log(post)
 		e.preventDefault();
 
-		post.applpicationUserId = user.id;
+		post.applicationUserId = user.id;
 		post.description = cutText(post.content);
 
+		console.log(post)
 		// const formData = new FormData();
 
 		// formData.append("Title", post.title);

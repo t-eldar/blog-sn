@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, Button } from "react-bootstrap";
+import { Card, Button, CloseButton } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { formatDate } from "../utils";
 
@@ -13,14 +13,8 @@ const PostItem = ({ post }) => {
 	useEffect(() => {
 		const formattedDate = formatDate(post.dateCreated);
 		setPublishedDate(formattedDate);
+		console.log(post)
 	}, []);
-
-	if (!post.applicationUser) {
-		post.applicationUser = {
-			id: 1,
-			name: 'No name (postitem)'
-		}
-	}
 
 	return (
 		<Card
@@ -34,9 +28,9 @@ const PostItem = ({ post }) => {
 						<Card.Subtitle
 							className="mb-2 text-muted text-sm-left s"
 							style={{ cursor: "pointer", fontSize: subtitleFontSize }}
-							onClick={() => navigate(`/users/${post.applicationUser.id}`)}
+							onClick={() => navigate(`/users/${post.applicationUserId}`)}
 						>
-							Автор: {post.applicationUser.name}
+							Автор: {post.applicationUser ? post.applicationUser.userName : 'Нет автора'}
 						</Card.Subtitle>
 						<Card.Subtitle
 							className="mb-2 text-muted"
@@ -46,15 +40,15 @@ const PostItem = ({ post }) => {
 							{' ' + publishedDate}
 						</Card.Subtitle>
 					</div>
-					<Link to={`/category/${post.category.id}`}>
-						{post.category.name}
+					<Link to={post.category ? `/category/${post.category.id}` : '/'}>
+						{post.category ? post.category.name : 'Нет категории'}
 					</Link>
 				</div>
 			</Card.Header>
 			<Card.Body
 				style={{ cursor: "pointer" }}
 				onClick={() => {
-					navigate(`posts/${post.id}`)
+					navigate(`/posts/${post.id}`)
 				}}
 			>
 				<Card.Text>{post.description}</Card.Text>

@@ -1,8 +1,11 @@
 export const formatDate = (stringDate) => {
 
-	//TODO: добавить проверку часового поясаы 
 	const currentDate = new Date();
-	const date = new Date(stringDate);
+	let date = new Date(stringDate);
+	date = new Date(Date.UTC(
+		date.getFullYear(), date.getMonth(), date.getDate(), 
+		date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds()));
+
 	let day = date.getDate();
 	let month = date.getMonth();
 	let year = date.getFullYear();

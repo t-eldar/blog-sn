@@ -34,7 +34,7 @@ const CategoryPostsPage = () => {
 		<>
 			<Card>
 				<h1>{category.name}</h1>
-				<Button onClick={e => console.log(params.id)} variant='primary'>Params</Button>
+				<h2>{category.description}</h2> 
 			</Card>
 			<PostList posts={posts} />
 		</>
