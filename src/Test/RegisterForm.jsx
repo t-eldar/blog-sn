@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Card, Form, Button, InputGroup } from 'react-bootstrap'
 import AuthService from '../api/AuthService'
 import { useFetching } from '../hooks/useFetching'
-import api from './api';
+import api from './api/api';
 
 export default function RegisterForm() {
     const[userInfo, setUserInfo] = useState({

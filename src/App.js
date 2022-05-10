@@ -17,6 +17,8 @@ import CategoryPostsPage from './pages/CategoryPostsPage';
 import RegisterForm from './Test/RegisterForm';
 import { CreatePostForm } from './components/CreatePostForm';
 import PostForm from './components/PostForm';
+import Layoute from './Test/CreatePosts/Layoute';
+import BT from './Test/BT';
 
 function App() {
 
@@ -51,8 +53,6 @@ function App() {
 					</Route>
 				</Routes>
 			</AuthContext.Provider>
-			{/* <RegisterForm />
-			{/* <UserPage /> */}
 		</>
 	);
 }
