@@ -5,7 +5,7 @@ import { useFetching } from '../hooks/useFetching';
 import { cutText } from '../utils';
 import PostForm from './PostForm'
 
-const EditPostForm = ({ categories, initPost, maxHeight }) => {
+const EditPostForm = ({ categories, initPost, maxHeight, onSubmit = () => null}) => {
 
 	const { user } = useAuth();
 	const [post, setPost] = useState(initPost);
@@ -36,7 +36,10 @@ const EditPostForm = ({ categories, initPost, maxHeight }) => {
 				categories={categories}
 				maxHeight={maxHeight}
 				submitText='Редактировать'
-				onSubmit={handleEdit}
+				onSubmit={async e => {
+					handleEdit(e);
+					await onSubmit(e);
+				}}
 				onCategoryChange={e => setPost({ ...post, categoryId: e.target.value })}
 				onContentChange={e => setPost({ ...post, content: e.target.value })}
 				onTitleChange={e => setPost({ ...post, title: e.target.value })}

@@ -10,6 +10,7 @@ const CommentList = ({ comments, onCommentDelete }) => {
 	if (!comments || !comments.length) {
 		comments = [
 			{
+				id: 1,
 				applicationUser: {
 					id: '422ad997-6fd2-44d6-bb2e-882c379cf032',
 					userName: 'gfgf'
@@ -17,6 +18,7 @@ const CommentList = ({ comments, onCommentDelete }) => {
 				content: 'НЕт лваоиплапалоляпо',
 				dateCreated: new Date().toString()
 			}, {
+				id: 2,
 				applicationUser: {
 					id: '422ad997-6fd2-44d6-bb2e-882c379cf032',
 					userName: 'gfgf'
@@ -24,6 +26,7 @@ const CommentList = ({ comments, onCommentDelete }) => {
 				content: 'щдшптьадводьпаиоабвпьтвыоилавб',
 				dateCreated: new Date().toString()
 			}, {
+				id: 3,
 				applicationUser: {
 					id: '422ad997-6fd2-44d6-bb2e-882c379cf032',
 					userName: 'gfgf'
@@ -42,7 +45,7 @@ const CommentList = ({ comments, onCommentDelete }) => {
 	}
 	return (
 		<>
-			{comments.map(com => <CommentItem comment={com} onCommentDelete={onCommentDelete}/>)}
+			{comments.map(com => <CommentItem key={com.id} comment={com} onCommentDelete={onCommentDelete}/>)}
 		</>
 	)
 }
