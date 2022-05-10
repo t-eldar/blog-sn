@@ -57,16 +57,15 @@ const PostPage = () => {
 
 	const [isEditAllowed, setIsEditAllowed] = useState(false);
 	useEffect(() => {
-		if (user?.role === 'moderator'
+		if (user !== null 
+			&& (user?.role === 'moderator'
 			|| user?.role === 'admin'
-			|| user?.id === post.applicationUserId) {
+			|| user?.id === post.applicationUserId)) {
 			setIsEditAllowed(true);
 		} else { 
 			setIsEditAllowed(false);
 		}
-		console.log(user)
-		console.log(post.applicationUser)
-	}, []);
+	}, [post]);
 
 	return (
 		<>
@@ -77,7 +76,14 @@ const PostPage = () => {
 				<Modal.Body>
 					<EditPostForm
 						categories={categories}
-						initPost={post}
+						initPost={{
+							id: post.id,
+							applicationUserId: post.applicationUserId,
+							categoryId: post.categoryId,
+							title: post.title,
+							content: post.content,
+							dateCreated: post.dateCreated
+						}}
 						maxHeight={400}
 					/>
 				</Modal.Body>

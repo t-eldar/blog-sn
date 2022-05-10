@@ -30,7 +30,7 @@ const PostForm = ({
 			<Form.Select
 				className='p-3'
 				onChange={onCategoryChange}
-				defaultValue={!!initialValue ? initialValue.category.name : ''}
+				defaultValue={!!initialValue ? initialValue.categoryId : ''}
 			>
 				<option hidden value>Категория</option>
 				{categories.map(cat =>
