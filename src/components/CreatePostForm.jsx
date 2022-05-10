@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import PostService from '../api/PostService';
+import PostsService from '../api/PostsService';
 import { useFetching } from '../hooks/useFetching';
 import { Card, Form, Button } from 'react-bootstrap';
 import PostForm from './PostForm';
@@ -12,7 +12,7 @@ export const CreatePostForm = ({ categories, maxHeight }) => {
 
 	const [post, setPost] = useState({});
 	const [createPost, isCreationLoading, creationError] = useFetching(async (post) => {
-		const response = await PostService.createPost(post);
+		const response = await PostsService.createPost(post);
 		console.log('CreatePostForm post form response:');
 		console.log(response);
 	})
@@ -26,7 +26,6 @@ export const CreatePostForm = ({ categories, maxHeight }) => {
 		console.log(post);
 		await createPost(post);
 	}
-
 
 	return (
 		<>

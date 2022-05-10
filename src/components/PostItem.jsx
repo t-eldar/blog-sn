@@ -13,8 +13,7 @@ const PostItem = ({ post }) => {
 	useEffect(() => {
 		const formattedDate = formatDate(post.dateCreated);
 		setPublishedDate(formattedDate);
-		console.log(post)
-	}, []);
+	}, [post]);
 
 	return (
 		<Card

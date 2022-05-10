@@ -5,7 +5,7 @@ import PostList from '../components/PostList';
 import { useFetching } from '../hooks/useFetching';
 import AllPostsPage from './AllPostsPage';
 import { CreatePostForm } from '../components/CreatePostForm';
-import PostService from '../api/PostService';
+import PostsService from '../api/PostsService';
 import AuthService from '../api/AuthService';
 import { useAuth } from '../hooks/useAuth';
 import UserService from '../api/UserService';
@@ -24,19 +24,19 @@ const UserPage = () => {
 	const [categories, setCategories] = useState([]);
 
 	const [fetchCategories, isLoading, categoriesError] = useFetching(async () => {
-		const response = await PostService.getAllCategories();
+		const response = await PostsService.getAllCategories();
 		console.log(response.data)
 		setCategories(response.data);
 	})
 
 	const [fetchUserId] = useFetching(async (id) => {
-		const responce = await UserService.getUserById(id);
-		setPageUser(responce.data);
+		const response = await UserService.getById(id);
+		setPageUser(response.data);
 	})
 
 	const [fetchUserPosts] = useFetching(async (id) => {
-		const responce = await UserService.getUserPostsById(id);
-		setPosts(responce.data);
+		const response = await UserService.getPostsByUserId(id);
+		setPosts(response.data);
 	})
 	//
 	useEffect(() => {
@@ -79,10 +79,10 @@ const UserPage = () => {
 						src="https://4kwallpapers.com/images/wallpapers/mount-cook-new-zealand-aoraki-national-park-mountain-peak-5120x3200-3913.jpg" />
 					<Card.Body>
 						<div className='d-flex justify-content-center'>
-							<h2 style={{ top: '30rem' }}>{pageUser.userName}</h2>
+							<h2>{pageUser.userName}</h2>
 						</div>
 						<div className='d-flex justify-content-center'>
-							<h6 style={{ top: '30rem' }}>Developer stream bla bla</h6>
+							<h6>Developer stream bla bla</h6>
 						</div>
 						<br />
 						<br />
@@ -127,7 +127,6 @@ const UserPage = () => {
 				</Card>
 
 			</Container>
-			{/* <PostList posts={posts} /> */}
 		</>
 	)
 	}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import PostService from '../api/PostService';
+import PostsService from '../api/PostsService';
 import { useAuth } from '../hooks/useAuth';
 import { useFetching } from '../hooks/useFetching';
 import { cutText } from '../utils';
@@ -11,7 +11,7 @@ const EditPostForm = ({ categories, initPost, maxHeight }) => {
 	const [post, setPost] = useState(initPost);
 
 	const [editPost, isEditLoading, editError] = useFetching(async (edittedPost) => {
-		const response = await PostService.editPost(edittedPost);
+		const response = await PostsService.editPost(edittedPost);
 		console.log('EditPostForm edit post response: ');
 		console.log(response);
 	})
