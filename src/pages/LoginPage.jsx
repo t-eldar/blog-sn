@@ -9,10 +9,9 @@ const LoginPage = () => {
 	const fromPage = location.state?.from?.pathname || '/';
 	return (
 		<LoginForm onSuccess={() => {
-
-		 navigate(fromPage)
-		 console.log(location)
-		 } }/>
+			navigate(fromPage, { replace: true })
+			console.log(location)
+		}} />
 	)
 }
 

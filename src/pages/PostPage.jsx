@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import PostsService from "../api/PostsService";
+import CategoriesService from "../api/CategoriesService";
 import { useFetching } from "../hooks/useFetching";
 import Loader from "../components/Loader";
 import CommentList from "../components/CommentList";
@@ -30,8 +31,10 @@ const PostPage = () => {
 		setPost(response.data);
 	})
 	const [fetchCategories, isCategoriesLoading, categoriesError] = useFetching(async () => {
-		const response = await PostsService.getAllCategories();
+		const response = await CategoriesService.getAll();
+		
 		setCategories(response.data);
+		console.log(categories)
 	})
 
 	const [deletePost, isDeleteLoading, deleteError] = useFetching(async (id) => {

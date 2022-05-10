@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Card, Button, CloseButton } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { formatDate } from "../utils";
 
 const PostItem = ({ post }) => {
 
 	const subtitleFontSize = '12px';
 
+	const location = useLocation();
 	const navigate = useNavigate();
 	const [publishedDate, setPublishedDate] = useState('');
 
@@ -27,7 +28,9 @@ const PostItem = ({ post }) => {
 						<Card.Subtitle
 							className="mb-2 text-muted text-sm-left s"
 							style={{ cursor: "pointer", fontSize: subtitleFontSize }}
-							onClick={() => navigate(`/users/${post.applicationUserId}`)}
+							onClick={() => navigate(`/users/${post.applicationUserId}`, {
+								state: {from: location}
+							})}
 						>
 							Автор: {post.applicationUser ? post.applicationUser.userName : 'Нет автора'}
 						</Card.Subtitle>

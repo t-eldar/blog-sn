@@ -12,9 +12,15 @@ const CommentBlock = ({ comments, postId }) => {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const [comment, setComment] = useState({});
+
 	const [postComment, isPostCommentLoading, postCommentError] = useFetching(async (com) => {
 		const response = await CommentsService.postComment(com);
 		console.log('CommentList postComment respone:');
+		console.log(response);
+	})
+	const [deleteComment, isDeleteCommentLoading, deleteCommentError] = useFetching(async (id) => {
+		const response = await CommentsService.deleteComment(id);
+		console.log('CommentList deleteComment respone:');
 		console.log(response);
 	})
 
@@ -31,6 +37,9 @@ const CommentBlock = ({ comments, postId }) => {
 				////////////////////////
 			});
 		}
+	}
+	const handleDeleteComment = async (id) => {
+		await deleteComment(id);
 	}
 
 	return (
@@ -53,7 +62,7 @@ const CommentBlock = ({ comments, postId }) => {
 				>
 					Отправить
 				</Button>
-				<CommentList comments={comments} />
+				<CommentList comments={comments} onCommentDelete={handleDeleteComment}/>
 			</Card.Body>
 		</Card>
 	)
