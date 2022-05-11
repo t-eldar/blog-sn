@@ -72,12 +72,15 @@ const UserPage = () => {
 				</Modal.Body>
 			</Modal>
 
-			<Container className='d-flex'>
-				<Card style={{ width: '36.8rem', height: '32rem', top: '1rem' }} className='justify-content-center'>
+			<Container className='d-flex justify-content-center'>
+				<Card style={{ width: '16.87rem', height: '15rem', top: '1rem', marginBottom: '1rem', marginLeft: '1.5rem'  }} className='d-flex'>
 					<Card.Img style={{ height: '15rem', width: '16.87rem' }}
 						variant="top"
 						src="https://4kwallpapers.com/images/wallpapers/mount-cook-new-zealand-aoraki-national-park-mountain-peak-5120x3200-3913.jpg" />
-					<Card.Body>
+					<Card.ImgOverlay>
+						<Card.Title>{pageUser.userName}</Card.Title>
+					</Card.ImgOverlay>
+					{/* <Card.Body>
 						<div className='d-flex justify-content-center'>
 							<h2 style={{ top: '30rem' }}>{pageUser.userName}</h2>
 						</div>
@@ -108,9 +111,20 @@ const UserPage = () => {
 								<h8>Count</h8>
 							</Card>
 						</div>
+					</Card.Body> */}
+				</Card>
+				<Card style={{ top: '1rem', marginBottom: '1rem', marginLeft: '6rem', width: '30rem' }}>
+					<Card.Body style={{marginTop: '7.8rem'}}>
+						<div className='d-flex justify-content-center' >
+							<Card className='App justify-content-center'
+								style={{ margin: '0,9rem', height: '5rem', width: '7rem' }}>
+								<h6>Posts</h6>
+								<h8>{posts.length}</h8>
+							</Card>
+						</div>
 					</Card.Body>
 				</Card>
-				<Card style={{ width: '50rem', top: '1rem', marginLeft: '3rem' }}>
+				{/* <Card style={{ width: '50rem', top: '1rem', marginLeft: '3rem' }}>
 					<Card.Header className='d-flex'>
 						<h2>User Posts</h2>
 						<Button
@@ -124,12 +138,26 @@ const UserPage = () => {
 					<Card.Body>
 						<PostList posts={posts} />
 					</Card.Body>
-				</Card>
-
+				</Card> */}
 			</Container>
+			<Card style={{ width: '50rem', top: '1rem', marginLeft: '3rem' }}>
+				<Card.Header className='d-flex'>
+					<h2>User Posts</h2>
+					<Button
+						variant="dark"
+						onClick={handleCreatePostModalOpen}
+						style={{ marginLeft: '10rem' }}
+					>
+						Создать пост
+					</Button>
+				</Card.Header>
+				<Card.Body>
+					<PostList posts={posts} />
+				</Card.Body>
+			</Card>
 			{/* <PostList posts={posts} /> */}
 		</>
 	)
-	}
+}
 
-	export default UserPage
+export default UserPage
