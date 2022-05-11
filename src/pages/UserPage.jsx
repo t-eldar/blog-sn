@@ -80,38 +80,6 @@ const UserPage = () => {
 					<Card.ImgOverlay>
 						<Card.Title>{pageUser.userName}</Card.Title>
 					</Card.ImgOverlay>
-					{/* <Card.Body>
-						<div className='d-flex justify-content-center'>
-							<h2 style={{ top: '30rem' }}>{pageUser.userName}</h2>
-						</div>
-						<div className='d-flex justify-content-center'>
-							<h6 style={{ top: '30rem' }}>Developer stream bla bla</h6>
-						</div>
-						<br />
-						<br />
-						<br />
-						<br />
-						<br />
-						<div className='d-flex justify-content-center' >
-							<Card className='App justify-content-center'
-								style={{ margin: '0,9rem', height: '5rem', width: '5rem' }}>
-								<h6>Posts</h6>
-								<h8>{posts.length}</h8>
-							</Card>
-							<hr />
-							<Card className='App justify-content-center'
-								style={{ margin: '0,9rem', height: '5rem', width: '5rem' }}>
-								<h6>Followers</h6>
-								<h8>Count</h8>
-							</Card>
-							<hr />
-							<Card className='App justify-content-center'
-								style={{ margin: '0,9rem', height: '5rem', width: '5rem' }}>
-								<h6>Following</h6>
-								<h8>Count</h8>
-							</Card>
-						</div>
-					</Card.Body> */}
 				</Card>
 				<Card style={{ top: '1rem', marginBottom: '1rem', marginLeft: '6rem', width: '30rem' }}>
 					<Card.Body style={{marginTop: '7.8rem'}}>
@@ -124,21 +92,6 @@ const UserPage = () => {
 						</div>
 					</Card.Body>
 				</Card>
-				{/* <Card style={{ width: '50rem', top: '1rem', marginLeft: '3rem' }}>
-					<Card.Header className='d-flex'>
-						<h2>User Posts</h2>
-						<Button
-							variant="dark"
-							onClick={handleCreatePostModalOpen}
-							style={{ marginLeft: '10rem' }}
-						>
-							Создать пост
-						</Button>
-					</Card.Header>
-					<Card.Body>
-						<PostList posts={posts} />
-					</Card.Body>
-				</Card> */}
 			</Container>
 			<Card style={{ width: '50rem', top: '1rem', marginLeft: '3rem' }}>
 				<Card.Header className='d-flex'>
@@ -155,7 +108,6 @@ const UserPage = () => {
 					<PostList posts={posts} />
 				</Card.Body>
 			</Card>
-			{/* <PostList posts={posts} /> */}
 		</>
 	)
 }
