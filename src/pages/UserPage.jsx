@@ -5,6 +5,7 @@ import PostList from '../components/PostList';
 import { useFetching } from '../hooks/useFetching';
 import AllPostsPage from './AllPostsPage';
 import { CreatePostForm } from '../components/CreatePostForm';
+import PostService from '../api/PostService';
 import AuthService from '../api/AuthService';
 import { useAuth } from '../hooks/useAuth';
 import UserService from '../api/UserService';
@@ -17,79 +18,98 @@ const UserPage = () => {
 	const [pageUser, setPageUser] = useState({ userName: '' });
 	const [posts, setPosts] = useState([]);
 
-	const [fetchUser] = useFetching(async (id) => {
-		const response = await UserService.getById(id);
-		setPageUser(response.data);
+	const [showCreatePostModal, setShowCreatePostModal] = useState(false);
+	const [expanded, setExpanded] = useState(false);
+	//
+	const [categories, setCategories] = useState([]);
+
+	const [fetchCategories, isLoading, categoriesError] = useFetching(async () => {
+		const response = await PostService.getAllCategories();
+		console.log(response.data)
+		setCategories(response.data);
 	})
 
-	const [fetchPosts] = useFetching(async (id) => {
-		const response = await UserService.getPostsByUserId(id);
-		setPosts(response.data);
+	const [fetchUserId] = useFetching(async (id) => {
+		const responce = await UserService.getUserById(id);
+		setPageUser(responce.data);
+	})
+
+	const [fetchUserPosts] = useFetching(async (id) => {
+		const responce = await UserService.getUserPostsById(id);
+		setPosts(responce.data);
 	})
 	//
 	useEffect(() => {
 		const fetchAPI = async () => {
-			await fetchUser(params.id);
-			await fetchPosts(params.id);
+			await fetchCategories();
+			await fetchUserId(params.id);
+			await fetchUserPosts(params.id);
 		}
 		fetchAPI();
 		console.log(pageUser);
 	}, [params.id]);
 
+	const handleCreatePostModalClose = () => setShowCreatePostModal(false);
+	const handleCreatePostModalOpen = () => {
+		// console.log(AuthService.getCurrentUser())
+		setShowCreatePostModal(true);
+		setExpanded(false);
+	}
+
 
 	return (
 		<>
 
-			<Container className='d-flex'>
-				<Card style={{ width: '36.8rem', height: '32rem', top: '1rem' }} className='justify-content-center'>
+			<Modal size='lg' show={showCreatePostModal} onHide={handleCreatePostModalClose}>
+				<Modal.Header closeButton>
+					<Modal.Title>Создание новой записи</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					<CreatePostForm
+						maxHeight={400}
+						categories={categories}
+					/>
+				</Modal.Body>
+			</Modal>
+
+			<Container className='d-flex justify-content-center'>
+				<Card style={{ width: '16.87rem', height: '15rem', top: '1rem', marginBottom: '1rem', marginLeft: '1.5rem'  }} className='d-flex'>
 					<Card.Img style={{ height: '15rem', width: '16.87rem' }}
 						variant="top"
 						src="https://4kwallpapers.com/images/wallpapers/mount-cook-new-zealand-aoraki-national-park-mountain-peak-5120x3200-3913.jpg" />
-					<Card.Body>
-						<div className='d-flex justify-content-center'>
-							<h2>{pageUser.userName}</h2>
-						</div>
-						<div className='d-flex justify-content-center'>
-							<h6>Developer stream bla bla</h6>
-						</div>
-						<br />
-						<br />
-						<br />
-						<br />
-						<br />
+					<Card.ImgOverlay>
+						<Card.Title>{pageUser.userName}</Card.Title>
+					</Card.ImgOverlay>
+				</Card>
+				<Card style={{ top: '1rem', marginBottom: '1rem', marginLeft: '6rem', width: '30rem' }}>
+					<Card.Body style={{marginTop: '7.8rem'}}>
 						<div className='d-flex justify-content-center' >
 							<Card className='App justify-content-center'
-								style={{ margin: '0,9rem', height: '5rem', width: '5rem' }}>
+								style={{ margin: '0,9rem', height: '5rem', width: '7rem' }}>
 								<h6>Posts</h6>
 								<h8>{posts.length}</h8>
 							</Card>
-							<hr />
-							<Card className='App justify-content-center'
-								style={{ margin: '0,9rem', height: '5rem', width: '5rem' }}>
-								<h6>Followers</h6>
-								<h8>Count</h8>
-							</Card>
-							<hr />
-							<Card className='App justify-content-center'
-								style={{ margin: '0,9rem', height: '5rem', width: '5rem' }}>
-								<h6>Following</h6>
-								<h8>Count</h8>
-							</Card>
 						</div>
 					</Card.Body>
 				</Card>
-				<Card style={{ width: '50rem', top: '1rem', marginLeft: '3rem' }}>
-					<Card.Header className='d-flex'>
-						<h2>User Posts</h2>
-					</Card.Header>
-					<Card.Body>
-						<PostList posts={posts} />
-					</Card.Body>
-				</Card>
-
 			</Container>
+			<Card style={{ width: '50rem', top: '1rem', marginLeft: '3rem' }}>
+				<Card.Header className='d-flex'>
+					<h2>User Posts</h2>
+					<Button
+						variant="dark"
+						onClick={handleCreatePostModalOpen}
+						style={{ marginLeft: '10rem' }}
+					>
+						Создать пост
+					</Button>
+				</Card.Header>
+				<Card.Body>
+					<PostList posts={posts} />
+				</Card.Body>
+			</Card>
 		</>
 	)
-	}
+}
 
-	export default UserPage
+export default UserPage
