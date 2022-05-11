@@ -5,7 +5,7 @@ import PostList from '../components/PostList';
 import { useFetching } from '../hooks/useFetching';
 import AllPostsPage from './AllPostsPage';
 import { CreatePostForm } from '../components/CreatePostForm';
-import PostService from '../api/PostService';
+import PostsService from '../api/PostsService';
 import AuthService from '../api/AuthService';
 import { useAuth } from '../hooks/useAuth';
 import UserService from '../api/UserService';
@@ -18,60 +18,28 @@ const UserPage = () => {
 	const [pageUser, setPageUser] = useState({ userName: '' });
 	const [posts, setPosts] = useState([]);
 
-	const [showCreatePostModal, setShowCreatePostModal] = useState(false);
-	const [expanded, setExpanded] = useState(false);
-	//
-	const [categories, setCategories] = useState([]);
-
-	const [fetchCategories, isLoading, categoriesError] = useFetching(async () => {
-		const response = await PostService.getAllCategories();
-		console.log(response.data)
-		setCategories(response.data);
-	})
-
-	const [fetchUserId] = useFetching(async (id) => {
-		const responce = await UserService.getUserById(id);
+	const [fetchUser] = useFetching(async (id) => {
+		const responce = await UserService.getById(id);
 		setPageUser(responce.data);
 	})
 
-	const [fetchUserPosts] = useFetching(async (id) => {
-		const responce = await UserService.getUserPostsById(id);
+	const [fetchPosts] = useFetching(async (id) => {
+		const responce = await UserService.getPostsByUserId(id);
 		setPosts(responce.data);
 	})
 	//
 	useEffect(() => {
 		const fetchAPI = async () => {
-			await fetchCategories();
-			await fetchUserId(params.id);
-			await fetchUserPosts(params.id);
+			await fetchUser(params.id);
+			await fetchPosts(params.id);
 		}
 		fetchAPI();
 		console.log(pageUser);
 	}, [params.id]);
 
-	const handleCreatePostModalClose = () => setShowCreatePostModal(false);
-	const handleCreatePostModalOpen = () => {
-		// console.log(AuthService.getCurrentUser())
-		setShowCreatePostModal(true);
-		setExpanded(false);
-	}
-
 
 	return (
 		<>
-
-			<Modal size='lg' show={showCreatePostModal} onHide={handleCreatePostModalClose}>
-				<Modal.Header closeButton>
-					<Modal.Title>Создание новой записи</Modal.Title>
-				</Modal.Header>
-				<Modal.Body>
-					<CreatePostForm
-						maxHeight={400}
-						categories={categories}
-					/>
-				</Modal.Body>
-			</Modal>
-
 			<Container className='d-flex justify-content-center'>
 				<Card style={{ width: '16.87rem', height: '15rem', top: '1rem', marginBottom: '1rem', marginLeft: '1.5rem'  }} className='d-flex'>
 					<Card.Img style={{ height: '15rem', width: '16.87rem' }}
@@ -96,13 +64,6 @@ const UserPage = () => {
 			<Card style={{ width: '50rem', top: '1rem', marginLeft: '3rem' }}>
 				<Card.Header className='d-flex'>
 					<h2>User Posts</h2>
-					<Button
-						variant="dark"
-						onClick={handleCreatePostModalOpen}
-						style={{ marginLeft: '10rem' }}
-					>
-						Создать пост
-					</Button>
 				</Card.Header>
 				<Card.Body>
 					<PostList posts={posts} />
