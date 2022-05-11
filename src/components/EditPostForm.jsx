@@ -14,6 +14,9 @@ const EditPostForm = ({ categories, initPost, maxHeight, onSubmit = () => null})
 		const response = await PostsService.editPost(edittedPost);
 		console.log('EditPostForm edit post response: ');
 		console.log(response);
+		if (response) {
+			await onSubmit();
+		}
 	})
 
 
@@ -35,10 +38,10 @@ const EditPostForm = ({ categories, initPost, maxHeight, onSubmit = () => null})
 				initialValue={initPost}
 				categories={categories}
 				maxHeight={maxHeight}
+				submitDisabled={!isEditLoading}
 				submitText='Редактировать'
 				onSubmit={async e => {
 					handleEdit(e);
-					await onSubmit(e);
 				}}
 				onCategoryChange={e => setPost({ ...post, categoryId: e.target.value })}
 				onContentChange={e => setPost({ ...post, content: e.target.value })}

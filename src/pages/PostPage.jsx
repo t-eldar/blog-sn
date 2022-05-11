@@ -10,35 +10,40 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../context";
 import EditPostForm from "../components/EditPostForm";
 import CommentBlock from "../components/CommentBlock";
+import { useEditAllow } from "../hooks/useEditAllow";
+import CommentsService from "../api/CommentsService";
 
 const PostPage = () => {
 
+	const [post, setPost] = useState({});
+	const [categories, setCategories] = useState([]);
+	const [comments, setComments] = useState([]);
+
 	const { user } = useContext(AuthContext);
 	const params = useParams();
-
+	
 	const navigate = useNavigate();
 	const location = useLocation();
 
 	const [isPostDeleted, setIsPostDeleted] = useState(false);
-	const [categories, setCategories] = useState([])
-	const [post, setPost] = useState({});
 	const subtitleFontSize = '14px';
 
 	const [showEditPostModal, setShowEditPostModal] = useState(false);
 	const handleEditPostModalClose = () => setShowEditPostModal(false);
 	const handleEditPostModalOpen = () => setShowEditPostModal(true);
 
+
 	const [fetchPost, isPostLoading, postError] = useFetching(async (id) => {
 		const response = await PostsService.getById(id);
-		console.log("PostPage fetchPost response: ");
-		console.log(response);
 		setPost(response.data);
 	})
 	const [fetchCategories, isCategoriesLoading, categoriesError] = useFetching(async () => {
 		const response = await CategoriesService.getAll();
-
 		setCategories(response.data);
-		console.log(categories)
+	})
+	const [fetchComments, isCommentsLoading, commentsError] = useFetching(async (id) => {
+		const response = await CommentsService.getByPostId(id);
+		setComments(response.data);
 	})
 	const [deletePost, isDeleteLoading, deleteError] = useFetching(async (id) => {
 		const response = await PostsService.deletePost(id);
@@ -52,30 +57,17 @@ const PostPage = () => {
 		const fetchAPI = async () => {
 			await fetchCategories();
 			await fetchPost(params.id);
+			await fetchComments(params.id);
 		};
 		fetchAPI();
 	}, []);
 
+	const isEditAllowed = useEditAllow(post);
 	const handleDelete = async () => {
-		if ((user.role === 'Moderator'
-			|| user.role === 'Admin'
-			|| user.id === post.applicationUserId)
-			&& post) {
+		if (isEditAllowed) {
 			await deletePost(post.id);
 		}
 	}
-
-	const [isEditAllowed, setIsEditAllowed] = useState(false);
-	useEffect(() => {
-		if (user !== null
-			&& (user?.role === 'Moderator'
-				|| user?.role === 'Admin'
-				|| user?.id === post.applicationUserId)) {
-			setIsEditAllowed(true);
-		} else {
-			setIsEditAllowed(false);
-		}
-	}, [post]);
 
 	return (
 		<>
@@ -121,7 +113,7 @@ const PostPage = () => {
 												state: { from: location }
 											})}
 										>
-											Автор: {post.applicationUser ? post.applicationUser.userName : 'Нет автора'}
+											Автор: {!!post.applicationUser ? post.applicationUser.userName : 'Нет автора'}
 										</Card.Subtitle>
 										<Card.Subtitle
 											className="m-2 text-muted"
@@ -131,7 +123,7 @@ const PostPage = () => {
 											{' ' + formatDate(post.dateCreated)}
 										</Card.Subtitle>
 										<Link className="m-2" to={post.category ? `/category/${post.category.id}` : '/'}>
-											{post.category ? post.category.name : 'Нет категории'}
+											{!!post.category ? post.category.name : 'Нет категории'}
 										</Link>
 									</div>
 									{
@@ -159,7 +151,11 @@ const PostPage = () => {
 									{post.content}
 								</Card.Body>
 							</Card>
-							<CommentBlock postId={post.id} />
+							<CommentBlock 
+								updateComments={async e => await fetchComments(params.id)}
+								comments={comments} 
+								postId={post.id} 
+							/>
 						</>
 			}
 		</>

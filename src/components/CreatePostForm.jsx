@@ -6,12 +6,12 @@ import PostForm from './PostForm';
 import { cutText } from '../utils';
 import { useAuth } from '../hooks/useAuth';
 
-export const CreatePostForm = ({ categories, maxHeight }) => {
+export const CreatePostForm = ({ categories, maxHeight, onSubmit = () => null }) => {
 
 	const {user} = useAuth();
 
 	const [post, setPost] = useState({});
-	const [createPost, isCreationLoading, creationError] = useFetching(async (post) => {
+	const [createPost, isCreatingLoading, creatingError] = useFetching(async (post) => {
 		const response = await PostsService.createPost(post);
 		console.log('CreatePostForm post form response:');
 		console.log(response);
@@ -34,7 +34,11 @@ export const CreatePostForm = ({ categories, maxHeight }) => {
 					categories={categories}
 					maxHeight={maxHeight}
 					submitText='Создать'
-					onSubmit={handleCreatePost}
+					submitDisabled={!isCreatingLoading}
+					onSubmit={e => {
+						handleCreatePost(e);
+						onSubmit(e);
+					}}
 					onCategoryChange={e => setPost({...post, categoryId: e.target.value})}
 					onTitleChange={e => setPost({...post, title: e.target.value})}
 					onContentChange={e => setPost({...post, content: e.target.value})}

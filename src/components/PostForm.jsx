@@ -8,7 +8,8 @@ const PostForm = ({
 	onContentChange,
 	onCategoryChange,
 	onSubmit,
-	submitText }) => {
+	submitText,
+	submitDisabled }) => {
 
 	const handleTextAreaKeyDown = (e) => {
 		e.target.style.height = 'inherit';
@@ -49,6 +50,7 @@ const PostForm = ({
 				/>
 			</Form.Group>
 			<Button
+				disabled={submitDisabled}
 				variant="outline-primary"
 				onClick={onSubmit}
 			>

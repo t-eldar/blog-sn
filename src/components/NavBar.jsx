@@ -110,6 +110,7 @@ const NavBar = ({ categories }) => {
 				</Modal.Header>
 				<Modal.Body>
 					<CreatePostForm
+						onSubmit={handleCreatePostModalClose}
 						maxHeight={400}
 						categories={categories} />
 				</Modal.Body>

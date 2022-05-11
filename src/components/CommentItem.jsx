@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Button, Card } from 'react-bootstrap';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import { useEditAllow } from '../hooks/useEditAllow';
 import { formatDate } from '../utils';
 
 const CommentItem = ({ comment, onCommentDelete }) => {
@@ -12,26 +13,16 @@ const CommentItem = ({ comment, onCommentDelete }) => {
 	const location = useLocation();
 	const subtitleFontSize = '12px';
 
-	const [isEditAllowed, setIsEditAllowed] = useState(false);
 	const [publishedDate, setPublishedDate] = useState('');
 
 	useEffect(() => {
-		const formattedDate = formatDate(comment.dateCreated);
+		const formattedDate = formatDate(comment.createdDate);
 		setPublishedDate(formattedDate);
 	}, [comment]);
 
+	const isEditAllowed = useEditAllow(comment);
 
-	useEffect(() => {
-		if (user) {
-			if (user.role === 'Admin'
-				|| user.role === 'Moderator'
-				|| user.id === '353afbb8-eaef-483d-9d0c-2b1621c6f56d') {
-				setIsEditAllowed(true)
-			}
-			else
-				setIsEditAllowed(false)
-		}
-	}, [user, comment])
+
 	const handleDeleting = (e) => {
 		e.preventDefault();
 		if (isEditAllowed) {
