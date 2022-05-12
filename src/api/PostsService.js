@@ -2,7 +2,7 @@ import axios from "axios";
 
 export default class PostsService {
 
-	static URL = 'https://localhost:8080/api/Posts'; 
+	static URL = process.env.REACT_APP_API_URL + '/Posts'; 
 
 	static async getAll() {
 		const response = await axios.get(PostsService.URL);

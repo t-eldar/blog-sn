@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default class CategoriesService {
-	static URL = 'https://localhost:8080/api/Categories'; 
+	static URL = process.env.REACT_APP_API_URL + '/Categories'; 
 
 	static async getAll() {
 		const response = await axios.get(CategoriesService.URL); 

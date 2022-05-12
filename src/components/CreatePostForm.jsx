@@ -34,7 +34,7 @@ export const CreatePostForm = ({ categories, maxHeight, onSubmit = () => null })
 					categories={categories}
 					maxHeight={maxHeight}
 					submitText='Создать'
-					submitDisabled={!isCreatingLoading}
+					submitDisabled={isCreatingLoading}
 					onSubmit={e => {
 						handleCreatePost(e);
 						onSubmit(e);

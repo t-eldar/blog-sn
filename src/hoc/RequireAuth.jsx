@@ -6,7 +6,6 @@ export const RequireAuth = ({ children }) => {
 
 	const location = useLocation();
 	
-
 	if (!AuthService.getCurrentUser()) {
 		return <Navigate to="/login" state={{from: location}}/>
 	}

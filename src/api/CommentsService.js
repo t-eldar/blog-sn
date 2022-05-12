@@ -1,8 +1,8 @@
 import axios from "axios";
 
 export default class CommentsService {
-	static URL = 'https://localhost:8080/api/Comment';
-	static PostsURL = 'https://localhost:8080/api/Posts'
+	static URL = process.env.REACT_APP_API_URL + '/Comment';
+	static PostsURL = process.env.REACT_APP_API_URL + '/Posts'
 
 	
 	static async getByPostId(id) {

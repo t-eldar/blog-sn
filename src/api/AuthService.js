@@ -2,7 +2,8 @@ import axios from "axios";
 
 export default class AuthService {
 
-	static URL = "https://localhost:8080/api/Authenticate";
+	static URL = process.env.REACT_APP_API_URL + "/Authenticate";
+
 	static async login(username, password) {
 		const response = await axios.post(AuthService.URL + '/login', {
 			username,
@@ -12,11 +13,6 @@ export default class AuthService {
 			const encryptedJWT = response.data.token.split('.')[1];
 			const decryptedJWT = JSON.parse(atob(encryptedJWT));
 			console.log(decryptedJWT)
-			// const user = {
-			// 	name: decryptedJWT['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'],
-			// 	id: decryptedJWT['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'],
-			// 	role: decryptedJWT['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'],
-			// }
 			const user = {};
 
 			for (let value in decryptedJWT) {
@@ -36,6 +32,13 @@ export default class AuthService {
 			password,
 		});
 		return response;
+	}
+	static async registerAdmin(username, email, password) {
+		const response = await axios.post(AuthService.URL + '/register-admin', {
+			username,
+			email,
+			password,
+		})
 	}
 	static getCurrentUser() {
 		return JSON.parse(localStorage.getItem("user"));

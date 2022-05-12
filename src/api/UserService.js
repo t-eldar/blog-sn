@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export default class UserService {
-	static URL = 'https://localhost:8080/api/Users';
+	static URL = process.env.REACT_APP_API_URL + '/Users';
 
 	static async getById(id){
 		const response = await axios.get(UserService.URL + `/${id}`);
