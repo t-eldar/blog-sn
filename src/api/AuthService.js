@@ -44,6 +44,6 @@ export default class AuthService {
 			return {};
 		if (!userAuth.token)
 			return {};
-		return { Authorization: 'Bearer' + userAuth.token };
+		return { Authorization: 'Bearer ' + userAuth.token };
 	}
 }

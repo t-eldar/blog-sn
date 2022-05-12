@@ -17,6 +17,7 @@ export default class PostsService {
 	}
 	static async createPost(post) {
 		const response = await this.axiosInstance.post('', post);
+		console.log(AuthService.getAuthHeader())
 		return response;
 	}
 	static async editPost(post) {
