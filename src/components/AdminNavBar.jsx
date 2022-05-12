@@ -32,7 +32,7 @@ const AdminNavBar = () => {
 			variant="dark"
 		>
 			<Container>
-				<Navbar.Brand as={Link} to="/">
+				<Navbar.Brand as={Link} to="/admin-page">
 					<img
 						className="m-2"
 						src={Logo}
@@ -50,10 +50,19 @@ const AdminNavBar = () => {
 					<Nav className="me-auto">
 						<Nav.Link
 							as={Link}
-							to="/"
+							to="/admin-page/users"
 							onClick={() => setExpanded(false)}
 						>
-
+							Все пользователи
+						</Nav.Link>
+					</Nav>
+					<Nav>
+						<Nav.Link
+							as={Link}
+							to="/admin-page/register-admin"
+							onClick={() => setExpanded(false)}
+						>
+							Зарегистрировать нового админа
 						</Nav.Link>
 					</Nav>
 					<Nav className='mx-3'>

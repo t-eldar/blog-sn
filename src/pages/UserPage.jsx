@@ -8,7 +8,7 @@ import { CreatePostForm } from '../components/CreatePostForm';
 import PostsService from '../api/PostsService';
 import AuthService from '../api/AuthService';
 import { useAuth } from '../hooks/useAuth';
-import UserService from '../api/UserService';
+import UsersService from '../api/UsersService';
 
 
 const UserPage = () => {
@@ -19,13 +19,13 @@ const UserPage = () => {
 	const [posts, setPosts] = useState([]);
 
 	const [fetchUser] = useFetching(async (id) => {
-		const responce = await UserService.getById(id);
-		setPageUser(responce.data);
+		const response = await UsersService.getById(id);
+		setPageUser(response.data);
 	})
 
 	const [fetchPosts] = useFetching(async (id) => {
-		const responce = await UserService.getPostsByUserId(id);
-		setPosts(responce.data);
+		const response = await UsersService.getPostsByUserId(id);
+		setPosts(response.data);
 	})
 	//
 	useEffect(() => {

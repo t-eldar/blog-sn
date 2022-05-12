@@ -1,9 +1,8 @@
 import React from 'react'
 import { Navigate } from 'react-router-dom';
-import AuthService from '../api/AuthService';
 import { useAuth } from '../hooks/useAuth';
 
-export const RequireAuth = ({ children }) => {
+const RequireAdmin = ({ children }) => {
 	
 	const { user } = useAuth();
 
@@ -13,3 +12,5 @@ export const RequireAuth = ({ children }) => {
 
 	return children;
 }
+
+export default RequireAdmin;

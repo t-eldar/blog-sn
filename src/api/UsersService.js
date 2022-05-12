@@ -1,7 +1,7 @@
 import axios from 'axios'
 import AuthService from "./AuthService";
 
-export default class UserService {
+export default class UsersService {
 	static axiosInstance = axios.create({
 		baseURL:process.env.REACT_APP_API_URL + '/Users',
 		headers: AuthService.getAuthHeader(),
@@ -13,6 +13,10 @@ export default class UserService {
 	}
 	static async getPostsByUserId(id){
 		const response = await this.axiosInstance.get(`/${id}/posts`);
+		return response;
+	}
+	static async getAll() {
+		const response = await this.axiosInstance.get();
 		return response;
 	}
 }

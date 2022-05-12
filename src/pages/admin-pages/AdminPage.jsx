@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
-import AdminNavBar from '../components/AdminNavBar';
-import RegisterForm from '../components/RegisterForm';
-import { useAuth } from '../hooks/useAuth'
+import AdminNavBar from '../../components/AdminNavBar';
+import RegisterForm from '../../components/RegisterForm';
+import { useAuth } from '../../hooks/useAuth'
 
 const AdminPage = () => {
 
@@ -17,8 +17,7 @@ const AdminPage = () => {
 
 	return (
 		<>
-			<AdminNavBar />
-			<RegisterForm isAdminRegister/>
+			
 		</>
 		
 	)
