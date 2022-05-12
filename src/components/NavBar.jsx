@@ -56,6 +56,7 @@ const NavBar = ({ categories }) => {
 			<Nav.Link
 				as={Link}
 				to={`users/${user.id}`}
+				onClick={() => setExpanded(false)}
 			>
 				Мой профиль
 			</Nav.Link>
@@ -146,7 +147,7 @@ const NavBar = ({ categories }) => {
 					</Navbar.Brand>
 					<Navbar.Toggle
 						aria-controls="responsive-navbar-nav"
-						onClick={() => setExpanded(expanded ? false : "expanded")}
+						onClick={() => setExpanded(expanded ? false : true)}
 					/>
 					<Navbar.Collapse id="responsive-navbar-nav">
 						<Nav className="me-auto">
