@@ -8,7 +8,7 @@ import { useAuth } from '../hooks/useAuth';
 
 export const CreatePostForm = ({ categories, maxHeight, onSubmit = () => null }) => {
 
-	const {user} = useAuth();
+	const { user } = useAuth();
 
 	const [post, setPost] = useState({});
 	const [createPost, isCreatingLoading, creatingError] = useFetching(async (post) => {
@@ -21,7 +21,7 @@ export const CreatePostForm = ({ categories, maxHeight, onSubmit = () => null })
 		e.preventDefault();
 
 		post.applicationUserId = user.id;
-		post.description = cutText(post.content);
+		post.description = cutText(post.content, 200);
 
 		console.log(post);
 		await createPost(post);
@@ -30,7 +30,9 @@ export const CreatePostForm = ({ categories, maxHeight, onSubmit = () => null })
 	return (
 		<>
 			<Card className="m-3 p-3">
-				<PostForm 
+				<PostForm
+					post={post}
+					setPost={setPost}
 					categories={categories}
 					maxHeight={maxHeight}
 					submitText='Создать'
@@ -39,9 +41,6 @@ export const CreatePostForm = ({ categories, maxHeight, onSubmit = () => null })
 						handleCreatePost(e);
 						onSubmit(e);
 					}}
-					onCategoryChange={e => setPost({...post, categoryId: e.target.value})}
-					onTitleChange={e => setPost({...post, title: e.target.value})}
-					onContentChange={e => setPost({...post, content: e.target.value})}
 				/>
 			</Card>
 		</>

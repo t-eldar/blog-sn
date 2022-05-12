@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import PostsService from '../api/PostsService';
 import { useAuth } from '../hooks/useAuth';
+import { useEditAllow } from '../hooks/useEditAllow';
 import { useFetching } from '../hooks/useFetching';
 import { cutText } from '../utils';
 import PostForm from './PostForm'
 
 const EditPostForm = ({ categories, initPost, maxHeight, onSubmit = () => null}) => {
 
-	const { user } = useAuth();
 	const [post, setPost] = useState(initPost);
 
 	const [editPost, isEditLoading, editError] = useFetching(async (edittedPost) => {
@@ -19,15 +19,14 @@ const EditPostForm = ({ categories, initPost, maxHeight, onSubmit = () => null})
 		}
 	})
 
+	const isEditAllowed = useEditAllow(post);
 
 	const handleEdit = async (e) => {
 		e.preventDefault();
 		
-		const tempPost = {...post, description: cutText(post.content)} 
+		const tempPost = {...post, description: cutText(post.content, 200)} 
 		console.log(tempPost);
-		if ((user.role === 'moderator'
-			|| user.role === 'admin'
-			|| user.id === post.applicationUserId)
+		if (isEditAllowed
 			&& post.content && post.content !== '' && post.title && post.title !== '') {
 			await editPost(tempPost);
 		}
@@ -35,17 +34,16 @@ const EditPostForm = ({ categories, initPost, maxHeight, onSubmit = () => null})
 	return (
 		<>
 			<PostForm
+				post={post}
+				setPost={setPost}
 				initialValue={initPost}
 				categories={categories}
 				maxHeight={maxHeight}
-				submitDisabled={!isEditLoading}
+				submitDisabled={isEditLoading}
 				submitText='Редактировать'
 				onSubmit={async e => {
 					handleEdit(e);
 				}}
-				onCategoryChange={e => setPost({ ...post, categoryId: e.target.value })}
-				onContentChange={e => setPost({ ...post, content: e.target.value })}
-				onTitleChange={e => setPost({ ...post, title: e.target.value })}
 			/>
 		</>
 	)
