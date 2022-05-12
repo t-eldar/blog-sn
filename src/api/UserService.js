@@ -1,4 +1,5 @@
 import axios from 'axios'
+import AuthService from "./AuthService";
 
 export default class UserService {
 	static axiosInstance = axios.create({
