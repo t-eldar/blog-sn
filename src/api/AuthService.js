@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default class AuthService {
-
+	//comment
 	static URL = "https://localhost:8080/api/Authenticate";
 	static async login(username, password) {
 		const response = await axios.post(AuthService.URL + '/login', {
