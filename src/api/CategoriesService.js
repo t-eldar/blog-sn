@@ -1,18 +1,21 @@
 import axios from "axios";
 
 export default class CategoriesService {
-	static URL = process.env.REACT_APP_API_URL + '/Categories'; 
+	static axiosInstance = axios.create({
+		baseURL: process.env.REACT_APP_API_URL + '/Categories',
+		headers: AuthService.getAuthHeader(),
+	})
 
 	static async getAll() {
-		const response = await axios.get(CategoriesService.URL); 
+		const response = await this.axiosInstance.get(); 
 		return response;
 	}
 	static async getPostsByCategoryId(id) {
-		const response = await axios.get(CategoriesService.URL + `/${id}/posts`);
+		const response = await this.axiosInstance.get(`/${id}/posts`);
 		return response;
 	}
 	static async getById(id){
-		const response = await axios.get(CategoriesService.URL + `/${id}`)
+		const response = await this.axiosInstance.get(`/${id}`)
 		return response;
 	}
 }

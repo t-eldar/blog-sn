@@ -1,15 +1,17 @@
 import axios from 'axios'
 
 export default class UserService {
-	static URL = process.env.REACT_APP_API_URL + '/Users';
+	static axiosInstance = axios.create({
+		baseURL:process.env.REACT_APP_API_URL + '/Users',
+		headers: AuthService.getAuthHeader(),
+	});
 
 	static async getById(id){
-		const response = await axios.get(UserService.URL + `/${id}`);
+		const response = await this.axiosInstance.get(`/${id}`);
 		return response;
 	}
-
 	static async getPostsByUserId(id){
-		const response = await axios.get(UserService.URL + `/${id}` + '/posts');
+		const response = await this.axiosInstance.get(`/${id}/posts`);
 		return response;
 	}
 }

@@ -1,9 +1,5 @@
-import logo from './logo.svg';
 import './App.css';
-import PostItem from './components/PostItem';
 import AllPostsPage from './pages/AllPostsPage';
-import NavBar from './components/NavBar';
-import LoginForm from './components/LoginForm';
 import PostPage from './pages/PostPage';
 import Layout from './components/Layout';
 import { Routes, Route, Link } from 'react-router-dom';
@@ -14,20 +10,19 @@ import UserPage from './pages/UserPage';
 import { RequireAuth } from './hoc/RequireAuth';
 import LoginPage from './pages/LoginPage';
 import CategoryPostsPage from './pages/CategoryPostsPage';
-import RegisterForm from './Test/RegisterForm';
-import { CreatePostForm } from './components/CreatePostForm';
-import PostForm from './components/PostForm';
-import Layoute from './Test/CreatePosts/Layoute';
-import BT from './Test/BT';
+import AdminPage from './pages/AdminPage';
+import { getNormalizedUserFromToken } from './utils';
+
 
 function App() {
 
 	const [user, setUser] = useState(null);
 
 	useEffect(() => {
-		const authUser = AuthService.getCurrentUser();
-		if (authUser) {
-			setUser(authUser);
+		const userAuth = AuthService.getCurrentUserAuth();
+		if (userAuth) {
+			const normalizedUser = getNormalizedUserFromToken(userAuth.token);
+			setUser(normalizedUser);
 		}
 	}, [])
 
@@ -51,6 +46,7 @@ function App() {
 						}
 						/>
 					</Route>
+					<Route path='admin-page' element={<AdminPage />} />
 				</Routes>
 			</AuthContext.Provider>
 		</>

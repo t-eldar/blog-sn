@@ -52,3 +52,13 @@ export const cutText = (text, limit) => {
 	}
 	return text + "...";
 }
+
+export const getNormalizedUserFromToken = (token) => {
+	const encryptedUser = token.split('.')[1];
+	const decryptedUser = JSON.parse(atob(encryptedUser));
+	const normalizedUser = {};
+	for (let value in decryptedUser) {
+		normalizedUser[value.toLowerCase()] = decryptedUser[value];
+	}
+	return normalizedUser;
+}

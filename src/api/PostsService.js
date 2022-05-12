@@ -1,30 +1,35 @@
 import axios from "axios";
+import AuthService from "./AuthService";
 
 export default class PostsService {
-
-	static URL = process.env.REACT_APP_API_URL + '/Posts'; 
+	static axiosInstance = axios.create({
+		baseURL: process.env.REACT_APP_API_URL + '/Posts',
+		headers: AuthService.getAuthHeader(),
+	});
 
 	static async getAll() {
-		const response = await axios.get(PostsService.URL);
+		const response = await this.axiosInstance.get();
 		return response;
 	}
 	static async getById(id) {
-		const response = await axios.get(PostsService.URL + `/${id}`);
+		const response = await this.axiosInstance.get(`/${id}`);
 		return response;
 	}
 	static async createPost(post) {
-		const response = await axios.post(PostsService.URL, post);
+		const response = await this.axiosInstance.post('', post);
 		return response;
 	}
 	static async editPost(post) {
-		const response = await axios.put(PostsService.URL + `/${post.id}`, post);
+		const response = await this.axiosInstance.put(`/${post.id}`, post);
 		return response;
 	}
 	static async deletePost(id) {
-		const response = await axios.delete(PostsService.URL + `/${id}`);
+		const response = await this.axiosInstance.delete(`/${id}`);
 		return response;
 	}
-	// static async getCommentsByPostId() {
+	static async getCommentsByPostId(id) {
+		const response = await this.axiosInstance.get(`/${id}/comments`);
+		return response;
+	}
 
-	// }
 }
