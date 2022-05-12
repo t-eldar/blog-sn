@@ -18,26 +18,32 @@ export const formatDate = (stringDate) => {
 		month = `0${month}`;
 	if (minute < 10)
 		minute = `0${minute}`;
-	let result = `${day}.${month}.${year} ${hour}:${minute}`;
+
+	const timeDiff = currentDate.getTime() - date.getTime();
+
+	if (timeDiff < 60000)
+		return 'только что';
+
+	if (timeDiff < 3600000)
+		return Math.round(timeDiff / 1000 / 60) + ' мин';
+
+	if (timeDiff < 18000000)
+		return Math.round(timeDiff / 1000 / 60 / 60) + ' час';
 
 	if (currentDate.getFullYear() !== year)
-		result = `${day}.${month}.${year} 
-			${hour}:${minute}`;
-	else if (currentDate.getMonth() != month)
-		result = `${day}.${month}
-			${hour}:${minute}`;
-	else if (currentDate.getDate() - day == 1)
-		result = `вчера в ${hour}:${minute}`;
-	else if (currentDate.getDate() != day)
-		result = `${day}.${month}
-			${hour}:${minute}`;
-	else if (currentDate.getHours() - hour >= 1)
-		result = currentDate.getHours() - hour + ' час';
-	else if (currentDate.getMinutes() - minute >= 1)
-		result = currentDate.getMinutes() - minute + ' мин';
-	else if (currentDate.getSeconds() - date.getSeconds() < 60)
-		result = 'только что';
-	return result;
+		return `${day}.${month}.${year} ${hour}:${minute}`;
+
+	if (currentDate.getMonth() != month)
+		return `${day}.${month} ${hour}:${minute}`;
+
+	if (currentDate.getDate() == day) 
+		return `сегодня в ${hour}:${minute}`;
+
+	if (currentDate.getDate() - day == 1)
+		return `вчера в ${hour}:${minute}`;
+		
+	if (currentDate.getDate() != day)
+		return `${day}.${month} ${hour}:${minute}`;
 }
 
 export const cutText = (text, limit) => {
