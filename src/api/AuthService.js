@@ -1,43 +1,50 @@
 import axios from "axios";
 
 export default class AuthService {
-	//comment
-	static URL = "https://localhost:8080/api/Authenticate";
+
+	static axiosInstance = axios.create({
+		baseURL: process.env.REACT_APP_API_URL + "/Authenticate",
+		headers: AuthService.getAuthHeader(),
+	});
+
 	static async login(username, password) {
-		const response = await axios.post(AuthService.URL + '/login', {
+		const response = await this.axiosInstance.post('/login', {
 			username,
 			password,
 		});
 		if (response.data.token) {
-			const encryptedJWT = response.data.token.split('.')[1];
-			const decryptedJWT = JSON.parse(atob(encryptedJWT));
-			console.log(decryptedJWT)
-			// const user = {
-			// 	name: decryptedJWT['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'],
-			// 	id: decryptedJWT['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'],
-			// 	role: decryptedJWT['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'],
-			// }
-			const user = {};
-
-			for (let value in decryptedJWT) {
-				user[value.toLowerCase()] = decryptedJWT[value];
-			}
-			localStorage.setItem("user", JSON.stringify(user));
+			localStorage.setItem("auth-user", JSON.stringify(response.data));
 		}
 		return response;
 	}
 	static logout() {
-		localStorage.removeItem("user");
+		localStorage.removeItem("auth-user");
 	}
 	static async register(username, email, password) {
-		const response = await axios.post(AuthService.URL + '/register', {
+		const response = await this.axiosInstance.post('/register', {
 			username,
 			email,
 			password,
 		});
 		return response;
 	}
-	static getCurrentUser() {
-		return JSON.parse(localStorage.getItem("user"));
+	static async registerAdmin(username, email, password) {
+		const response = await this.axiosInstance.post('/register-admin', {
+			username,
+			email,
+			password,
+		})
+		return response;
+	}
+	static getCurrentUserAuth() {
+		return JSON.parse(localStorage.getItem("auth-user"));
+	}
+	static getAuthHeader() {
+		const userAuth = this.getCurrentUserAuth();
+		if (!userAuth)
+			return {};
+		if (!userAuth.token)
+			return {};
+		return { Authorization: 'Bearer ' + userAuth.token };
 	}
 }

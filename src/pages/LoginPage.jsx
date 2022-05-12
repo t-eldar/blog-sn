@@ -8,10 +8,12 @@ const LoginPage = () => {
 	const navigate = useNavigate();
 	const fromPage = location.state?.from?.pathname || '/';
 	return (
-		<LoginForm onSuccess={() => {
-			navigate(fromPage, { replace: true })
-			console.log(location)
-		}} />
+		<div className='d-flex justify-content-center'>
+			<LoginForm onSuccess={() => {
+				navigate(fromPage, { replace: true })
+				console.log(location)
+			}} />
+		</div>
 	)
 }
 

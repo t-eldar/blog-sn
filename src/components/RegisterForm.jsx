@@ -4,7 +4,7 @@ import AuthService from '../api/AuthService'
 import { useFetching } from '../hooks/useFetching'
 import { useValidation } from '../hooks/useValidation'
 
-const RegisterForm = ({ onSuccess }) => {
+const RegisterForm = ({ onSuccess, isAdminRegister = false }) => {
 
 	const [isFormInvalid, setIsFormInvalid] = useState(false);
 	const [userInfo, setUserInfo] = useState({
@@ -18,12 +18,16 @@ const RegisterForm = ({ onSuccess }) => {
 	const [registerUser, isRegistrationLoading, registrationError]
 		= useFetching(async (username, email, password) => {
 
-			const response = await AuthService.register(username, email, password);
-			console.log('RegisterForm register response: ');
-			console.log(response);
-
-			if (response && response?.status == 200) {
-				onSuccess();
+			if (isAdminRegister) {
+				const response = await AuthService.registerAdmin(username, email, password);
+				if (response && response?.status == 200) {
+					onSuccess();
+				}
+			} else {
+				const response = await AuthService.register(username, email, password);
+				if (response && response?.status == 200) {
+					onSuccess();
+				}
 			}
 		})
 
@@ -166,7 +170,7 @@ const RegisterForm = ({ onSuccess }) => {
 					<Button
 						variant="outline-primary"
 						onClick={handleRegistration}
-						disabled={isFormInvalid}
+						disabled={isFormInvalid || isRegistrationLoading}
 					>
 						Зарегистрироваться
 					</Button>
