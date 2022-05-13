@@ -3,6 +3,7 @@ import { Form, Card, Button, Badge, FloatingLabel } from "react-bootstrap";
 import AuthService from "../api/AuthService";
 import { useFetching } from "../hooks/useFetching";
 import { useAuth } from "../hooks/useAuth";
+import { getNormalizedUserFromToken } from "../utils";
 
 const LoginForm = ({ onSuccess = () => null }) => {
 
@@ -17,8 +18,10 @@ const LoginForm = ({ onSuccess = () => null }) => {
 
 	const [loginUser, isLoginLoading, loginError] = useFetching(async (username, password) => {
 		const response = await AuthService.login(username, password);
-		if (response.status == 200 && AuthService.getCurrentUser()) {
-			setUser(AuthService.getCurrentUser())
+		if (response.status == 200 && AuthService.getCurrentUserAuth()) {
+			const token = AuthService.getCurrentUserAuth().token;
+			const normalizedUser = getNormalizedUserFromToken(token);
+			setUser(normalizedUser)
 			setLogError(false);
 			onSuccess();
 		}

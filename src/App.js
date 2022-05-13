@@ -1,9 +1,5 @@
-import logo from './logo.svg';
 import './App.css';
-import PostItem from './components/PostItem';
 import AllPostsPage from './pages/AllPostsPage';
-import NavBar from './components/NavBar';
-import LoginForm from './components/LoginForm';
 import PostPage from './pages/PostPage';
 import Layout from './components/Layout';
 import { Routes, Route, Link } from 'react-router-dom';
@@ -11,23 +7,26 @@ import { AuthContext } from './context';
 import { useState, useEffect } from 'react';
 import AuthService from './api/AuthService';
 import UserPage from './pages/UserPage';
-import { RequireAuth } from './hoc/RequireAuth';
+import RequireAuth from './hoc/RequireAuth';
+import RequireAdmin from './hoc/RequireAuth';
 import LoginPage from './pages/LoginPage';
 import CategoryPostsPage from './pages/CategoryPostsPage';
-import RegisterForm from './Test/RegisterForm';
-import { CreatePostForm } from './components/CreatePostForm';
-import PostForm from './components/PostForm';
-import Layoute from './Test/CreatePosts/Layoute';
-import BT from './Test/BT';
+import AdminPage from './pages/admin-pages/AdminPage';
+import { getNormalizedUserFromToken } from './utils';
+import AdminPanelLayout from './components/AdminPanelLayout';
+import RegisterAdminPage from './pages/admin-pages/RegisterAdminPage';
+import AllUsersPage from './pages/admin-pages/AllUsersPage';
+
 
 function App() {
 
 	const [user, setUser] = useState(null);
 
 	useEffect(() => {
-		const authUser = AuthService.getCurrentUser();
-		if (authUser) {
-			setUser(authUser);
+		const userAuth = AuthService.getCurrentUserAuth();
+		if (userAuth) {
+			const normalizedUser = getNormalizedUserFromToken(userAuth.token);
+			setUser(normalizedUser);
 		}
 	}, [])
 
@@ -50,6 +49,15 @@ function App() {
 							</RequireAuth>
 						}
 						/>
+					</Route>
+					<Route path='/admin-page' element={
+						// <RequireAdmin>
+							<AdminPanelLayout />
+						// </RequireAdmin>
+					}>
+						<Route index element={<AdminPage />} />
+						<Route path='/admin-page/register-admin' element={<RegisterAdminPage />} />
+						<Route path='/admin-page/users' element={<AllUsersPage />} />
 					</Route>
 				</Routes>
 			</AuthContext.Provider>

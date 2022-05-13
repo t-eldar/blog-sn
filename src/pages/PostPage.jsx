@@ -42,7 +42,7 @@ const PostPage = () => {
 		setCategories(response.data);
 	})
 	const [fetchComments, isCommentsLoading, commentsError] = useFetching(async (id) => {
-		const response = await CommentsService.getByPostId(id);
+		const response = await PostsService.getCommentsByPostId(id);
 		setComments(response.data);
 	})
 	const [deletePost, isDeleteLoading, deleteError] = useFetching(async (id) => {
