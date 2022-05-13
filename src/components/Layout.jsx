@@ -26,17 +26,22 @@ const Layout = () => {
 	}, []);
 	return (
 		<>
-			<NavBar categories={categories} />
-			<Container style={{ minWidth: 400 }}>
-				<Row className="justify-content-start">
-					<Col lg="2">
-						<SideBar categories={categories} />
-					</Col>
-					<Col lg="8">
-						<Outlet />
-					</Col>
-				</Row>
-			</Container>
+			<div style={{ overflow: 'hidden' }}>
+
+				<NavBar style={{ height: '10%' }} categories={categories} />
+				<Container style={{ minWidth: 400 }}>
+					<Row className="justify-content-start">
+						<Col style={{ height: '', overflowY: 'scroll' }} lg="2">
+							<div style={{ height: '10vh' }}></div>
+							<SideBar categories={categories} />
+						</Col>
+						<Col style={{ height: '100vh', overflowY: 'scroll' }} lg="8">
+							<div style={{ height: '10vh' }}></div>
+							<Outlet />
+						</Col>
+					</Row>
+				</Container>
+			</div>
 		</>
 	);
 }

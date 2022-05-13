@@ -6,23 +6,34 @@ const SideBar = ({ categories, ...props }) => {
 
 	const location = useLocation();
 
+	useEffect(() => {
+		if (window.innerWidth < 400) {
+
+		}
+	}, [window.innerWidth, window.innerHeight]);
+
 	return (
 		<>
-			<Navbar {...props} style={{ position: 'fixed' }}>
-				<Navbar.Toggle />
-				<Nav className="flex-column">
-					{categories.map(category =>
-						<Nav.Item key={category.id}>
-							<Card className="m-2 p-2">
-								<Nav.Link as={Link} to={`category/${category.id}`}>
-									<span style={{fontWeight: 'bolder'}}>
-										{category.name}
-									</span>
-								</Nav.Link>
-							</Card>
-						</Nav.Item>
-					)}
-				</Nav>
+			<Navbar 
+				expand='md'
+				{...props} 
+			>
+				<Navbar.Toggle aria-controls="sidebar" />
+				<Navbar.Collapse id='sidebar'>
+					<Nav className="flex-column">
+						{categories.map(category =>
+							<Nav.Item key={category.id}>
+								<Card className="m-2 p-2">
+									<Nav.Link as={Link} to={`category/${category.id}`}>
+										<span style={{ fontWeight: 'bolder' }}>
+											{category.name}
+										</span>
+									</Nav.Link>
+								</Card>
+							</Nav.Item>
+						)}
+					</Nav>
+				</Navbar.Collapse>
 			</Navbar>
 		</>
 	);
