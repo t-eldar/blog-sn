@@ -12,6 +12,7 @@ import EditPostForm from "../components/EditPostForm";
 import CommentBlock from "../components/CommentBlock";
 import { useEditAllow } from "../hooks/useEditAllow";
 import CommentsService from "../api/CommentsService";
+import EditCommentForm from "../components/EditCommentForm";
 
 const PostPage = () => {
 
@@ -21,7 +22,7 @@ const PostPage = () => {
 
 	const { user } = useContext(AuthContext);
 	const params = useParams();
-	
+
 	const navigate = useNavigate();
 	const location = useLocation();
 
@@ -31,7 +32,6 @@ const PostPage = () => {
 	const [showEditPostModal, setShowEditPostModal] = useState(false);
 	const handleEditPostModalClose = () => setShowEditPostModal(false);
 	const handleEditPostModalOpen = () => setShowEditPostModal(true);
-
 
 	const [fetchPost, isPostLoading, postError] = useFetching(async (id) => {
 		const response = await PostsService.getById(id);
@@ -73,7 +73,7 @@ const PostPage = () => {
 		<>
 			<Modal size='lg' show={showEditPostModal} onHide={handleEditPostModalClose}>
 				<Modal.Header closeButton>
-					<Modal.Title>Создание новой записи</Modal.Title>
+					<Modal.Title>Редактирование записи</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
 					<EditPostForm
@@ -151,10 +151,10 @@ const PostPage = () => {
 									{post.content}
 								</Card.Body>
 							</Card>
-							<CommentBlock 
+							<CommentBlock
 								updateComments={async e => await fetchComments(params.id)}
-								comments={comments} 
-								postId={post.id} 
+								comments={comments}
+								postId={post.id}
 							/>
 						</>
 			}

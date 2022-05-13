@@ -4,7 +4,7 @@ import CommentsService from '../api/CommentsService'
 import { useFetching } from '../hooks/useFetching'
 import CommentItem from './CommentItem'
 
-const CommentList = ({ comments, onCommentDelete }) => {
+const CommentList = ({ comments, onCommentDelete, onCommentEdit }) => {
 
 
 	if (!comments || !comments.length) {
@@ -18,7 +18,13 @@ const CommentList = ({ comments, onCommentDelete }) => {
 	}
 	return (
 		<>
-			{comments.map(com => <CommentItem key={com.id} comment={com} onCommentDelete={onCommentDelete}/>)}
+			{comments.map(com => 
+				<CommentItem 
+					onEdit={onCommentEdit}
+					key={com.id} 
+					comment={com} 
+					onCommentDelete={onCommentDelete}
+				/>)}
 		</>
 	)
 }

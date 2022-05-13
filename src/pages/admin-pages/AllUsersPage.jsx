@@ -20,7 +20,9 @@ const AllUsersPage = () => {
 	}, [])
 
 	return (
-		<UserList users={users} />
+		<div className='m-5 p-2'>		
+			<UserList users={users} />
+		</div>
 	)
 }
 
