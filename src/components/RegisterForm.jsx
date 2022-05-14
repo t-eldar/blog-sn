@@ -4,7 +4,7 @@ import AuthService from '../api/AuthService'
 import { useFetching } from '../hooks/useFetching'
 import { useValidation } from '../hooks/useValidation'
 
-const RegisterForm = ({ onSuccess, isAdminRegister = false }) => {
+const RegisterForm = ({ onSuccess, isAdminRegister = false, style }) => {
 
 	const [isFormInvalid, setIsFormInvalid] = useState(false);
 	const [userInfo, setUserInfo] = useState({
@@ -100,7 +100,7 @@ const RegisterForm = ({ onSuccess, isAdminRegister = false }) => {
 
 	return (
 		<>
-			<Card className="m-3 p-3" style={{ width: '18rem' }}>
+			<Card className="m-3 p-3" style={style}>
 				<Form.Floating
 					onChange={() => {
 						if (regError) {

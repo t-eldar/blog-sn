@@ -5,7 +5,7 @@ import { useFetching } from "../hooks/useFetching";
 import { useAuth } from "../hooks/useAuth";
 import { getNormalizedUserFromToken } from "../utils";
 
-const LoginForm = ({ onSuccess = () => null }) => {
+const LoginForm = ({ style, onSuccess = () => null }) => {
 
 	const { user, setUser } = useAuth();
 
@@ -41,7 +41,7 @@ const LoginForm = ({ onSuccess = () => null }) => {
 	}, [loginError])
 
 	return (
-		<Card className="m-3 p-3" style={{ width: '18rem' }}>
+		<Card className="m-3 p-3" style={style}>
 			<Form>
 				<Form.Group className="mb-3">
 					<FloatingLabel label="Имя пользователя">

@@ -9,6 +9,7 @@ const RegisterAdminPage = () => {
 	return (
 		<div className='d-flex justify-content-center'>
 			<RegisterForm 
+				style={{width: 500}}
 				onSuccess={() => navigate('/admin-page')} 
 				isAdminRegister
 			/>

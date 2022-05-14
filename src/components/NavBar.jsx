@@ -1,15 +1,15 @@
-import React, { 
-	useContext, 
-	useEffect, 
-	useState 
+import React, {
+	useContext,
+	useEffect,
+	useState
 } from "react";
-import { 
-	Nav, 
-	Navbar, 
-	Container, 
-	Button, 
-	Modal, 
-	ButtonGroup 
+import {
+	Nav,
+	Navbar,
+	Container,
+	Button,
+	Modal,
+	ButtonGroup
 } from "react-bootstrap";
 import Logo from "../test-logo.svg";
 import RegisterForm from "./RegisterForm";
@@ -22,6 +22,17 @@ import { useAuth } from "../hooks/useAuth";
 const NavBar = ({ categories, style }) => {
 
 	const { user, setUser } = useAuth();
+	const [isAdmin, setIsAdmin] = useState(false);
+
+	useEffect(() => {
+		if (user && user.role === 'Admin') {
+			setIsAdmin(true);
+		}
+		else {
+			setIsAdmin(false);
+		}
+	}, [user])
+
 
 	const [showRegisterModal, setShowRegisterModal] = useState(false);
 	const [showLoginModal, setShowLoginModal] = useState(false);
@@ -101,7 +112,7 @@ const NavBar = ({ categories, style }) => {
 					<Modal.Title>Вход в учетную запись</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					<LoginForm onSuccess={handleLoginModalClose}/>
+					<LoginForm onSuccess={handleLoginModalClose} />
 				</Modal.Body>
 			</Modal>
 
@@ -122,7 +133,7 @@ const NavBar = ({ categories, style }) => {
 					<Modal.Title>Регистрация</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					<RegisterForm onSuccess={handleRegisterModalClose}/>
+					<RegisterForm onSuccess={handleRegisterModalClose} />
 				</Modal.Body>
 			</Modal>
 
@@ -159,6 +170,16 @@ const NavBar = ({ categories, style }) => {
 								Главная
 							</Nav.Link>
 						</Nav>
+						{
+							isAdmin &&
+							<Button
+								variant='dark'
+								as={Link}
+								to='/admin-page'
+							>
+								Перейти в админскую панель
+							</Button>
+						}
 						{!!user ? <AuthorizedNav /> : <UnauthorizedNav />}
 					</Navbar.Collapse>
 				</Container>

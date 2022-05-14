@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Card, Container, Image, Modal, Button } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import PostList from '../components/PostList';
 import { useFetching } from '../hooks/useFetching';
 import AllPostsPage from './AllPostsPage';
@@ -37,7 +37,6 @@ const UserPage = () => {
 		console.log(pageUser);
 	}, [params.id]);
 
-
 	return (
 		<>
 			<Container className='d-flex justify-content-center'>
@@ -62,8 +61,8 @@ const UserPage = () => {
 				</Card>
 			</Container>
 			<Card style={{ width: '50rem', top: '1rem', marginLeft: '3rem' }}>
-				<Card.Header className='d-flex'>
-					<h2>User Posts</h2>
+				<Card.Header className='d-flex justify-content-between'>
+					<h2>Посты пользователя</h2>
 				</Card.Header>
 				<Card.Body>
 					<PostList posts={posts} />
