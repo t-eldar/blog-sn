@@ -127,12 +127,12 @@ const NavBar = ({ categories, style }) => {
 			</Modal>
 
 			<Navbar
+				style={style}
 				collapseOnSelect
 				expand="md"
 				expanded={expanded}
 				bg="dark"
 				variant="dark"
-				fixed="top"
 			>
 				<Container>
 					<Navbar.Brand as={Link} to="/">
