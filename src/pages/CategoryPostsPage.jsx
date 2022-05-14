@@ -15,7 +15,7 @@ const CategoryPostsPage = () => {
 		setCategory(response.data);
 		console.log(response.data);
 	})
-	
+
 	const [fetchPosts, isPostsLoading, isPostsError] = useFetching(async (id) => {
 		const response = await CategoriesService.getPostsByCategoryId(id);
 		setPosts(response.data);
@@ -31,9 +31,9 @@ const CategoryPostsPage = () => {
 
 	return (
 		<>
-			<Card>
-				<h1>{category.name}</h1>
-				<h2>{category.description}</h2> 
+			<Card className='m-3 p-3'>
+				<h1 style={{ textAlign: 'center' }}>{category.name}</h1>
+				<h5>{category.description}</h5>
 			</Card>
 			<PostList posts={posts} />
 		</>

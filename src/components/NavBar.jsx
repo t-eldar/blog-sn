@@ -19,7 +19,7 @@ import LoginForm from "./LoginForm";
 import AuthService from "../api/AuthService";
 import { useAuth } from "../hooks/useAuth";
 
-const NavBar = ({ categories }) => {
+const NavBar = ({ categories, style }) => {
 
 	const { user, setUser } = useAuth();
 
@@ -127,12 +127,12 @@ const NavBar = ({ categories }) => {
 			</Modal>
 
 			<Navbar
-				style={{ position: 'sticky', top: 0, zIndex: 1 }}
 				collapseOnSelect
 				expand="md"
 				expanded={expanded}
 				bg="dark"
 				variant="dark"
+				fixed="top"
 			>
 				<Container>
 					<Navbar.Brand as={Link} to="/">

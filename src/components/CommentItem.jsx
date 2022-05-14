@@ -5,9 +5,7 @@ import { useAuth } from '../hooks/useAuth';
 import { useEditAllow } from '../hooks/useEditAllow';
 import { formatDate } from '../utils';
 
-const CommentItem = ({ comment, onCommentDelete }) => {
-
-	const { user } = useAuth();
+const CommentItem = ({ comment, onCommentDelete, onEdit = (com) => null }) => {
 
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -27,6 +25,12 @@ const CommentItem = ({ comment, onCommentDelete }) => {
 		e.preventDefault();
 		if (isEditAllowed) {
 			onCommentDelete(comment.id);
+		}
+	}
+	const handleEdit = (e) => {
+		e.preventDefault();
+		if (isEditAllowed) {
+			onEdit(comment);
 		}
 	}
 
@@ -57,6 +61,14 @@ const CommentItem = ({ comment, onCommentDelete }) => {
 							isEditAllowed &&
 							<>
 								<Button
+									className='mx-2'
+									variant='outline-warning'
+									onClick={handleEdit}
+								>
+									Изменить
+								</Button>
+								<Button
+									className='mx-2'
 									variant='outline-danger'
 									onClick={handleDeleting}
 								>
