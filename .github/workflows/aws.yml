@@ -5,7 +5,7 @@ on:
       - '*.md'
       - '.github/**'
     branches:
-      - stage
+      - master
   pull_request:
 
 jobs:
