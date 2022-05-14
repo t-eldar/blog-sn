@@ -1,5 +1,11 @@
 # Getting Started with Create React App
 
+[![ci/cd](https://github.com/t-eldar/blog-sn/actions/workflows/aws.yml/badge.svg?branch=master&event=push)](https://github.com/t-eldar/blog-sn/actions/workflows/aws.yml)
+
+### Demo
+
+[![Demo](https://img.shields.io/badge/DEMO-Disabled--now-red?style=for-the-badge)](http://blogsn-lb-438498043.eu-central-1.elb.amazonaws.com/)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
