@@ -68,13 +68,17 @@ const PostItem = ({ post, setRating }) => {
 				<div className="d-flex mx-3">
 					<Button
 						onClick={() => {
-							setRating({
-								id: post.id + user.id,
-								applicationUserId: user.id,
-								likeStatus: true,
-								postId: post.id
-							});
-							setRatingCount(ratingCount + 1)
+							if (!user) {
+								navigate('/login');
+							} else {
+								setRating({
+									id: post.id + user.id,
+									applicationUserId: user.id,
+									likeStatus: true,
+									postId: post.id
+								});
+								setRatingCount(ratingCount + 1)
+							}
 						}}
 					>
 						+
@@ -82,12 +86,16 @@ const PostItem = ({ post, setRating }) => {
 					{ratingCount}
 					<Button
 						onClick={() => {
-							setRating({
-								id: post.id + user.id,
-								applicationUserId: user.id,
-								likeStatus: false,
-								postId: post.id
-							});
+							if (!user) {
+								navigate('/login');
+							} else {
+								setRating({
+									id: post.id + user.id,
+									applicationUserId: user.id,
+									likeStatus: false,
+									postId: post.id
+								});
+							}
 							setRatingCount(ratingCount - 1)
 						}}
 					>
