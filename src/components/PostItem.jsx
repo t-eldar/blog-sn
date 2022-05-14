@@ -6,7 +6,7 @@ import { useAuth } from "../hooks/useAuth";
 import { useFetching } from "../hooks/useFetching";
 import { formatDate } from "../utils";
 
-const PostItem = ({ post }) => {
+const PostItem = ({ post, setRating }) => {
 
 	const { user } = useAuth();
 
@@ -15,45 +15,12 @@ const PostItem = ({ post }) => {
 	const navigate = useNavigate();
 	const [publishedDate, setPublishedDate] = useState('');
 
+	const [ratingCount, setRatingCount] = useState(post.ratingCount);
+
 	useEffect(() => {
 		const formattedDate = formatDate(post.dateCreated);
 		setPublishedDate(formattedDate);
 	}, [post]);
-
-	// const [rating, setRating] = useState();
-	// const [postRating, postRatingLoading, postRatingError] = useFetching(async (rate) => {
-	// 	const response = await RatingsService.postRating(rate);
-	// 	console.log('postRating response');
-	// 	console.log(response)
-	// })
-	// const [putRating, putRatingLoading, putRatingError] = useFetching(async (rate) => {
-	// 	const response = await RatingsService.putRating(rate);
-	// 	console.log('putRating response');
-	// 	console.log(response)
-	// })
-	// const [ratingExists, setRatingExists] = useState(false);
-	// useEffect(() => {
-	// 	if (postRatingError && postRatingError.response.data.message
-	// 		&& postRatingError.response.data.message.includes('exist'))
-	// 		setRatingExists(true);
-	// }, [postRatingError])
-
-	// useEffect(() => {
-	// 	if (rating) {
-	// 		if (ratingExists) {
-	// 			const fetchAPI = async () => {
-	// 				await putRating(rating);
-	// 			}
-	// 			fetchAPI();
-	// 		} else {
-	// 			const fetchAPI = async () => {
-	// 				await postRating(rating);
-	// 			}
-	// 			fetchAPI();
-	// 		}
-	// 	}
-	// }, [rating, ratingExists])
-
 
 	return (
 		<Card
@@ -94,7 +61,7 @@ const PostItem = ({ post }) => {
 			>
 				<Card.Text>{post.description}</Card.Text>
 			</Card.Body>
-			{/* <Card.Footer className="d-flex justify-content-between">
+			<Card.Footer className="d-flex justify-content-between">
 				<div>
 					Комментариев: {post.commentsCount}
 				</div>
@@ -102,28 +69,32 @@ const PostItem = ({ post }) => {
 					<Button
 						onClick={() => {
 							setRating({
+								id: post.id + user.id,
 								applicationUserId: user.id,
 								likeStatus: true,
 								postId: post.id
 							});
+							setRatingCount(ratingCount + 1)
 						}}
 					>
 						+
 					</Button>
-					{post.ratingCount}
+					{ratingCount}
 					<Button
 						onClick={() => {
 							setRating({
+								id: post.id + user.id,
 								applicationUserId: user.id,
 								likeStatus: false,
 								postId: post.id
 							});
+							setRatingCount(ratingCount - 1)
 						}}
 					>
 						-
 					</Button>
 				</div>
-			</Card.Footer> */}
+			</Card.Footer>
 		</Card>
 	);
 }

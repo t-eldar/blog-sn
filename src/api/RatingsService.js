@@ -12,7 +12,7 @@ export default class RatingsService {
 		return response;
 	}
 	static async putRating(rating) {
-		const response = await this.axiosInstance.put('', rating);
+		const response = await this.axiosInstance.put(`/${rating.id}`, rating);
 		return response;
 	}
 }

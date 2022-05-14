@@ -15,7 +15,7 @@ const SideBar = ({ categories, ...props }) => {
 	return (
 		<>
 			<Navbar 
-				expand='md'
+				expand='lg'
 				{...props} 
 			>
 				<Navbar.Toggle aria-controls="sidebar" />
