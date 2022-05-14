@@ -21,6 +21,9 @@ export const formatDate = (stringDate) => {
 
 	const timeDiff = currentDate.getTime() - date.getTime();
 
+	if (timeDiff < 0) 
+		return `${day}.${month}.${year} ${hour}:${minute}`;
+
 	if (timeDiff < 60000)
 		return 'только что';
 

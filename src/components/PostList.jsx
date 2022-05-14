@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import RatingsService from "../api/RatingsService";
 import { useFetching } from "../hooks/useFetching";
+import { useSorting } from "../hooks/useSorting";
+import PostFilter from "./PostFilter";
 import PostItem from "./PostItem";
 
 const PostList = ({ posts }) => {
@@ -11,7 +13,7 @@ const PostList = ({ posts }) => {
 		console.log('postRating response');
 		console.log(response)
 	})
-	
+
 	const [putRating, putRatingLoading, putRatingError] = useFetching(async (rate) => {
 		const response = await RatingsService.putRating(rate);
 		console.log('putRating response');
@@ -47,6 +49,10 @@ const PostList = ({ posts }) => {
 		}
 	}, [rating, ratingExists])
 
+	const [filter, setFilter] = useState();
+
+	const sortedPosts = useSorting(posts, filter);
+
 	if (!posts.length) {
 		return (
 			<h1 style={{ textAlign: 'center', bottom: '20rem' }}>
@@ -56,8 +62,9 @@ const PostList = ({ posts }) => {
 	}
 	return (
 		<>
-			{posts.map(post =>
-				<PostItem key={post.id} post={post} setRating={setRating}/>
+			<PostFilter filter={filter} setFilter={setFilter}/>
+			{sortedPosts.map(post =>
+				<PostItem key={post.id} post={post} setRating={setRating} />
 			)}
 		</>
 	);
