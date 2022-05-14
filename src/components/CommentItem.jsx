@@ -4,6 +4,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useEditAllow } from '../hooks/useEditAllow';
 import { formatDate } from '../utils';
+import _delete from "../image/delete.svg";
+import edit from "../image/edit.svg"
 
 const CommentItem = ({ comment, onCommentDelete, onEdit = (com) => null }) => {
 
@@ -65,14 +67,20 @@ const CommentItem = ({ comment, onCommentDelete, onEdit = (com) => null }) => {
 									variant='outline-warning'
 									onClick={handleEdit}
 								>
-									Изменить
+									<div className="d-flex justify-content-center">
+										<h6>Изменить</h6>
+										<img src={edit} />
+									</div>
 								</Button>
 								<Button
 									className='mx-2'
 									variant='outline-danger'
 									onClick={handleDeleting}
 								>
-									Удалить
+									<div className="d-flex justify-content-center">
+										<h6>Удалить</h6>
+										<img src={_delete} />
+									</div>
 								</Button>
 							</>
 						}

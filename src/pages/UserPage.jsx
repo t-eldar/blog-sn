@@ -41,9 +41,6 @@ const UserPage = () => {
 		<>
 			<Container className='d-flex justify-content-center'>
 				<Card style={{ width: '16.87rem', height: '15rem', top: '1rem', marginBottom: '1rem', marginLeft: '1.5rem'  }} className='d-flex'>
-					<Card.Img style={{ height: '15rem', width: '16.87rem' }}
-						variant="top"
-						src="https://4kwallpapers.com/images/wallpapers/mount-cook-new-zealand-aoraki-national-park-mountain-peak-5120x3200-3913.jpg" />
 					<Card.ImgOverlay>
 						<Card.Title>{pageUser.userName}</Card.Title>
 					</Card.ImgOverlay>
@@ -60,7 +57,7 @@ const UserPage = () => {
 					</Card.Body>
 				</Card>
 			</Container>
-			<Card style={{ width: '50rem', top: '1rem', marginLeft: '3rem' }}>
+			<Card style={{ width: '40.5rem', top: '1rem', marginLeft: '3rem' }}>
 				<Card.Header className='d-flex justify-content-between'>
 					<h2>Посты пользователя</h2>
 				</Card.Header>

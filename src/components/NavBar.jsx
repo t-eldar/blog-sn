@@ -18,6 +18,10 @@ import { CreatePostForm } from "./CreatePostForm";
 import LoginForm from "./LoginForm";
 import AuthService from "../api/AuthService";
 import { useAuth } from "../hooks/useAuth";
+import home from "../image/home.svg";
+import create from "../image/create.svg";
+import logout from "../image/logout.svg";
+import userTest from "../image/userTest.svg";
 
 const NavBar = ({ categories, style }) => {
 
@@ -69,20 +73,23 @@ const NavBar = ({ categories, style }) => {
 				to={`users/${user.id}`}
 				onClick={() => setExpanded(false)}
 			>
-				Мой профиль
+				<img src = {userTest} 
+				    style ={{width: '90%', height: '90%'}}/>
 			</Nav.Link>
 			<ButtonGroup>
 				<Button
 					variant="dark"
 					onClick={handleCreatePostModalOpen}
 				>
-					Создать пост
+					<img src = {create}
+					     style ={{width: '100%', height: '100%'}}/>
 				</Button>
 				<Button
 					variant="dark"
 					onClick={handleLogout}
 				>
-					Выйти
+				<img src = {logout}
+				     style ={{width: '110%', height: '110%'}}/>
 				</Button>
 			</ButtonGroup>
 		</Nav>
@@ -167,7 +174,7 @@ const NavBar = ({ categories, style }) => {
 								to="/"
 								onClick={() => setExpanded(false)}
 							>
-								Главная
+								<img src = {home} />
 							</Nav.Link>
 						</Nav>
 						{

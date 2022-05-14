@@ -12,7 +12,9 @@ import EditPostForm from "../components/EditPostForm";
 import CommentBlock from "../components/CommentBlock";
 import { useEditAllow } from "../hooks/useEditAllow";
 import CommentsService from "../api/CommentsService";
+import _delete from "../image/delete.svg";
 import EditCommentForm from "../components/EditCommentForm";
+import edit from "../image/edit.svg"
 
 const PostPage = () => {
 
@@ -134,14 +136,20 @@ const PostPage = () => {
 												variant="outline-warning"
 												onClick={handleEditPostModalOpen}
 											>
-												Изменить
+												<div className="d-flex justify-content-center">
+													<h6>Изменить</h6>
+													<img src ={edit}/>
+												</div>
 											</Button>
 											<Button
 												className='m-1'
 												variant="outline-danger"
 												onClick={handleDelete}
 											>
-												Удалить
+												<div className="d-flex justify-content-center">
+													<h6>Удалить</h6>
+													<img src ={_delete}/>
+												</div>
 											</Button>
 										</div>
 									}

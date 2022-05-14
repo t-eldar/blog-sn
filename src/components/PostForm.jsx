@@ -62,7 +62,7 @@ const PostForm = ({
 					required
 				/>
 			</Form.Group>
-			<Button
+			<Button 
 				disabled={submitDisabled || disabled}
 				variant="outline-primary"
 				onClick={onSubmit}

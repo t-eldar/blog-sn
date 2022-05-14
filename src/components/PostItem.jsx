@@ -5,6 +5,8 @@ import RatingsService from "../api/RatingsService";
 import { useAuth } from "../hooks/useAuth";
 import { useFetching } from "../hooks/useFetching";
 import { formatDate } from "../utils";
+import dislike from "../image/dislike.svg";
+import like from "../image/like.svg";
 
 const PostItem = ({ post, setRating }) => {
 
@@ -80,8 +82,9 @@ const PostItem = ({ post, setRating }) => {
 								setRatingCount(ratingCount + 1)
 							}
 						}}
+						variant="light"
 					>
-						+
+						<img src = {like}/>
 					</Button>
 					{ratingCount}
 					<Button
@@ -98,8 +101,9 @@ const PostItem = ({ post, setRating }) => {
 							}
 							setRatingCount(ratingCount - 1)
 						}}
+						variant="light"
 					>
-						-
+						<img src={dislike}/>
 					</Button>
 				</div>
 			</Card.Footer>
