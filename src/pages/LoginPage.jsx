@@ -18,7 +18,7 @@ const LoginPage = () => {
 	}, [user])
 
 	return (
-		<div className='d-flex justify-content-center'>
+		<div className='mt-5 d-flex justify-content-center'>
 			<LoginForm
 				style={{ width: 500 }}
 				onSuccess={() => {

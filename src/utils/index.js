@@ -1,10 +1,16 @@
 export const formatDate = (stringDate) => {
 
-	const currentDate = new Date();
+	let currentDate = new Date();
 	let date = new Date(stringDate);
-	date = new Date(Date.UTC(
-		date.getFullYear(), date.getMonth(), date.getDate(), 
-		date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds()));
+	// date = new Date(Date.UTC(
+	// 	date.getFullYear(), date.getMonth(), date.getDate(),
+	// 	date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds()
+	// ));
+
+	// currentDate = new Date(Date.UTC(
+	// 	currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(),
+	// 	currentDate.getHours(), currentDate.getMinutes(), currentDate.getSeconds(), currentDate.getMilliseconds()
+	// ));
 
 	let day = date.getDate();
 	let month = date.getMonth();
@@ -21,7 +27,7 @@ export const formatDate = (stringDate) => {
 
 	const timeDiff = currentDate.getTime() - date.getTime();
 
-	if (timeDiff < 0) 
+	if (timeDiff < 0)
 		return `${day}.${month}.${year} ${hour}:${minute}`;
 
 	if (timeDiff < 60000)
@@ -39,19 +45,19 @@ export const formatDate = (stringDate) => {
 	if (currentDate.getMonth() != month)
 		return `${day}.${month} ${hour}:${minute}`;
 
-	if (currentDate.getDate() == day) 
+	if (currentDate.getDate() == day)
 		return `сегодня в ${hour}:${minute}`;
 
 	if (currentDate.getDate() - day == 1)
 		return `вчера в ${hour}:${minute}`;
-		
+
 	if (currentDate.getDate() != day)
 		return `${day}.${month} ${hour}:${minute}`;
 }
 
 export const cutText = (text, limit) => {
 	text = text.trim();
-	if (text.length <= limit) 
+	if (text.length <= limit)
 		return text;
 
 	text = text.slice(0, limit);

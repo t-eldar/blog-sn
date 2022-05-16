@@ -27,7 +27,7 @@ const PostItem = ({ post }) => {
 	})
 
 	useEffect(() => {
-		setPublishedDate(formatDate(currentPost.dateCreated))
+		setPublishedDate(formatDate(post.dateCreated))
 	}, [currentPost])
 
 	const handleLike = async (status) => {
