@@ -4,6 +4,7 @@ import PostList from "../components/PostList";
 import PostsService from "../api/PostsService";
 import { Spinner } from "react-bootstrap";
 import Loader from "../components/Loader";
+import PostBlock from "../components/PostBlock";
 
 
 const AllPostsPage = () => {
@@ -22,13 +23,11 @@ const AllPostsPage = () => {
 
 	return (
 		<>
-			{
-				isPostsLoading
-					? <div className="d-flex justify-content-center m-3">
-						<Loader />
-					</div>
-					: <PostList posts={posts} />
-			}
+			<PostBlock
+				posts={posts}
+				fetchPosts={fetchPosts}
+				isPostsLoading={isPostsLoading}
+			/>
 		</>
 	);
 }

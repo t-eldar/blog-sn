@@ -7,10 +7,6 @@ import PostItem from "./PostItem";
 
 const PostList = ({ posts }) => {
 
-	const [filter, setFilter] = useState();
-
-	const sortedPosts = useSorting(posts, filter);
-
 	if (!posts.length) {
 		return (
 			<h1 style={{ textAlign: 'center', bottom: '20rem' }}>
@@ -20,8 +16,7 @@ const PostList = ({ posts }) => {
 	}
 	return (
 		<>
-			<PostFilter filter={filter} setFilter={setFilter}/>
-			{sortedPosts.map(post =>
+			{posts.map(post =>
 				<PostItem 
 					key={post.id} 
 					post={post} 

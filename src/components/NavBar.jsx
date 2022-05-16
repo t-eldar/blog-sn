@@ -18,10 +18,10 @@ import { CreatePostForm } from "./CreatePostForm";
 import LoginForm from "./LoginForm";
 import AuthService from "../api/AuthService";
 import { useAuth } from "../hooks/useAuth";
-import home from "../image/home.svg";
-import create from "../image/create.svg";
-import logout from "../image/logout.svg";
-import userTest from "../image/userTest.svg";
+import home from "../icons/home.svg";
+import create from "../icons/create.svg";
+import logout from "../icons/logout.svg";
+import userTest from "../icons/userTest.svg";
 
 const NavBar = ({ categories, style }) => {
 

@@ -5,8 +5,8 @@ import RatingsService from "../api/RatingsService";
 import { useAuth } from "../hooks/useAuth";
 import { useFetching } from "../hooks/useFetching";
 import { formatDate } from "../utils";
-import dislike from "../image/dislike.svg";
-import like from "../image/like.svg";
+import dislike from "../icons/dislike.svg";
+import like from "../icons/like.svg";
 import PostsService from "../api/PostsService";
 
 const PostItem = ({ post }) => {

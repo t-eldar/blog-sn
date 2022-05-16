@@ -9,6 +9,7 @@ import PostsService from '../api/PostsService';
 import AuthService from '../api/AuthService';
 import { useAuth } from '../hooks/useAuth';
 import UsersService from '../api/UsersService';
+import PostBlock from '../components/PostBlock';
 
 
 const UserPage = () => {
@@ -62,7 +63,7 @@ const UserPage = () => {
 					<h2>Посты пользователя</h2>
 				</Card.Header>
 				<Card.Body>
-					<PostList posts={posts} />
+					<PostBlock posts={posts} />
 				</Card.Body>
 			</Card>
 		</>

@@ -26,7 +26,12 @@ function App() {
 		const userAuth = AuthService.getCurrentUserAuth();
 		if (userAuth) {
 			const normalizedUser = getNormalizedUserFromToken(userAuth.token);
-			setUser(normalizedUser);
+			const expiration = userAuth.expiration;
+			if (Date.now() - new Date(expiration).getTime() > 7200000) {
+				AuthService.logout();
+			} else {
+				setUser(normalizedUser);
+			}
 		}
 	}, [])
 
@@ -51,9 +56,9 @@ function App() {
 						/>
 					</Route>
 					<Route path='/admin-page' element={
-						// <RequireAdmin>
+						<RequireAdmin>
 							<AdminPanelLayout />
-						// </RequireAdmin>
+						</RequireAdmin>
 					}>
 						<Route index element={<AdminPage />} />
 						<Route path='/admin-page/register-admin' element={<RegisterAdminPage />} />

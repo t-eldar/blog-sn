@@ -5,7 +5,7 @@ const PostFilter = ({ filter, setFilter }) => {
 	return (
 		<>
 			<Form.Select 
-				className='mt-3 mb-3'
+				className='mt-1'
 				onChange={e => setFilter(e.target.value)}
 			>
 				<option value='title'>По заголовку</option>
