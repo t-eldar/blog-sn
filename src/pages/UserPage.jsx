@@ -40,26 +40,22 @@ const UserPage = () => {
 
 	return (
 		<>
-			<Container className='d-flex justify-content-center'>
-				<Card style={{ width: '16.87rem', height: '15rem', top: '1rem', marginBottom: '1rem', marginLeft: '1.5rem'  }} className='d-flex'>
-					<Card.ImgOverlay>
-						<Card.Title>{pageUser.userName}</Card.Title>
-					</Card.ImgOverlay>
-				</Card>
-				<Card style={{ top: '1rem', marginBottom: '1rem', marginLeft: '6rem', width: '30rem' }}>
-					<Card.Body style={{marginTop: '7.8rem'}}>
-						<div className='d-flex justify-content-center' >
-							<Card className='App justify-content-center'
-								style={{ margin: '0,9rem', height: '5rem', width: '7rem' }}>
-								<h6>Posts</h6>
-								<h8>{posts.length}</h8>
-							</Card>
-						</div>
-					</Card.Body>
-				</Card>
-			</Container>
-			<Card style={{ width: '40.5rem', top: '1rem', marginLeft: '3rem' }}>
-				<Card.Header className='d-flex justify-content-between'>
+			<Card className='p-4 m-3'>
+				<h4>
+					Имя пользователя: {pageUser.userName}
+				</h4>
+				<span style={
+					pageUser.role === 'Admin' ? { color: 'green' } : {
+						color: 'blue'
+					}}>
+					{pageUser.role}
+				</span>
+				<span>
+					Количество постов: {pageUser.postsCount}
+				</span>
+			</Card>
+			<Card className='mt-3'>
+				<Card.Header className='pt-3'>
 					<h2>Посты пользователя</h2>
 				</Card.Header>
 				<Card.Body>
