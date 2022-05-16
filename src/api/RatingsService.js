@@ -11,8 +11,8 @@ export default class RatingsService {
 		const response = await this.axiosInstance.post('', rating);
 		return response;
 	}
-	static async putRating(rating) {
-		const response = await this.axiosInstance.put(`/${rating.id}`, rating);
+	static async deleteRating(id) {
+		const response = await this.axiosInstance.delete(`/${id}`);
 		return response;
 	}
 }

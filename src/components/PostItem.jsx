@@ -7,22 +7,55 @@ import { useFetching } from "../hooks/useFetching";
 import { formatDate } from "../utils";
 import dislike from "../image/dislike.svg";
 import like from "../image/like.svg";
+import PostsService from "../api/PostsService";
 
-const PostItem = ({ post, setRating }) => {
+const PostItem = ({ post }) => {
 
 	const { user } = useAuth();
+
+	const [currentPost, setCurrentPost] = useState(post);
+	const [rating, setRating] = useState()
+	const [ratingExists, setRatingExists] = useState(false);
 
 	const subtitleFontSize = '12px';
 	const location = useLocation();
 	const navigate = useNavigate();
 	const [publishedDate, setPublishedDate] = useState('');
-
-	const [ratingCount, setRatingCount] = useState(post.ratingCount);
+	const [fetchPost, isPostLoading, fetchPostError] = useFetching(async (id) => {
+		const response = await PostsService.getById(id);
+		setCurrentPost(response.data);
+	})
 
 	useEffect(() => {
-		const formattedDate = formatDate(post.dateCreated);
-		setPublishedDate(formattedDate);
-	}, [post]);
+		setPublishedDate(formatDate(currentPost.dateCreated))
+	}, [currentPost])
+
+	const handleLike = async (status) => {
+		if (!user) {
+			navigate('/login');
+			return;
+		}
+		try {
+			await RatingsService.postRating({
+				id: currentPost.id + user.id,
+				postId: currentPost.id,
+				applicationUserId: user.id,
+				likeStatus: status,
+			})
+		} catch (e) {
+			if (e.response.data.message.includes('exist')) {
+				await RatingsService.deleteRating(currentPost.id + user.id)
+				await RatingsService.postRating({
+					id: currentPost.id + user.id,
+					postId: currentPost.id,
+					applicationUserId: user.id,
+					likeStatus: status,
+				})
+			}
+		}
+
+		await fetchPost(currentPost.id);
+	}
 
 	return (
 		<Card
@@ -30,17 +63,17 @@ const PostItem = ({ post, setRating }) => {
 			className="m-3"
 		>
 			<Card.Header>
-				<Card.Title>{post.title}</Card.Title>
+				<Card.Title>{currentPost.title}</Card.Title>
 				<div className="d-flex justify-content-between">
 					<div>
 						<Card.Subtitle
 							className="mb-2 text-muted text-sm-left s"
 							style={{ cursor: "pointer", fontSize: subtitleFontSize }}
-							onClick={() => navigate(`/users/${post.applicationUserId}`, {
+							onClick={() => navigate(`/users/${currentPost.applicationUserId}`, {
 								state: { from: location }
 							})}
 						>
-							Автор: {post.applicationUser ? post.applicationUser.userName : 'Нет автора'}
+							Автор: {currentPost.applicationUser ? currentPost.applicationUser.userName : 'Нет автора'}
 						</Card.Subtitle>
 						<Card.Subtitle
 							className="mb-2 text-muted"
@@ -50,60 +83,40 @@ const PostItem = ({ post, setRating }) => {
 							{' ' + publishedDate}
 						</Card.Subtitle>
 					</div>
-					<Link to={post.category ? `/category/${post.category.id}` : '/'}>
-						{post.category ? post.category.name : 'Нет категории'}
+					<Link to={currentPost.category ? `/category/${currentPost.category.id}` : '/'}>
+						{currentPost.category ? currentPost.category.name : 'Нет категории'}
 					</Link>
 				</div>
 			</Card.Header>
 			<Card.Body
 				style={{ cursor: "pointer" }}
 				onClick={() => {
-					navigate(`/posts/${post.id}`)
+					navigate(`/posts/${currentPost.id}`)
 				}}
 			>
-				<Card.Text>{post.description}</Card.Text>
+				<Card.Text>{currentPost.description}</Card.Text>
 			</Card.Body>
 			<Card.Footer className="d-flex justify-content-between">
 				<div>
-					Комментариев: {post.commentsCount}
+					Комментариев: {currentPost.commentsCount}
 				</div>
 				<div className="d-flex mx-3">
 					<Button
-						onClick={() => {
-							if (!user) {
-								navigate('/login');
-							} else {
-								setRating({
-									id: post.id + user.id,
-									applicationUserId: user.id,
-									likeStatus: true,
-									postId: post.id
-								});
-								setRatingCount(ratingCount + 1)
-							}
+						onClick={async () => {
+							await handleLike(true)
 						}}
 						variant="light"
 					>
-						<img src = {like}/>
+						<img src={like} width='20' height='20' />
 					</Button>
-					{ratingCount}
+					{currentPost.ratingCount}
 					<Button
-						onClick={() => {
-							if (!user) {
-								navigate('/login');
-							} else {
-								setRating({
-									id: post.id + user.id,
-									applicationUserId: user.id,
-									likeStatus: false,
-									postId: post.id
-								});
-							}
-							setRatingCount(ratingCount - 1)
+						onClick={async () => {
+							await handleLike(false)
 						}}
 						variant="light"
 					>
-						<img src={dislike}/>
+						<img src={dislike} width='20' height='20' />
 					</Button>
 				</div>
 			</Card.Footer>

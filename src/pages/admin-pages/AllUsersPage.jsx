@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
+import { Modal } from 'react-bootstrap';
 import UsersService from '../../api/UsersService';
+import EditUserForm from '../../components/EditUserForm';
 import UserList from '../../components/UserList';
 import { useFetching } from '../../hooks/useFetching'
 
@@ -20,9 +22,14 @@ const AllUsersPage = () => {
 	}, [])
 
 	return (
-		<div className='m-5 p-2'>		
-			<UserList users={users} />
-		</div>
+		<>
+			<div className='m-5 p-2'>
+				<UserList
+					users={users}
+					onSuccess={fetchUsers}
+				/>
+			</div>
+		</>
 	)
 }
 

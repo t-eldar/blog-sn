@@ -74,7 +74,7 @@ const NavBar = ({ categories, style }) => {
 				onClick={() => setExpanded(false)}
 			>
 				<img src = {userTest} 
-				    style ={{width: '90%', height: '90%'}}/>
+				    style ={{width: '30', height: '30'}}/>
 			</Nav.Link>
 			<ButtonGroup>
 				<Button
@@ -82,14 +82,14 @@ const NavBar = ({ categories, style }) => {
 					onClick={handleCreatePostModalOpen}
 				>
 					<img src = {create}
-					     style ={{width: '100%', height: '100%'}}/>
+					     style ={{width: '30', height: '30'}}/>
 				</Button>
 				<Button
 					variant="dark"
 					onClick={handleLogout}
 				>
 				<img src = {logout}
-				     style ={{width: '110%', height: '110%'}}/>
+				     style ={{width: '30', height: '30'}}/>
 				</Button>
 			</ButtonGroup>
 		</Nav>
