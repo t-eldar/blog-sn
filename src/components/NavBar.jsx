@@ -11,7 +11,7 @@ import {
 	Modal,
 	ButtonGroup
 } from "react-bootstrap";
-import Logo from "../test-logo.svg";
+import Logo from "../icons/logo.svg";
 import RegisterForm from "./RegisterForm";
 import { Link } from "react-router-dom";
 import { CreatePostForm } from "./CreatePostForm";
@@ -157,8 +157,8 @@ const NavBar = ({ categories, style }) => {
 						<img
 							className="m-2"
 							src={Logo}
-							width="30"
-							height="30"
+							width="40"
+							height="40"
 							alt="React Bootstrap logo"
 						/>
 						BlogSN
