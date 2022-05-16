@@ -6,13 +6,16 @@ export default class RatingsService {
 		baseURL: process.env.REACT_APP_API_URL + '/Ratings',
 		headers: AuthService.getAuthHeader(),
 	});
-
 	static async postRating(rating) {
-		const response = await this.axiosInstance.post('', rating);
-		return response;
-	}
-	static async deleteRating(id) {
-		const response = await this.axiosInstance.delete(`/${id}`);
+		let response;
+		try {
+			response = await this.axiosInstance.post('', rating)
+		} catch (e) {
+			if (e.response.data.message.includes('exist')) {
+				await this.axiosInstance.delete(`/${rating.id}`)
+				response = await this.axiosInstance.post('', rating)
+			}
+		}
 		return response;
 	}
 }

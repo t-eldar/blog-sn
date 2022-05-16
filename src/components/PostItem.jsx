@@ -35,24 +35,13 @@ const PostItem = ({ post }) => {
 			navigate('/login');
 			return;
 		}
-		try {
-			await RatingsService.postRating({
-				id: currentPost.id + user.id,
-				postId: currentPost.id,
-				applicationUserId: user.id,
-				likeStatus: status,
-			})
-		} catch (e) {
-			if (e.response.data.message.includes('exist')) {
-				await RatingsService.deleteRating(currentPost.id + user.id)
-				await RatingsService.postRating({
+
+		await RatingsService.postRating({
 					id: currentPost.id + user.id,
 					postId: currentPost.id,
 					applicationUserId: user.id,
-					likeStatus: status,
-				})
-			}
-		}
+					likeStatus: status,	
+		})
 
 		await fetchPost(currentPost.id);
 	}

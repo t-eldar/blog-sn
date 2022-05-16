@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react'
+import { Container } from 'react-bootstrap'
 import { useLocation, useNavigate } from 'react-router-dom'
 import LoginForm from '../components/LoginForm'
 import { useAuth } from '../hooks/useAuth'
+import DarkLogo from '../icons/dark-logo.svg'
 
 const LoginPage = () => {
 
@@ -19,12 +21,22 @@ const LoginPage = () => {
 
 	return (
 		<div className='mt-5 d-flex justify-content-center'>
-			<LoginForm
-				style={{ width: 500 }}
-				onSuccess={() => {
-					navigate(fromPage, { replace: true })
-					console.log(location)
-				}} />
+			<div>
+				<div className='d-flex justify-content-center'>
+					<img
+						width='200'
+						height='200'
+						src={DarkLogo}
+					/>
+				</div>
+				<LoginForm
+					style={{ width: '30vw', minWidth: 300 }}
+					onSuccess={() => {
+						navigate(fromPage, { replace: true })
+						console.log(location)
+					}}
+				/>
+			</div>
 		</div>
 	)
 }
