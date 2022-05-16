@@ -12,9 +12,9 @@ import EditPostForm from "../components/EditPostForm";
 import CommentBlock from "../components/CommentBlock";
 import { useEditAllow } from "../hooks/useEditAllow";
 import CommentsService from "../api/CommentsService";
-import _delete from "../image/delete.svg";
+import _delete from "../icons/delete.svg";
 import EditCommentForm from "../components/EditCommentForm";
-import edit from "../image/edit.svg"
+import edit from "../icons/edit.svg"
 
 const PostPage = () => {
 

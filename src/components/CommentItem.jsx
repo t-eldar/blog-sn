@@ -4,8 +4,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useEditAllow } from '../hooks/useEditAllow';
 import { formatDate } from '../utils';
-import _delete from "../image/delete.svg";
-import edit from "../image/edit.svg"
+import _delete from "../icons/delete.svg";
+import edit from "../icons/edit.svg"
 
 const CommentItem = ({ comment, onCommentDelete, onEdit = (com) => null }) => {
 
