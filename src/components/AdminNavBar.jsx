@@ -11,7 +11,7 @@ import {
 	Modal, 
 	ButtonGroup 
 } from "react-bootstrap";
-import Logo from "../test-logo.svg";
+import Logo from "../icons/logo.svg";
 import RegisterForm from "./RegisterForm";
 import { Link } from "react-router-dom";
 import { CreatePostForm } from "./CreatePostForm";
