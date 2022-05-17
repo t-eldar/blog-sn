@@ -142,7 +142,7 @@ const PostPage = () => {
 										<div className="mt-2">
 											<Button
 												className='m-1'
-												variant="outline-warning"
+												variant="outline-dark"
 												onClick={handleEditPostModalOpen}
 											>
 												<div className="d-flex justify-content-center">
@@ -152,7 +152,7 @@ const PostPage = () => {
 											</Button>
 											<Button
 												className='m-1'
-												variant="outline-danger"
+												variant="outline-dark"
 												onClick={handleDelete}
 											>
 												<div className="d-flex justify-content-center">

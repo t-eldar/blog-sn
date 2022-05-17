@@ -64,7 +64,7 @@ const CommentItem = ({ comment, onCommentDelete, onEdit = (com) => null }) => {
 							<>
 								<Button
 									className='mx-2'
-									variant='outline-warning'
+									variant="outline-dark"
 									onClick={handleEdit}
 								>
 									<div className="d-flex justify-content-center">
@@ -74,7 +74,7 @@ const CommentItem = ({ comment, onCommentDelete, onEdit = (com) => null }) => {
 								</Button>
 								<Button
 									className='mx-2'
-									variant='outline-danger'
+									variant="outline-dark"
 									onClick={handleDeleting}
 								>
 									<div className="d-flex justify-content-center">
