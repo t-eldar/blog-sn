@@ -64,7 +64,6 @@ const NavBar = ({ categories, style }) => {
 
 	const handleLogout = () => {
 		AuthService.logout();
-		window.location.reload();
 		updateServices();
 		setUser(null);
 	}

@@ -48,7 +48,7 @@ export default class AuthService {
 	}
 	static updateInstance() {
 		this.axiosInstance = axios.create({
-			baseURL: process.env.REACT_APP_API_URL + '/Users',
+			baseURL: process.env.REACT_APP_API_URL + '/Authenticate',
 			headers: AuthService.getAuthHeader(),
 		});
 	}
