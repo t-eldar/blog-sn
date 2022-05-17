@@ -1,3 +1,10 @@
+import AuthService from "../api/AuthService";
+import CategoriesService from "../api/CategoriesService";
+import CommentsService from "../api/CommentsService";
+import PostsService from "../api/PostsService";
+import RatingsService from "../api/RatingsService";
+import UsersService from "../api/UsersService";
+
 export const formatDate = (stringDate) => {
 
 	let currentDate = new Date();
@@ -76,4 +83,13 @@ export const getNormalizedUserFromToken = (token) => {
 		normalizedUser[value.toLowerCase()] = decryptedUser[value];
 	}
 	return normalizedUser;
+}
+
+export const updateServices = () => {
+	AuthService.updateInstance();
+	CategoriesService.updateInstance();
+	CommentsService.updateInstance();
+	PostsService.updateInstance();
+	RatingsService.updateInstance();
+	UsersService.updateInstance();
 }

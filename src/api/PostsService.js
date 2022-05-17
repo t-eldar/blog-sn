@@ -32,5 +32,10 @@ export default class PostsService {
 		const response = await this.axiosInstance.get(`/${id}/comments`);
 		return response;
 	}
-
+	static updateInstance() {
+		this.axiosInstance = axios.create({
+			baseURL: process.env.REACT_APP_API_URL + '/Posts',
+			headers: AuthService.getAuthHeader(),
+		});
+	}
 }

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Modal } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
+import AuthService from '../../api/AuthService';
 import UsersService from '../../api/UsersService';
 import EditUserForm from '../../components/EditUserForm';
 import UserList from '../../components/UserList';
@@ -24,6 +25,13 @@ const AllUsersPage = () => {
 	return (
 		<>
 			<div className='m-5 p-2'>
+			<Button
+				className='m-3' 
+				onClick={async () => await fetchUsers()}
+				variant='outline-dark'
+			>
+				Обновить
+			</Button>
 				<UserList
 					users={users}
 					onSuccess={fetchUsers}

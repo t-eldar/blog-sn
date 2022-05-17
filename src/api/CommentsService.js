@@ -18,4 +18,10 @@ export default class CommentsService {
 		const response = await this.axiosInstance.delete(`/${id}`);
 		return response;
 	}
+	static updateInstance() {
+		this.axiosInstance = axios.create({
+			baseURL: process.env.REACT_APP_API_URL + '/Comment',
+			headers: AuthService.getAuthHeader(),
+		});
+	}
 }

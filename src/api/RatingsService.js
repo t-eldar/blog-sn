@@ -18,4 +18,10 @@ export default class RatingsService {
 		}
 		return response;
 	}
+	static updateInstance() {
+		this.axiosInstance = axios.create({
+			baseURL: process.env.REACT_APP_API_URL + '/Ratings',
+			headers: AuthService.getAuthHeader(),
+		});
+	}
 }

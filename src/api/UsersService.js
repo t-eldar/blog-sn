@@ -19,12 +19,34 @@ export default class UsersService {
 		const response = await this.axiosInstance.get();
 		return response;
 	}
-	static async editUser(user) {
-		const response = await this.axiosInstance.put(user.id, user);
+	static async editUsername(userId, name) {
+		const response = await this.axiosInstance.put(`/${userId}/changeName`, {}, {
+			params: {
+				newName: name
+			}
+		});
+		return response;
+	}
+	static async editEmail(userId, email) {
+		const response = await this.axiosInstance.put(`/${userId}/changeEmail`, null, {
+			params: {
+				newEmail: email
+			}
+		});
+		return response;
+	}
+	static async updateToAdmin(userId) {
+		const response = await this.axiosInstance.put(`/${userId}/changeRole`);
 		return response;
 	}
 	static async deleteUserById(id) {
 		const response = await this.axiosInstance.delete(id);
 		return response;
+	}
+	static updateInstance() {
+		this.axiosInstance = axios.create({
+			baseURL: process.env.REACT_APP_API_URL + '/Users',
+			headers: AuthService.getAuthHeader(),
+		});
 	}
 }

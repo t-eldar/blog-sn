@@ -22,6 +22,7 @@ import home from "../icons/home.svg";
 import create from "../icons/create.svg";
 import logout from "../icons/logout.svg";
 import userTest from "../icons/userTest.svg";
+import { updateServices } from "../utils";
 
 const NavBar = ({ categories, style }) => {
 
@@ -63,6 +64,7 @@ const NavBar = ({ categories, style }) => {
 
 	const handleLogout = () => {
 		AuthService.logout();
+		updateServices();
 		setUser(null);
 	}
 

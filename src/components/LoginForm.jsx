@@ -3,7 +3,7 @@ import { Form, Card, Button, Badge, FloatingLabel } from "react-bootstrap";
 import AuthService from "../api/AuthService";
 import { useFetching } from "../hooks/useFetching";
 import { useAuth } from "../hooks/useAuth";
-import { getNormalizedUserFromToken } from "../utils";
+import { getNormalizedUserFromToken, updateServices } from "../utils";
 
 const LoginForm = ({ style, onSuccess = () => null }) => {
 
@@ -24,6 +24,7 @@ const LoginForm = ({ style, onSuccess = () => null }) => {
 			setUser(normalizedUser)
 			setLogError(false);
 			onSuccess();
+			updateServices();
 		}
 		console.log('LoginForm login response: ');
 		console.log(response);

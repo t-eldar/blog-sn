@@ -46,4 +46,10 @@ export default class AuthService {
 			return {};
 		return { Authorization: 'Bearer ' + userAuth.token };
 	}
+	static updateInstance() {
+		this.axiosInstance = axios.create({
+			baseURL: process.env.REACT_APP_API_URL + '/Users',
+			headers: AuthService.getAuthHeader(),
+		});
+	}
 }

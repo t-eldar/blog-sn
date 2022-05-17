@@ -18,7 +18,7 @@ const AdminPage = () => {
 
 	return (
 		<>
-			<Card className='m-5 p-3'>
+			<Card className='m-5 p-3 d-flex justify-content-center'>
 				<h1>
 					Админка.
 				</h1>
