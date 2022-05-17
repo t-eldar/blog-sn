@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Card, Container, Image, Modal, Button } from 'react-bootstrap';
-import { Link, useParams } from 'react-router-dom';
+import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import PostList from '../components/PostList';
 import { useFetching } from '../hooks/useFetching';
 import AllPostsPage from './AllPostsPage';
@@ -15,11 +15,12 @@ import PostBlock from '../components/PostBlock';
 const UserPage = () => {
 
 	const params = useParams();
+	const navigate = useNavigate();
 
 	const [pageUser, setPageUser] = useState({ userName: '' });
 	const [posts, setPosts] = useState([]);
 
-	const [fetchUser] = useFetching(async (id) => {
+	const [fetchUser, userLoading, userError] = useFetching(async (id) => {
 		const response = await UsersService.getById(id);
 		setPageUser(response.data);
 	})
@@ -37,6 +38,14 @@ const UserPage = () => {
 		fetchAPI();
 		console.log(pageUser);
 	}, [params.id]);
+	useEffect(() => {
+		if (userError && (userError.response.status === 404
+			|| params.id === null
+			|| !params.id
+		)) {
+			navigate('/not-found', { replace: true })
+		}
+	}, [params.id, userError]);
 
 	return (
 		<>

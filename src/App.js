@@ -16,7 +16,7 @@ import { getNormalizedUserFromToken } from './utils';
 import AdminPanelLayout from './components/AdminPanelLayout';
 import RegisterAdminPage from './pages/admin-pages/RegisterAdminPage';
 import AllUsersPage from './pages/admin-pages/AllUsersPage';
-
+import NorFoundPage from './pages/NotFoundPage';
 
 function App() {
 
@@ -54,6 +54,7 @@ function App() {
 							</RequireAuth>
 						}
 						/>
+						<Route path='/not-found' element={<NorFoundPage />} />
 					</Route>
 					<Route path='/admin-page' element={
 						<RequireAdmin>

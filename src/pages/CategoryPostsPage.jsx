@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Card, Button } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import PostList from '../components/PostList'
 import { useFetching } from '../hooks/useFetching';
 import CategoriesService from "../api/CategoriesService";
 import PostBlock from '../components/PostBlock';
 
 const CategoryPostsPage = () => {
+	const navigate = useNavigate();
 	const params = useParams();
 	const [posts, setPosts] = useState([]);
 	const [category, setCategory] = useState({});
@@ -28,6 +29,14 @@ const CategoryPostsPage = () => {
 		}
 		fetchAPI();
 	}, [params.id]);
+	useEffect(() => {
+		if (categoryError && (categoryError.response.status === 404
+			|| params.id === null
+			|| !params.id
+		)) {
+			navigate('/not-found', { replace: true })
+		}
+	}, [params.id, categoryError]);
 
 	return (
 		<>

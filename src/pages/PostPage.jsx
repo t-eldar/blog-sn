@@ -64,6 +64,15 @@ const PostPage = () => {
 		fetchAPI();
 	}, []);
 
+	useEffect(() => {
+		if (postError && (postError.response.status === 404
+			|| params.id === null
+			|| !params.id
+		)) {
+			navigate('/not-found', { replace: true })
+		}
+	}, [params.id, postError]);
+
 	const isEditAllowed = useEditAllow(post);
 	const handleDelete = async () => {
 		if (isEditAllowed) {
