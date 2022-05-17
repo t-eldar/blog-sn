@@ -30,7 +30,7 @@ const Layout = () => {
 				<NavBar style={{ height: '10vh' }} categories={categories} />
 				<Container style={{ minWidth: 400 }}>
 					<Row className="justify-content-start">
-						<Col style={{ height: '', overflowY: 'scroll' }} lg="2">
+						<Col style={{ height: '90vh', overflowY: 'scroll' }} lg="2">
 							<SideBar categories={categories} />
 						</Col>
 						<Col style={{ height: '90vh', overflowY: 'scroll' }} lg="8">

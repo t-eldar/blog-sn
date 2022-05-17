@@ -6,12 +6,6 @@ const SideBar = ({ categories, ...props }) => {
 
 	const location = useLocation();
 
-	useEffect(() => {
-		if (window.innerWidth < 400) {
-
-		}
-	}, [window.innerWidth, window.innerHeight]);
-
 	return (
 		<>
 			<Navbar 
