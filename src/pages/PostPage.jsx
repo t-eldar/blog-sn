@@ -147,7 +147,7 @@ const PostPage = () => {
 											>
 												<div className="d-flex justify-content-center">
 													<h6>Изменить</h6>
-													<img src ={edit}/>
+													<img src={edit} />
 												</div>
 											</Button>
 											<Button
@@ -157,7 +157,7 @@ const PostPage = () => {
 											>
 												<div className="d-flex justify-content-center">
 													<h6>Удалить</h6>
-													<img src ={_delete}/>
+													<img src={_delete} />
 												</div>
 											</Button>
 										</div>
@@ -165,7 +165,9 @@ const PostPage = () => {
 								</Card.Header>
 								<Card.Body>
 									<h4>{post.title}</h4>
-									{post.content}
+									<span style={{whiteSpace: 'pre-line'}}>
+										{post.content}
+									</span>
 								</Card.Body>
 							</Card>
 							<CommentBlock

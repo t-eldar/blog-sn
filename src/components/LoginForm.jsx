@@ -34,11 +34,10 @@ const LoginForm = ({ style, onSuccess = () => null }) => {
 		await loginUser(userInfo.username, userInfo.password);
 	}
 	useEffect(() => {
-		console.log('useeffect')
-		console.log(loginError)
 		setLogError(loginError);
-		if (loginError)
+		if (loginError) {
 			AuthService.logout();
+		}
 	}, [loginError])
 
 	return (

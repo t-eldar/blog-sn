@@ -48,7 +48,10 @@ const CategoryPostsPage = () => {
 					{category.description}
 				</Card.Body>
 			</Card>
-			<PostBlock posts={posts} />
+			<PostBlock fetchPosts={
+				async() => await fetchPosts(params.id)} 
+				posts={posts} 
+			/>
 		</>
 	)
 }

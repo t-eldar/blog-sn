@@ -59,7 +59,7 @@ const RegisterForm = ({ onSuccess, isAdminRegister = false, style }) => {
 		(username) => {
 			return {
 				message: 'Пользователь с таким именем существует',
-				invalid: regError?.response?.data?.message.includes('exists')
+				invalid: regError ? regError?.response?.data?.message.includes('exists') : false
 			}
 		}
 	], [regError]);

@@ -68,7 +68,10 @@ const UserPage = () => {
 					<h2>Посты пользователя</h2>
 				</Card.Header>
 				<Card.Body>
-					<PostBlock posts={posts} />
+					<PostBlock 
+						fetchPosts={async () => await fetchPosts(params.id)} 
+						posts={posts} 
+					/>
 				</Card.Body>
 			</Card>
 		</>

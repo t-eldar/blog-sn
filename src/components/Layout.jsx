@@ -14,7 +14,6 @@ const Layout = () => {
 
 	const [fetchCategories, isLoading, categoriesError] = useFetching(async () => {
 		const response = await CategoriesService.getAll();
-		console.log(response.data)
 		setCategories(response.data);
 	})
 
@@ -24,13 +23,26 @@ const Layout = () => {
 		}
 		fetchAPI();
 	}, []);
+	const [sideBarHeight, setSideBarHeight] = useState('90vh');
+
+	const handleResize = () => {
+		if (window.innerWidth < 1000) {
+			setSideBarHeight('8vh')
+		}
+		else {
+			setSideBarHeight('90vh')
+		}
+	}
+	useEffect(() => {
+		window.addEventListener("resize", handleResize, false);
+	}, []);
 	return (
 		<>
 			<div style={{ overflow: '' }}>
 				<NavBar style={{ height: '10vh' }} categories={categories} />
 				<Container style={{ minWidth: 400 }}>
 					<Row className="justify-content-start">
-						<Col style={{ height: '90vh', overflowY: 'scroll' }} lg="2">
+						<Col style={{ height: sideBarHeight, overflowY: 'scroll' }} lg="2">
 							<SideBar categories={categories} />
 						</Col>
 						<Col style={{ height: '90vh', overflowY: 'scroll' }} lg="8">
