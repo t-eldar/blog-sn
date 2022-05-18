@@ -17,10 +17,17 @@ import AdminPanelLayout from './components/AdminPanelLayout';
 import RegisterAdminPage from './pages/admin-pages/RegisterAdminPage';
 import AllUsersPage from './pages/admin-pages/AllUsersPage';
 import NorFoundPage from './pages/NotFoundPage';
+import { useFetching } from './hooks/useFetching';
+import UsersService from './api/UsersService';
 
 function App() {
 
 	const [user, setUser] = useState(null);
+	const [userRatings, setUserRatings] = useState(null);
+	const [fetchRatings, isRatingsLoading, ratingsError] = useFetching(async (id) => {
+		const response = await UsersService.getRatingsByUserId(id);
+		setUserRatings(response.data)
+	})
 
 	useEffect(() => {
 		const userAuth = AuthService.getCurrentUserAuth();
@@ -31,6 +38,10 @@ function App() {
 				AuthService.logout();
 			} else {
 				setUser(normalizedUser);
+				const fetchAPI = async () => {
+					await fetchRatings(normalizedUser.id);
+				}
+				fetchAPI();
 			}
 		}
 	}, [])
@@ -40,7 +51,9 @@ function App() {
 			<AuthContext.Provider
 				value={{
 					user,
-					setUser
+					setUser,
+					userRatings,
+					setUserRatings,
 				}}>
 				<Routes>
 					<Route path='/' element={<Layout />}>

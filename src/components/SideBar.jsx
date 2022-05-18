@@ -2,23 +2,30 @@ import React, { useEffect, useState } from "react";
 import { Card, Nav, Navbar } from "react-bootstrap";
 import { Link, useLocation } from 'react-router-dom';
 
-const SideBar = ({ categories, ...props }) => {
+const SideBar = ({ categories, onToggle, ...props }) => {
 
 	const location = useLocation();
-
+	const [expanded, setExpanded] = useState(false);
 	return (
 		<>
-			<Navbar 
+			<Navbar
+				onToggle={onToggle}
 				expand='lg'
-				{...props} 
+				expanded={expanded}
+				{...props}
 			>
-				<Navbar.Toggle aria-controls="sidebar" />
+				<Navbar.Toggle
+					onClick={() => setExpanded(expanded ? false : true)}
+				/>
 				<Navbar.Collapse id='sidebar'>
 					<Nav className="flex-column">
 						{categories.map(category =>
 							<Nav.Item key={category.id}>
 								<Card className="m-2 p-2">
-									<Nav.Link as={Link} to={`category/${category.id}`}>
+									<Nav.Link
+										as={Link}
+										to={`category/${category.id}`}
+									>
 										<span style={{ fontWeight: 'bolder' }}>
 											{category.name}
 										</span>

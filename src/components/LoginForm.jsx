@@ -4,10 +4,11 @@ import AuthService from "../api/AuthService";
 import { useFetching } from "../hooks/useFetching";
 import { useAuth } from "../hooks/useAuth";
 import { getNormalizedUserFromToken, updateServices } from "../utils";
+import UsersService from "../api/UsersService";
 
 const LoginForm = ({ style, onSuccess = () => null }) => {
 
-	const { user, setUser } = useAuth();
+	const { user, setUser, userRatings, setUserRatings } = useAuth();
 
 	const [logError, setLogError] = useState(false);
 
@@ -16,15 +17,21 @@ const LoginForm = ({ style, onSuccess = () => null }) => {
 		password: '',
 	});
 
+	const [fetchRatings, isRatingsLoading, ratingsError] = useFetching(async (id) => {
+		const response = await UsersService.getRatingsByUserId(id);
+		setUserRatings(response.data);
+	})
+
 	const [loginUser, isLoginLoading, loginError] = useFetching(async (username, password) => {
 		const response = await AuthService.login(username, password);
 		if (response.status == 200 && AuthService.getCurrentUserAuth()) {
 			const token = AuthService.getCurrentUserAuth().token;
 			const normalizedUser = getNormalizedUserFromToken(token);
-			setUser(normalizedUser)
+			setUser(normalizedUser);
 			setLogError(false);
 			onSuccess();
 			updateServices();
+			await fetchRatings(normalizedUser.id);
 		}
 		console.log('LoginForm login response: ');
 		console.log(response);
@@ -39,7 +46,6 @@ const LoginForm = ({ style, onSuccess = () => null }) => {
 			AuthService.logout();
 		}
 	}, [loginError])
-
 	return (
 		<Card className="m-3 p-3" style={style}>
 			<Form>

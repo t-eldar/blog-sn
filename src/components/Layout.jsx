@@ -34,16 +34,20 @@ const Layout = () => {
 		}
 	}
 	useEffect(() => {
+		handleResize()
 		window.addEventListener("resize", handleResize, false);
 	}, []);
 	return (
 		<>
 			<div style={{ overflow: '' }}>
-				<NavBar style={{ height: '10vh' }} categories={categories} />
+				<NavBar style={{ height: '10vh', zIndex: 1000 }} categories={categories} />
 				<Container style={{ minWidth: 400 }}>
 					<Row className="justify-content-start">
 						<Col style={{ height: sideBarHeight, overflowY: 'scroll' }} lg="2">
-							<SideBar categories={categories} />
+							<SideBar categories={categories} onToggle={(expanded) => {
+								if (expanded) setSideBarHeight('90vh');
+								else setSideBarHeight('8vh')
+							}} />
 						</Col>
 						<Col style={{ height: '90vh', overflowY: 'scroll' }} lg="8">
 							<Outlet />

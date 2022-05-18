@@ -8,15 +8,22 @@ export default class RatingsService {
 	});
 	static async postRating(rating) {
 		let response;
+		let deleted = true;
 		try {
-			response = await this.axiosInstance.post('', rating)
+			response = await this.axiosInstance.post('', rating);
+			deleted = false;
 		} catch (e) {
 			if (e.response.data.message.includes('exist')) {
-				await this.axiosInstance.delete(`/${rating.id}`)
-				response = await this.axiosInstance.post('', rating)
+				response = await this.axiosInstance.delete(`/${rating.id}`)
+				if (e.response.data.message.includes('True') && !rating.likeStatus
+					|| e.response.data.message.includes('False') && rating.likeStatus
+				) {
+					response = await this.axiosInstance.post('', rating)
+					deleted = false;
+				}
 			}
 		}
-		return response;
+		return { response, deleted};
 	}
 	static updateInstance() {
 		this.axiosInstance = axios.create({

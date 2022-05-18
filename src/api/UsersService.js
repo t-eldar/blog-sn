@@ -15,6 +15,10 @@ export default class UsersService {
 		const response = await this.axiosInstance.get(`/${id}/posts`);
 		return response;
 	}
+	static async getRatingsByUserId(id) {
+		const response = await this.axiosInstance.get(`/${id}/ratings`);
+		return response;
+	}
 	static async getAll() {
 		const response = await this.axiosInstance.get();
 		return response;

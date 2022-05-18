@@ -11,11 +11,9 @@ import PostsService from "../api/PostsService";
 
 const PostItem = ({ post }) => {
 
-	const { user } = useAuth();
+	const { user, userRatings } = useAuth();
 
 	const [currentPost, setCurrentPost] = useState(post);
-	const [rating, setRating] = useState()
-	const [ratingExists, setRatingExists] = useState(false);
 
 	const subtitleFontSize = '12px';
 	const location = useLocation();
@@ -36,15 +34,41 @@ const PostItem = ({ post }) => {
 			return;
 		}
 
-		await RatingsService.postRating({
-					id: currentPost.id + user.id,
-					postId: currentPost.id,
-					applicationUserId: user.id,
-					likeStatus: status,	
+		console.log(user)
+		const { response, deleted } = await RatingsService.postRating({
+			id: currentPost.id + user.id,
+			postId: currentPost.id,
+			applicationUserId: user.id,
+			likeStatus: status,
 		})
-
+		setRating({
+			id: currentPost.id + user.id,
+			postId: currentPost.id,
+			applicationUserId: user.id,
+			likeStatus: status,
+		});
+		console.log(deleted)
+		if (deleted) {
+			setRating(undefined);
+		}
 		await fetchPost(currentPost.id);
 	}
+	const [rating, setRating] = useState();
+
+	useEffect(() => {
+		if (!userRatings) {
+			setRating(undefined)
+		}
+		if (user && userRatings) {
+			for (let r of userRatings) {
+				if (r.postId === currentPost.id) {
+					setRating(r);
+					break;
+				}
+			}
+		}
+	}, [user, userRatings]);
+
 
 	return (
 		<Card
@@ -98,7 +122,9 @@ const PostItem = ({ post }) => {
 					>
 						<img src={like} width='20' height='20' />
 					</Button>
-					{currentPost.ratingCount}
+					<span style={rating ? rating.likeStatus ? { color: 'green' } : { color: 'red' } : { color: 'black' }}>
+						{currentPost.ratingCount}
+					</span>
 					<Button
 						onClick={async () => {
 							await handleLike(false)

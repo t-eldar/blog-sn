@@ -26,7 +26,7 @@ import { updateServices } from "../utils";
 
 const NavBar = ({ categories, style }) => {
 
-	const { user, setUser } = useAuth();
+	const { user, setUser, setUserRatings } = useAuth();
 	const [isAdmin, setIsAdmin] = useState(false);
 
 	useEffect(() => {
@@ -65,33 +65,42 @@ const NavBar = ({ categories, style }) => {
 	const handleLogout = () => {
 		AuthService.logout();
 		updateServices();
+		setUserRatings(null);
 		setUser(null);
 	}
 
 	const AuthorizedNav = () =>
 		<Nav className='mx-3'>
-			<Nav.Link
-				as={Link}
-				to={`users/${user.id}`}
-				onClick={() => setExpanded(false)}
-			>
-				<img src = {userTest} 
-				    style ={{width: '30', height: '30'}}/>
-			</Nav.Link>
-			<ButtonGroup>
+			<ButtonGroup className='mt-1'>
 				<Button
+					variant="dark"
+					as={Link}
+					to={`users/${user.id}`}
+					onClick={() => setExpanded(false)}
+				>
+					<img src={userTest}
+						style={{ width: '30', height: '30' }}
+					/>
+				</Button>
+				<Button
+					className='d-flex'
 					variant="dark"
 					onClick={handleCreatePostModalOpen}
 				>
-					<img src = {create}
-					     style ={{width: '30', height: '30'}}/>
+					<div className="mt-1 mx-2">
+						Создать пост
+					</div>
+					<img src={create}
+						style={{ width: '30', height: '30' }}
+					/>
 				</Button>
 				<Button
 					variant="dark"
 					onClick={handleLogout}
 				>
-				<img src = {logout}
-				     style ={{width: '30', height: '30'}}/>
+					<img src={logout}
+						style={{ width: '30', height: '30' }}
+					/>
 				</Button>
 			</ButtonGroup>
 		</Nav>
@@ -161,7 +170,7 @@ const NavBar = ({ categories, style }) => {
 							src={Logo}
 							width="40"
 							height="40"
-							alt="React Bootstrap logo"
+							alt="BlogSN logo"
 						/>
 						BlogSN
 					</Navbar.Brand>
@@ -169,25 +178,29 @@ const NavBar = ({ categories, style }) => {
 						aria-controls="responsive-navbar-nav"
 						onClick={() => setExpanded(expanded ? false : true)}
 					/>
-					<Navbar.Collapse id="responsive-navbar-nav">
+					<Navbar.Collapse className="">
 						<Nav className="me-auto">
-							<Nav.Link
+							<Button
+								variant="dark"
 								as={Link}
 								to="/"
 								onClick={() => setExpanded(false)}
 							>
-								<img src = {home} />
-							</Nav.Link>
+								<img src={home} />
+							</Button>
 						</Nav>
 						{
 							isAdmin &&
-							<Button
-								variant='dark'
-								as={Link}
-								to='/admin-page'
-							>
-								Перейти в админскую панель
-							</Button>
+							<div className="d-flex justify-content-center">
+								<Button
+									className="mt-1"
+									variant='dark'
+									as={Link}
+									to='/admin-page'
+								>
+									Перейти в админскую панель
+								</Button>
+							</div>
 						}
 						{!!user ? <AuthorizedNav /> : <UnauthorizedNav />}
 					</Navbar.Collapse>
