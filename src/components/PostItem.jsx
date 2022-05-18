@@ -11,7 +11,7 @@ import PostsService from "../api/PostsService";
 
 const PostItem = ({ post }) => {
 
-	const { user, userRatings } = useAuth();
+	const { user, userRatings, setUserRatings } = useAuth();
 
 	const [currentPost, setCurrentPost] = useState(post);
 
@@ -34,20 +34,16 @@ const PostItem = ({ post }) => {
 			return;
 		}
 
-		console.log(user)
-		const { response, deleted } = await RatingsService.postRating({
+		const rate = {
 			id: currentPost.id + user.id,
 			postId: currentPost.id,
 			applicationUserId: user.id,
 			likeStatus: status,
-		})
-		setRating({
-			id: currentPost.id + user.id,
-			postId: currentPost.id,
-			applicationUserId: user.id,
-			likeStatus: status,
-		});
-		console.log(deleted)
+		};
+
+		const { response, deleted } = await RatingsService.postRating(rate)
+		setRating(rate);
+		deleteRating(currentPost.id);
 		if (deleted) {
 			setRating(undefined);
 		}
@@ -55,6 +51,11 @@ const PostItem = ({ post }) => {
 	}
 	const [rating, setRating] = useState();
 
+	useEffect(() => {
+		if (rating) {
+			addRating(rating);
+		}
+	}, [rating])
 	useEffect(() => {
 		if (!userRatings) {
 			setRating(undefined)
@@ -69,6 +70,20 @@ const PostItem = ({ post }) => {
 		}
 	}, [user, userRatings]);
 
+	const addRating = (r) => {
+		if (userRatings && !userRatings.includes(r))
+			setUserRatings([...userRatings, r]);
+	}
+	const deleteRating = (postId) => {
+		const ratings = [...userRatings];
+		for(let r of ratings) {
+			if (r.postId === postId) {
+				ratings.splice(ratings.indexOf(r), 1);
+				break;
+			}
+		}
+		setUserRatings(ratings);
+	}
 
 	return (
 		<Card
