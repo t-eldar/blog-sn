@@ -51,7 +51,7 @@ const UserPage = () => {
 		<>
 			<Card className='p-4 m-3'>
 				<h4>
-					Имя пользователя: {pageUser.userName}
+					{pageUser.userName}
 				</h4>
 				<span style={
 					pageUser.role === 'Admin' ? { color: 'green' } : {

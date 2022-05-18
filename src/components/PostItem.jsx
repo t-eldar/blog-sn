@@ -107,7 +107,11 @@ const PostItem = ({ post }) => {
 					navigate(`/posts/${currentPost.id}`)
 				}}
 			>
-				<Card.Text>{currentPost.description}</Card.Text>
+				<Card.Text>
+					<span style={{whiteSpace: 'pre-line'}}>
+						{currentPost.description}
+					</span>
+				</Card.Text>
 			</Card.Body>
 			<Card.Footer className="d-flex justify-content-between">
 				<div>
@@ -122,7 +126,12 @@ const PostItem = ({ post }) => {
 					>
 						<img src={like} width='20' height='20' />
 					</Button>
-					<span style={rating ? rating.likeStatus ? { color: 'green' } : { color: 'red' } : { color: 'black' }}>
+					<span
+						className="m-2"
+						style={rating
+							? rating.likeStatus ? { color: 'green' } : { color: 'red' }
+							: { color: 'black' }}
+					>
 						{currentPost.ratingCount}
 					</span>
 					<Button
