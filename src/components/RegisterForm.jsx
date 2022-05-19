@@ -50,9 +50,9 @@ const RegisterForm = ({ onSuccess, isAdminRegister = false, style }) => {
 	]);
 	const [isUsernameInvalid, usernameErrorMessage] = useValidation(userInfo.username, [
 		(username) => {
-			const usernameRegEx = /^[A-Za-zА-Яа-я0-9]+$/;
+			const usernameRegEx = /^[A-Za-z0-9]+$/;
 			return {
-				message: 'Имя пользователя должно содержать только латинские или кириллические буквы или цифры',
+				message: 'Имя пользователя должно содержать только латинские буквы или цифры',
 				invalid: !usernameRegEx.test(username)
 			}
 		},
